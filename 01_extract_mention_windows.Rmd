@@ -1,0 +1,224 @@
+---
+title: "Extract Mention Windows"
+output: html_document
+---
+
+
+The purpose of this script is to read in all PDFs from 2010-2015 and extract the senteces matching CIG software, with a window of one sentence before and after the software mention.
+
+
+Vector of package names.
+```{r}
+cig <- c("ASPECT", 
+"AxiSEM",
+"Burnman",
+"Calypso",
+"Citcom",
+"ConMan",
+"Ellipsis3d",
+"FLEXWIN",
+" Gale ",    # avoid "Galerkin"
+" MAG ",     # avoid picking up "magnetic", "magnitude", etc..
+"Mineos",
+"PyLith",
+"Rayleigh",
+"RELAX",
+"SEISMIC_CPML",
+"SELEN",
+"SNAC",
+"SPECFEM",
+"SW4",
+"Virtual California")
+```
+
+
+```{r}
+fp <- "C:/Users/rpauloo/Desktop/2019 CItation/Papers/"
+```
+
+For one PDF, get vector of paper file names, read in the first one, tokenize sentences, and extract the mention window.
+```{r}
+p <- list.files(paste0(fp, "all_papers")) # paper names
+
+library(pdftools)
+# pdf_info(paste0(fp, "all_papers/", p[1])) # metadata: can grab all DOI
+
+raw <- paste(pdf_text(paste0(fp, "all_papers/", p[1])), collapse = " ")
+
+library(tokenizers)
+rs <- tokenize_sentences(raw[1])                      # tokenize sentences
+# rs <- lapply(rs, function(x){paste(x, collapse = " ")}) # collapse each list element
+
+# do for one
+x = rs[[1]]
+
+# grabs mention window if a software (y) is mentioned
+library(stringr)
+match_words <- function(y){
+  hold <- NA
+  i    <- str_which(x, y)
+  if(!identical(i, integer(0))){
+    hold <- paste(x[i-2], x[i-1], x[i], x[i+1], x[i+2])
+  }
+  # hold <- data.frame(match = y, matches = hold)
+  return(hold)
+}
+
+# applies vector of software names to `match_words` to get list of all windows
+matches <- lapply(cig, match_words)
+
+# name the list by software name, filter out NA, and organize into a dataframe
+library(tidyr)
+library(dplyr)
+names(matches) <- cig
+matches <- matches[!is.na(matches)] 
+data.frame(matches) %>% 
+  gather(software_name, value) %>% 
+  distinct()
+```
+
+Generalize process to all PDFs.
+```{r}
+# function to read PDFs
+read_pdfs <- function(p){
+  paste(pdf_text(paste0(fp, "all_papers/", p)), collapse = " ")
+}
+
+# read all pdfs into a list: takes a while
+raw <- lapply(p, read_pdfs)
+# readr::write_rds(raw, "raw.rds") # save the data
+
+# tokenize sentences
+rs <- tokenize_sentences(raw)
+
+
+# find mention windows for all words in all PDFs
+
+# function to match words and return mention windows within one PDF
+match_words <- function(y){
+  
+  # intialize return variable
+  hold <- NA
+  
+  # get index of all word matches
+  i    <- str_which(x, y)  
+  
+  # if there's a match
+  if(!identical(i, integer(0))){ 
+    # case 1: match at first sentence
+    if(1 %in% i){
+      hold <- paste(x[i], x[i+1], x[i+2])
+    }
+    # case 2: match at second sentence
+    else if(2 %in% i){
+      hold <- paste(x[i-1], x[i], x[i+1], x[i+2])
+    }
+    # case 3: match at last sentence
+    else if(length(x) %in% i){
+      hold <- paste(x[i-2], x[i-1], x[i])
+    }
+    # case 4: match at second to last sentence
+    else if((length(x) - 1) %in% i){
+      hold <- paste(x[i-2], x[i-1], x[i], x[i+1])
+    }
+    # case 5: match NOT at 1st, 2nd, 2nd to last, or last sentence
+    else{
+      hold <- paste(x[i-2], x[i-1], x[i], x[i+1], x[i+2])
+    }
+  }
+  return(hold)
+}
+
+# intalize list that will store all clean data frames
+df <- vector("list", length = length(p)) 
+
+# loop over all PDFs, and grab mention windows
+library(tidyr)
+for(i in 1:length(p)){
+  x = rs[[i]]                          # select PDF text
+  matches <- lapply(cig, match_words)  # find matches
+  names(matches) <- cig                # name list element by software
+  matches <- matches[!is.na(matches)]  # remove non-matches (NA)
+  
+  nam <- names(matches)                # retreive names of remaining software
+  temp <- lapply(matches, function(z){ # gather each list into a dataframe
+    gather(data.frame(z), software_name, value)}) 
+  
+  if(length(temp) > 0){
+    for(j in 1:length(matches)){         # fill in the software name for each df
+      temp[[j]]$software_name <- nam[j]
+    }
+    temp <- do.call(rbind.data.frame, temp) # make into one df
+    temp$paper <- p[i]                      # add file name of paper
+    rownames(temp) <- NULL                  # remove rownames
+    df[[i]] <- temp                         # store in main list
+  }
+  
+  if(length(temp) == 0){
+    df[[i]] <- NA
+  }
+}
+
+# combine into one final data frame
+final <- do.call(rbind.data.frame, df)
+```
+
+Repeat with lowercase.
+```{r}
+rsl  <- lapply(rs, tolower)
+cigl <- tolower(cig)
+
+
+# intalize list that will store all clean data frames
+df <- vector("list", length = length(p)) 
+
+# loop over all PDFs, and grab mention windows
+library(tidyr)
+for(i in 1:length(p)){
+  x = rsl[[i]]                          # select PDF text
+  matches <- lapply(cigl, match_words)  # find matches
+  names(matches) <- cigl                # name list element by software
+  matches <- matches[!is.na(matches)]  # remove non-matches (NA)
+  
+  nam <- names(matches)                # retreive names of remaining software
+  temp <- lapply(matches, function(z){ # gather each list into a dataframe
+    gather(data.frame(z), software_name, value)}) 
+  
+  if(length(temp) > 0){
+    for(j in 1:length(matches)){         # fill in the software name for each df
+      temp[[j]]$software_name <- nam[j]
+    }
+    temp <- do.call(rbind.data.frame, temp) # make into one df
+    temp$paper <- p[i]                      # add file name of paper
+    rownames(temp) <- NULL                  # remove rownames
+    df[[i]] <- temp                         # store in main list
+  }
+  
+  if(length(temp) == 0){
+    df[[i]] <- NA
+  }
+}
+
+# combine into one final data frame
+final <- do.call(rbind.data.frame, df)
+```
+
+
+```{r}
+final %>% 
+  group_by(software_name) %>% 
+  summarise(n_papers = n_distinct(paper)) %>% 
+  filter(!is.na(software_name)) %>% 
+  arrange(desc(n_papers))
+
+final %>% 
+  group_by(software_name) %>% 
+  summarise(n_papers = n_distinct(paper)) %>% 
+  filter(!is.na(software_name)) %>% 
+  arrange(desc(n_papers)) %>% 
+  filter(software_name != "rayleigh") %>% 
+  pull(n_papers) %>% 
+  sum()
+```
+
+
