@@ -1,0 +1,52 @@
+
+XML package from github
+https://github.com/omegahat/XML.git
+
+ReadPDF from github
+  https://github.com/dsidavis/ReadPDF.git
+
+getSectionText()
+ReadPDF:::findSectionHeaders()
+
+
+doc = readPDFXML("./251-300/278 vansumm jgre20077.xml")
+doc[[1]]
+
+
+pdftohtml
+https://github.com/dsidavis/pdftohtml.git
+
+Only need for 
+
+
+
+
+----------------------------
+
+Feature request:  
+
+str, dim methods for c("PDFToXMLDoc", "ConvertedPDFDoc", "XMLInternalDocument", "XMLAbstractDocument")  
+
+need to know the length of these objects
+
+for example: 
+
+    doc <- readPDFXML("path")
+    length(doc)
+    
+    # length
+    > length(doc)
+    [1] 1    
+    
+    # dim
+    > dim(doc)
+    NULL
+
+    > ReadPDF::dim(doc)
+    NULL
+
+    # 
+
+Solution can be as simple as length(doc) = length(getPages(doc))  
+
+

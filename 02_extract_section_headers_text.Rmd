@@ -1,0 +1,36 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Load packages.
+```{r}
+library(ReadPDF)
+library(XML)
+```
+
+Start with Duncan's XML data dump. List all files.
+```{r}
+p <- list.files("/Users/richpauloo/Desktop/2019 CItation/Papers/all_papers_xml") # paper names
+p <- paste0("/Users/richpauloo/Desktop/2019 CItation/Papers/all_papers_xml/", p)
+```
+
+Play.
+```{r}
+doc <- ReadPDF::readPDFXML(p[1]) # p1 goes to 21
+
+length(ReadPDF::getPages(doc)) # gets number of list elements
+
+# sections and text as list
+z <- ReadPDF::getSectionText(doc)
+
+# list names = section headers
+zn <- names(z)
+
+ReadPDF:::findSectionHeaders()
+
+
+
+
+```
+
