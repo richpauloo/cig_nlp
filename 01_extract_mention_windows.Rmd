@@ -6,6 +6,16 @@ output: html_document
 
 The purpose of this script is to read in all PDFs from 2010-2015 and extract the senteces matching CIG software, with a window of one sentence before and after the software mention.
 
+Packages.
+```{r}
+library(pdftools)
+library(tokenizers)
+library(stringr)
+library(tidyr)
+library(dplyr)
+library(readr)
+```
+
 
 Vector of package names.
 ```{r}
@@ -33,50 +43,47 @@ cig <- c("ASPECT",
 
 
 ```{r}
-# fp <- "C:/Users/rpauloo/Desktop/2019 CItation/Papers/" # PC
-fp <- "/Users/richpauloo/Desktop/2019 CItation/Papers/" # Mac
+fp <- "C:/Users/rpauloo/Desktop/2019 CItation/Papers/" # PC
+# fp <- "/Users/richpauloo/Desktop/2019 CItation/Papers/" # Mac
+
+# paper names
+p <- list.files(paste0(fp, "all_papers")) 
 ```
 
 For one PDF, get vector of paper file names, read in the first one, tokenize sentences, and extract the mention window.
 ```{r}
-p <- list.files(paste0(fp, "all_papers")) # paper names
-
-library(pdftools)
-# pdf_info(paste0(fp, "all_papers/", p[1])) # metadata: can grab all DOI
-
-# read all pdfs
-raw <- paste(pdf_text(paste0(fp, "all_papers/", p[1])), collapse = " ")
-  
-library(tokenizers)
-rs <- tokenize_sentences(raw[1])                      # tokenize sentences
+# # pdf_info(paste0(fp, "all_papers/", p[1])) # metadata: can grab all DOI
+# 
+# # read all pdfs
+# raw <- paste(pdf_text(paste0(fp, "all_papers/", p[1])), collapse = " ")
+#   
+# # tokensize sentence with tokenizers package
+# rs <- tokenize_sentences(raw[1])                      # tokenize sentences
 # rs <- lapply(rs, function(x){paste(x, collapse = " ")}) # collapse each list element
-
-# do for one
-x = rs[[1]]
-
-# grabs mention window if a software (y) is mentioned
-library(stringr)
-match_words <- function(y){
-  hold <- NA
-  i    <- str_which(x, y)
-  if(!identical(i, integer(0))){
-    hold <- paste(x[i-2], x[i-1], x[i], x[i+1], x[i+2])
-  }
-  # hold <- data.frame(match = y, matches = hold)
-  return(hold)
-}
-
-# applies vector of software names to `match_words` to get list of all windows
-matches <- lapply(cig, match_words)
-
-# name the list by software name, filter out NA, and organize into a dataframe
-library(tidyr)
-library(dplyr)
-names(matches) <- cig
-matches <- matches[!is.na(matches)] 
-data.frame(matches) %>% 
-  gather(software_name, value) %>% 
-  distinct()
+# 
+# # do for one
+# x = rs[[1]]
+# 
+# # grabs mention window if a software (y) is mentioned
+# match_words <- function(y){
+#   hold <- NA
+#   i    <- str_which(x, y)
+#   if(!identical(i, integer(0))){
+#     hold <- paste(x[i-2], x[i-1], x[i], x[i+1], x[i+2])
+#   }
+#   # hold <- data.frame(match = y, matches = hold)
+#   return(hold)
+# }
+# 
+# # applies vector of software names to `match_words` to get list of all windows
+# matches <- lapply(cig, match_words)
+# 
+# # name the list by software name, filter out NA, and organize into a dataframe
+# names(matches) <- cig
+# matches <- matches[!is.na(matches)] 
+# data.frame(matches) %>% 
+#   gather(software_name, value) %>% 
+#   distinct()
 ```
 
 Generalize process to all PDFs.
@@ -87,9 +94,8 @@ read_pdfs <- function(p){
 }
 
 # read all pdfs into a list: takes a while
-raw <- lapply(p, read_pdfs)
+# raw <- lapply(p, read_pdfs)
 # readr::write_rds(raw, "raw.rds") # save the data
-library(readr)
 raw <- read_rds("raw.rds")
 
 # tokenize sentences
@@ -129,8 +135,8 @@ match_words <- function(y){
       hold <- paste(x[i-2], x[i-1], x[i], x[i+1], x[i+2])
     }
   }
-  # return(hold) # original working
-  return(list(hold, i))
+  return(hold) # original working
+  # return(list(hold, i))
   # return(data.frame(sen = hold, i = i)) # adding sentence index to hold vector
 }
 
@@ -139,59 +145,58 @@ match_words <- function(y){
 df <- vector("list", length = 1) # testing with one paper
 
 # loop over all PDFs, and grab mention windows
-library(tidyr)
 # for(i in 1:length(p)){
 for(i in 1:1){
   x = rs[[i]]                          # select PDF text
   matches <- lapply(cig, match_words)  # find matches
   names(matches) <- cig                # name list element by software
-  # matches <- matches[!is.na(matches)]  # remove non-matches (NA)
+  matches <- matches[!is.na(matches)]  # remove non-matches (NA)
   
   # new code - remove NA from non-software matches, and 
   # integer(0) from non
-  mn <- lapply(matches, `[[`, 1)
-  mn <- mn[!is.na(mn)]  
-  mi <- lapply(matches, `[[`, 2)
-  mi <- mi[!is.na(mn)]
+  # mn <- lapply(matches, `[[`, 1)
+  # mn <- mn[!is.na(mn)]  
+  # mi <- lapply(matches, `[[`, 2)
+  # mi <- mi[!is.na(mn)]
   
   
-  # nam <- names(matches)                # retreive names of remaining software
-  nam <- names(mn)                # retreive names of remaining software
+  nam <- names(matches)                # retreive names of remaining software
+  # nam <- names(mn)                # retreive names of remaining software
   
-  # temp <- lapply(matches, function(z){ # gather each list into a dataframe
-  #   gather(data.frame(z), software_name, value)})
-  
-  # new code
-  temp <- lapply(mn, function(z){ # gather each list into a dataframe
+  temp <- lapply(matches, function(z){ # gather each list into a dataframe
     gather(data.frame(z), software_name, value)})
   
-  temp2 <- lapply(mi, function(z){ # gather each list into a dataframe
-    gather(data.frame(z), software_name, index)})
-  
-  # if(length(temp) > 0){
-  #   for(j in 1:length(mn)){         # fill in the software name for each df
-  #     temp[[j]]$software_name <- nam[j]
-  #   }
-  #   temp <- do.call(rbind.data.frame, temp) # make into one df
-  #   temp$paper <- p[i]                      # add file name of paper
-  #   rownames(temp) <- NULL                  # remove rownames
-  #   df[[i]] <- temp                         # store in main list
-  # }
-  
   # new code
+  # temp <- lapply(mn, function(z){ # gather each list into a dataframe
+  #   gather(data.frame(z), software_name, value)})
+  # 
+  # temp2 <- lapply(mi, function(z){ # gather each list into a dataframe
+  #   gather(data.frame(z), software_name, index)})
+  
   if(length(temp) > 0){
     for(j in 1:length(mn)){         # fill in the software name for each df
       temp[[j]]$software_name <- nam[j]
     }
     temp <- do.call(rbind.data.frame, temp) # make into one df
-    temp2 <- do.call(rbind.data.frame, temp2) # make into one df
     temp$paper <- p[i]                      # add file name of paper
-    temp2$paper <- p[i]                      # add file name of paper
     rownames(temp) <- NULL                  # remove rownames
-    rownames(temp2) <- NULL                  # remove rownames
-    temp3 <- left_join(temp, temp2, by = "paper")
-    df[[i]] <- temp3                        # store in main list
+    df[[i]] <- temp                         # store in main list
   }
+  
+  # new code
+  # if(length(temp) > 0){
+  #   for(j in 1:length(mn)){         # fill in the software name for each df
+  #     temp[[j]]$software_name <- nam[j]
+  #   }
+  #   temp <- do.call(rbind.data.frame, temp) # make into one df
+  #   temp2 <- do.call(rbind.data.frame, temp2) # make into one df
+  #   temp$paper <- p[i]                      # add file name of paper
+  #   temp2$paper <- p[i]                      # add file name of paper
+  #   rownames(temp) <- NULL                  # remove rownames
+  #   rownames(temp2) <- NULL                  # remove rownames
+  #   temp3 <- left_join(temp, temp2, by = "paper")
+  #   df[[i]] <- temp3                        # store in main list
+  # }
   
   if(length(temp) == 0){
     df[[i]] <- NA
@@ -201,6 +206,10 @@ for(i in 1:1){
 # combine into one final data frame
 final <- do.call(rbind.data.frame, df)
 ```
+
+
+
+
 
 ```{r}
 myfun <- function(y){
@@ -219,7 +228,7 @@ df <- list()
 
 for(i in 1:1){
   x = rs[[i]]                          # select PDF text
-  matches <- lapply(cig, myfun)  # find matches
+  matches <- lapply(cig, myfun)        # find matches
   names(matches) <- cig                # name list element by software
   matches <- matches[!is.na(matches)]  # remove non-matches (NA)
   
