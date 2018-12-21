@@ -142,11 +142,11 @@ match_words <- function(y){
 
 # initalize list that will store all clean data frames
 # df <- vector("list", length = length(p)) # for ALL papers
-df <- vector("list", length = 1) # testing with one paper
+df <- vector("list", length = length(raw)) # testing with one paper
 
 # loop over all PDFs, and grab mention windows
 # for(i in 1:length(p)){
-for(i in 1:1){
+for(i in 1:length(raw)){
   x = rs[[i]]                          # select PDF text
   matches <- lapply(cig, match_words)  # find matches
   names(matches) <- cig                # name list element by software
@@ -174,7 +174,8 @@ for(i in 1:1){
   #   gather(data.frame(z), software_name, index)})
   
   if(length(temp) > 0){
-    for(j in 1:length(mn)){         # fill in the software name for each df
+    # get the software name for each df
+    for(j in 1:length(temp)){         
       temp[[j]]$software_name <- nam[j]
     }
     temp <- do.call(rbind.data.frame, temp) # make into one df
@@ -199,19 +200,27 @@ for(i in 1:1){
   # }
   
   if(length(temp) == 0){
-    df[[i]] <- NA
+    df[[i]]$software_name <- NA
+    df[[i]]$value         <- NA
+    df[[i]]$paper         <- p[i]
   }
 }
 
 # combine into one final data frame
 final <- do.call(rbind.data.frame, df)
+
+# number of papers that don't mention one of the softwares.
+nrow(filter(final, is.na(software_name)))
+
+# names of papers missing a software package
+pull(filter(final, is.na(software_name)), paper)
 ```
 
 
 
 ***
 
-Not sure what this down here does.
+Now grab sentence token *index* at which software mention occurs, and the sentence token *length* per paper. The ratio of: $\frac{token \space index}{ token \space length}$ is an indication of where in the paper the mention occurs. In the future, can omit References (last mention of "references" and beyond). But as a first pass, this is okay.  
 
 ```{r}
 myfun <- function(y){
