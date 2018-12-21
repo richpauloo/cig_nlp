@@ -14,12 +14,15 @@ library(stringr)
 library(tidyr)
 library(dplyr)
 library(readr)
+library(ggplot2)
+library(viridis)
+library(colormap)
 ```
 
 
 Vector of package names.
 ```{r}
-cig <- c("ASPECT", 
+cig <- c("ASPECT",
 "AxiSEM",
 "Burnman",
 "Calypso",
@@ -86,7 +89,7 @@ For one PDF, get vector of paper file names, read in the first one, tokenize sen
 #   distinct()
 ```
 
-Generalize process to all PDFs.
+Function to extract mention windows to all PDFs.
 ```{r}
 # function to read PDFs
 read_pdfs <- function(p){
@@ -136,43 +139,27 @@ match_words <- function(y){
     }
   }
   return(hold) # original working
-  # return(list(hold, i))
-  # return(data.frame(sen = hold, i = i)) # adding sentence index to hold vector
 }
+```
 
+Extract mention windows, and record: software name match, paper title. Store in a data frame.
+```{r}
 # initalize list that will store all clean data frames
-# df <- vector("list", length = length(p)) # for ALL papers
 df <- vector("list", length = length(raw)) # testing with one paper
 
 # loop over all PDFs, and grab mention windows
-# for(i in 1:length(p)){
 for(i in 1:length(raw)){
   x = rs[[i]]                          # select PDF text
   matches <- lapply(cig, match_words)  # find matches
   names(matches) <- cig                # name list element by software
   matches <- matches[!is.na(matches)]  # remove non-matches (NA)
-  
-  # new code - remove NA from non-software matches, and 
-  # integer(0) from non
-  # mn <- lapply(matches, `[[`, 1)
-  # mn <- mn[!is.na(mn)]  
-  # mi <- lapply(matches, `[[`, 2)
-  # mi <- mi[!is.na(mn)]
-  
-  
+
   nam <- names(matches)                # retreive names of remaining software
-  # nam <- names(mn)                # retreive names of remaining software
   
   temp <- lapply(matches, function(z){ # gather each list into a dataframe
     gather(data.frame(z), software_name, value)})
   
-  # new code
-  # temp <- lapply(mn, function(z){ # gather each list into a dataframe
-  #   gather(data.frame(z), software_name, value)})
-  # 
-  # temp2 <- lapply(mi, function(z){ # gather each list into a dataframe
-  #   gather(data.frame(z), software_name, index)})
-  
+  # if there is a match
   if(length(temp) > 0){
     # get the software name for each df
     for(j in 1:length(temp)){         
@@ -184,21 +171,7 @@ for(i in 1:length(raw)){
     df[[i]] <- temp                         # store in main list
   }
   
-  # new code
-  # if(length(temp) > 0){
-  #   for(j in 1:length(mn)){         # fill in the software name for each df
-  #     temp[[j]]$software_name <- nam[j]
-  #   }
-  #   temp <- do.call(rbind.data.frame, temp) # make into one df
-  #   temp2 <- do.call(rbind.data.frame, temp2) # make into one df
-  #   temp$paper <- p[i]                      # add file name of paper
-  #   temp2$paper <- p[i]                      # add file name of paper
-  #   rownames(temp) <- NULL                  # remove rownames
-  #   rownames(temp2) <- NULL                  # remove rownames
-  #   temp3 <- left_join(temp, temp2, by = "paper")
-  #   df[[i]] <- temp3                        # store in main list
-  # }
-  
+  # if there is no match
   if(length(temp) == 0){
     df[[i]]$software_name <- NA
     df[[i]]$value         <- NA
@@ -207,20 +180,178 @@ for(i in 1:length(raw)){
 }
 
 # combine into one final data frame
-final <- do.call(rbind.data.frame, df)
+df1 <- do.call(rbind.data.frame, df)
 
 # number of papers that don't mention one of the softwares.
-nrow(filter(final, is.na(software_name)))
+nrow(filter(df1, is.na(software_name)))
 
 # names of papers missing a software package
-pull(filter(final, is.na(software_name)), paper)
+pull(filter(df1, is.na(software_name)), paper)
 ```
 
 
 
-***
+Now extract sentence token *index* at which software mention occurs, and the sentence token *length* per paper. The ratio of: $\frac{token \space index}{ token \space length}$ is an indication of where in the paper the mention occurs. In the future, find last mention of References so we know if a mention occurs in the references. But as a first pass, this is okay. 
 
-Now grab sentence token *index* at which software mention occurs, and the sentence token *length* per paper. The ratio of: $\frac{token \space index}{ token \space length}$ is an indication of where in the paper the mention occurs. In the future, can omit References (last mention of "references" and beyond). But as a first pass, this is okay.  
+```{r}
+# initalize list that will store all clean data frames
+df2 <- vector("list", length = length(raw)) # testing with one paper
+
+# loop over all PDFs, and grab token index, token length
+for(i in 1:length(raw)){
+  x = rs[[i]]                          # select PDF text
+  token_length = length(rs[[i]])       # total number of tokens in paper
+  indices <- lapply(cig, function(y){return(str_which(x, y))})
+  names(indices) <- cig                # name list element by software
+  indices <- indices[!sapply(indices, identical, integer(0))]  # remove non-matches (integer(0))
+  
+  nam <- names(indices)                # retreive names of remaining software
+  
+  temp <- lapply(indices, function(z){ # gather each list into a dataframe
+    return(data.frame(token_index = z))})
+  
+  # if there is a match
+  if(length(temp) > 0){
+    temp <- bind_rows(temp)              # bind into a dataframe
+    temp$token_length <- token_length    # cbind the total token length of the paper
+    df2[[i]] <- temp                     # store in final df
+  }
+  
+  # if there is no match
+  if(length(temp) == 0){
+    temp <- data.frame(token_index = NA, token_length = token_length)
+    df2[[i]] <- temp
+  }
+}
+
+# combine into one final data frame
+df2 <- do.call(rbind.data.frame, df2)
+
+# combine with previous dataframe of mention windows, software namaes, paper names
+final <- cbind.data.frame(df1, df2)
+
+# calculate (token_index / token_length) = mention position in paper
+final <- mutate(final, token_position = token_index / token_length)
+```
+
+
+Determine if a mention occurs in the References section. Not straightforward to simply extract "references" because section headers are often not 
+```{r}
+# rsl <- lapply(rs, tolower) # lowercase
+# temp <- lapply(rsl, str_which, "references")
+# temp <- lapply(rs, str_which, "References")
+```
+
+
+Sanity check. Also, calculate total mentions and total unique mentions.
+```{r}
+# total mentions
+total_mentions <- final %>% 
+  filter(!is.na(software_name) & software_name != "Rayleigh") %>% 
+  nrow()
+
+# unique mentions per paper
+unique_mentions <- final %>% 
+  group_by(software_name) %>% 
+  summarise(n_papers = n_distinct(paper)) %>% 
+  filter(!is.na(software_name)) %>% 
+  arrange(desc(n_papers)) %>% 
+  filter(software_name != "Rayleigh") %>% 
+  pull(n_papers) %>% 
+  sum()
+
+# Lorraine was getting 279 total mentions, and I get 243. This automated pipeline works.
+```
+
+
+
+Visualize distribution of position occurence.
+```{r}
+# library(ggridges)
+# final %>% 
+#   filter(!is.na(software_name) & !software_name %in% c("SW4","SNAC"," MAG ") ) %>% 
+#   ggplot(aes(token_position, software_name, fill = ..x..)) + 
+#   geom_density_ridges_gradient(scale = 1.5, rel_min_height = 0.01) + 
+#   scale_fill_viridis(option = "magma")
+
+med_vec <- final %>% 
+  # filter(!is.na(software_name) & !software_name %in% c("SW4","SNAC"," MAG ", "Rayleigh") ) %>%
+  filter(!is.na(software_name) & !software_name %in% c("Rayleigh") ) %>%
+  group_by(software_name) %>% 
+  summarise(med = median(token_position)) %>% 
+  arrange(-med) %>% pull(software_name)
+
+# define color pallette
+cols <- colormap(colormap = colormaps$viridis, nshades = length(med_vec))
+cols <- structure(cols, names = med_vec)
+
+ 
+p <- final %>% 
+  # filter(!is.na(software_name) & !software_name %in% c("SW4","SNAC"," MAG ", "Rayleigh") ) %>%
+  filter(!is.na(software_name) & !software_name %in% c("Rayleigh") ) %>%
+  ggplot(aes(x=reorder(software_name,token_position, FUN = median), token_position, fill = software_name)) + 
+  geom_boxplot(alpha = 0.5) + 
+  geom_jitter(width = 0.2, alpha = 0.1) + 
+  coord_flip() + 
+  theme_minimal(base_size = 15) + 
+  guides(fill = FALSE) +
+  scale_fill_manual(values = cols, 
+                    breaks = med_vec,
+                    name = "Well Type") +
+  labs(title = "CIG software mentions (2010-2015)", 
+       subtitle = glue("Total mentions (n = {total_mentions}); Unique mentions (n = {unique_mentions})"),
+       x = "", y = "Location of Mention in Document", 
+       # caption = "SW4, SNAC, MAG, Rayleigh removed")
+       caption = "Rayleigh removed")
+p
+
+# save
+ggsave(p, filename = "cig_total_and_unique_mentions_all.pdf", device = cairo_pdf, width = 11, height = 8)
+# ggsave(p, filename = "cig_total_and_unique_mentions_trunc.pdf", device = cairo_pdf, width = 11, height = 8)
+
+getwd()
+```
+
+
+Make adjacency matrix of software packages, and distance matrix. Make into graph.
+```{r}
+
+```
+
+View the co-occurence network.
+```{r}
+
+```
+
+
+Clever way of determining if something is a reference or not. Can be rule-based. Look at mention window. Do the adjacent entries contain "referencey" items like "A."? Replot `p`, but make the references mentions another color.
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```{r}
 myfun <- function(y){
@@ -333,12 +464,6 @@ final <- do.call(rbind.data.frame, df)
 
 
 ```{r}
-final %>% 
-  group_by(software_name) %>% 
-  summarise(n_papers = n_distinct(paper)) %>% 
-  filter(!is.na(software_name)) %>% 
-  arrange(desc(n_papers))
-
 final %>% 
   group_by(software_name) %>% 
   summarise(n_papers = n_distinct(paper)) %>% 
