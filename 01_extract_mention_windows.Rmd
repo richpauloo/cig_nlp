@@ -210,6 +210,7 @@ library(xlsx)
 write.xlsx(df1, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/results/mention_windows.xlsx", row.names = FALSE)
 write.xlsx(data.frame(paper = pull(filter(df1, is.na(software_name)), paper)), 
           "C:/Users/rpauloo/Documents/GitHub/cig_nlp/results/missing_software.xlsx", row.names = FALSE)
+write.xlsx(as.data.frame(df2), "C:/Users/rpauloo/Documents/GitHub/cig_nlp/results/co_mention_summary.xlsx", row.names = FALSE)
 ```
 
 
