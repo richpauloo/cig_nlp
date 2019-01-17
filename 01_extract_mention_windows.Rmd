@@ -189,6 +189,13 @@ nrow(filter(df1, is.na(software_name)))
 pull(filter(df1, is.na(software_name)), paper)
 ```
 
+Write data.
+```{r}
+library(xlsx)
+write.xlsx(df1, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/results/mention_windows.xlsx", row.names = FALSE)
+write.xlsx(data.frame(paper = pull(filter(df1, is.na(software_name)), paper)), 
+          "C:/Users/rpauloo/Documents/GitHub/cig_nlp/results/missing_software.xlsx", row.names = FALSE)
+```
 
 
 Now extract sentence token *index* at which software mention occurs, and the sentence token *length* per paper. The ratio of: $\frac{token \space index}{ token \space length}$ is an indication of where in the paper the mention occurs. In the future, find last mention of References so we know if a mention occurs in the references. But as a first pass, this is okay. 
