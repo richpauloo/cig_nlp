@@ -189,6 +189,21 @@ nrow(filter(df1, is.na(software_name)))
 pull(filter(df1, is.na(software_name)), paper)
 ```
 
+Determine co-mentions.
+```{r}
+n_co_mentions <- df1 %>% group_by(paper) %>% summarise(n_co_mentions = length(unique(software_name)))
+
+# grab co-mentions per paper
+l <- split(df1, df1$paper)
+l <- sapply(l, function(x){paste(unique(x$software_name), collapse = ", ")})
+l <- data.frame(paper = names(l), co_mentioned_software = l)
+rownames(l) <- NULL
+
+# merge
+df2 <- left_join(n_co_mentions, l, by = "paper")
+```
+
+
 Write data.
 ```{r}
 library(xlsx)
