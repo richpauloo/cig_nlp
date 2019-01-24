@@ -22,25 +22,25 @@ library(colormap)
 
 Vector of package names.
 ```{r}
-cig <- c("ASPECT",
-"AxiSEM",
-"Burnman",
+cig <- c("ASPECT", "aspect",
+"AxiSEM", "axisem",
+"Burnman", "burnman",
 "Calypso",
-"Citcom",
-"ConMan",
-"Ellipsis3d",
+"Citcom", "citcomcu", "citcomS", "citcoms",
+"ConMan", "conman",
+"Ellipsis3d", "ellipsis", "ellipsis3d",
 "FLEXWIN",
 " Gale ",    # avoid "Galerkin"
 " MAG ",     # avoid picking up "magnetic", "magnitude", etc..
-"Mineos",
-"PyLith",
-"Rayleigh",
+"Mineos", "mineos",
+"PyLith", "pylith",
+# "Rayleigh", # too many false positives. will need to do manually later
 "RELAX",
-"SEISMIC_CPML",
-"SELEN",
+"SEISMIC_CPML", "seismic cpml",
+"SELEN", "selen ",
 "SNAC",
-"SPECFEM",
-"SW4",
+"SPECFEM", "specfem2d", "specfem3d_globe", "specfem3d_cartesian",
+"SW4", "sw4",
 "Virtual California")
 ```
 
@@ -182,6 +182,26 @@ for(i in 1:length(raw)){
 # combine into one final data frame
 df1 <- do.call(rbind.data.frame, df)
 
+# recombine into main group names
+df1 <- mutate(df1, software_name = case_when(software_name== "axisem" ~ "AxiSEM",
+                                             software_name == "burnman" ~ "Burnman",
+                                             software_name %in% c("citcomcu", "citcomS", "citcoms") ~ "Citcom",
+                                             software_name == "conman" ~ "ConMan",
+                                             software_name %in% c("ellipsis", "ellipsis3d") ~ "Ellipsis3d",
+                                             software_name == "mineos" ~ "Mineos",
+                                             software_name == "pylith" ~ "PyLith",
+                                             software_name == "seismic cpml" ~ "SEISMIC_CPML",
+                                             software_name %in% c("specfem2d", "specfem3d_globe", "specfem3d_cartesian") ~ "SPECFEM",
+                                             software_name == "sw4" ~ "SW4",
+                                             software_name == "selen " ~ "SELEN",
+                                             software_name == "aspect" ~ "ASPECT",
+                                             TRUE ~ software_name))
+# count of unique mentions in all docs
+df1 %>% count(software_name) %>% arrange(desc(n)) 
+
+# count of mentions per unique papers
+df1 %>% count(software_name, paper) %>% arrange(desc(n)) 
+
 # number of papers that don't mention one of the softwares.
 nrow(filter(df1, is.na(software_name)))
 
@@ -200,7 +220,7 @@ l <- data.frame(paper = names(l), co_mentioned_software = l)
 rownames(l) <- NULL
 
 # merge
-df2 <- left_join(n_co_mentions, l, by = "paper")
+df2 <- left_join(n_co_mentions, l, by = "paper") %>% filter(n_co_mentions >= 2) 
 ```
 
 
@@ -218,7 +238,7 @@ Now extract sentence token *index* at which software mention occurs, and the sen
 
 ```{r}
 # initalize list that will store all clean data frames
-df2 <- vector("list", length = length(raw)) # testing with one paper
+df3 <- vector("list", length = length(raw)) # testing with one paper
 
 # loop over all PDFs, and grab token index, token length
 for(i in 1:length(raw)){
@@ -237,21 +257,21 @@ for(i in 1:length(raw)){
   if(length(temp) > 0){
     temp <- bind_rows(temp)              # bind into a dataframe
     temp$token_length <- token_length    # cbind the total token length of the paper
-    df2[[i]] <- temp                     # store in final df
+    df3[[i]] <- temp                     # store in final df
   }
   
   # if there is no match
   if(length(temp) == 0){
     temp <- data.frame(token_index = NA, token_length = token_length)
-    df2[[i]] <- temp
+    df3[[i]] <- temp
   }
 }
 
 # combine into one final data frame
-df2 <- do.call(rbind.data.frame, df2)
+df3 <- do.call(rbind.data.frame, df3)
 
 # combine with previous dataframe of mention windows, software namaes, paper names
-final <- cbind.data.frame(df1, df2)
+final <- cbind.data.frame(df1, df3)
 
 # calculate (token_index / token_length) = mention position in paper
 final <- mutate(final, token_position = token_index / token_length)
@@ -308,7 +328,7 @@ med_vec <- final %>%
 cols <- colormap(colormap = colormaps$viridis, nshades = length(med_vec))
 cols <- structure(cols, names = med_vec)
 
- 
+library(glue)
 p <- final %>% 
   # filter(!is.na(software_name) & !software_name %in% c("SW4","SNAC"," MAG ", "Rayleigh") ) %>%
   filter(!is.na(software_name) & !software_name %in% c("Rayleigh") ) %>%
@@ -329,10 +349,36 @@ p <- final %>%
 p
 
 # save
-ggsave(p, filename = "cig_total_and_unique_mentions_all.pdf", device = cairo_pdf, width = 11, height = 8)
+#ggsave(p, filename = "cig_total_and_unique_mentions_all.pdf", device = cairo_pdf, width = 11, height = 8)
 # ggsave(p, filename = "cig_total_and_unique_mentions_trunc.pdf", device = cairo_pdf, width = 11, height = 8)
 
-getwd()
+#getwd()
+```
+
+Make Lorraine's graph.
+```{r}
+pylith <- final %>% 
+  filter(software_name == "PyLith") %>% 
+  ggplot(aes(factor(paper), token_position, color = token_position)) +
+  geom_point(size = 2) +
+  coord_flip() + 
+  scale_color_viridis_c() +
+  theme(panel.background = element_rect(fill = "white"),
+        panel.grid.major.y = element_line(color = "grey50"),
+        panel.grid.major.x = element_blank()) +
+  guides(color = FALSE) +
+  labs(x = "", y = "Position in text", 
+       title = "PyLith")
+  
+ggsave(pylith, filename = "pylith.pdf", device = cairo_pdf, width = 11, height = 8)
+```
+
+Turn co-occurences into plot.
+```{r}
+
+
+
+
 ```
 
 
