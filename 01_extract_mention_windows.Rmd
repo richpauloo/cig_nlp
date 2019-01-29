@@ -22,26 +22,29 @@ library(colormap)
 
 Vector of package names.
 ```{r}
-cig <- c("ASPECT", "aspect",
-"AxiSEM", "axisem",
+cig <- c("ASPECT", "Aspect",
+"AxiSEM", "axisem", "AXISEM",
 "Burnman", "burnman",
 "Calypso",
-"Citcom", "citcomcu", "citcomS", "citcoms",
+"Citcom", "citcomcu", "citcomS", "citcoms", "CitcomS", "CITCOM-CU",
 "ConMan", "conman",
-"Ellipsis3d", "ellipsis", "ellipsis3d",
-"FLEXWIN",
+"Ellipsis3d", "ellipsis", "ellipsis3d", "Ellipsis",
+"FLEXWIN", "flexwin",
 " Gale ",    # avoid "Galerkin"
 " MAG ",     # avoid picking up "magnetic", "magnitude", etc..
-"Mineos", "mineos",
+"Mineos", "mineos", "MINEOS",
 "PyLith", "pylith",
 # "Rayleigh", # too many false positives. will need to do manually later
 "RELAX",
-"SEISMIC_CPML", "seismic cpml",
+"SEISMIC_CPML", "seismic cpml", 
 "SELEN", "selen ",
 "SNAC",
-"SPECFEM", "specfem2d", "specfem3d_globe", "specfem3d_cartesian",
+"SPECFEM", "specfem2d", "specfem3d_globe", "specfem3d_cartesian", "Specfem3-D Globe",
 "SW4", "sw4",
-"Virtual California")
+"Virtual California",
+"Gmsh", "wpp", "GMT")
+
+write_tsv(x = data.frame(term = cig), path = "C:/Users/rpauloo/Desktop/whitelist.tsv")
 ```
 
 
