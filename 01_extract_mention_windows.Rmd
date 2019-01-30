@@ -44,7 +44,7 @@ cig <- c("ASPECT", "Aspect",
 "Virtual California",
 "Gmsh", "wpp", "GMT")
 
-write_tsv(x = data.frame(term = cig), path = "C:/Users/rpauloo/Desktop/whitelist.tsv")
+#write_tsv(x = data.frame(term = cig), path = "C:/Users/rpauloo/Desktop/whitelist.tsv")
 ```
 
 
@@ -186,18 +186,19 @@ for(i in 1:length(raw)){
 df1 <- do.call(rbind.data.frame, df)
 
 # recombine into main group names
-df1 <- mutate(df1, software_name = case_when(software_name== "axisem" ~ "AxiSEM",
+df1 <- mutate(df1, software_name = case_when(software_name %in% c("axisem", "AXISEM") ~ "AxiSEM",
                                              software_name == "burnman" ~ "Burnman",
-                                             software_name %in% c("citcomcu", "citcomS", "citcoms") ~ "Citcom",
+                                             software_name %in% c("citcomcu", "citcomS", "citcoms", "CitcomS", "CITCOM-CU") ~ "Citcom",
                                              software_name == "conman" ~ "ConMan",
-                                             software_name %in% c("ellipsis", "ellipsis3d") ~ "Ellipsis3d",
-                                             software_name == "mineos" ~ "Mineos",
+                                             software_name %in% c("ellipsis", "ellipsis3d", "Ellipsis") ~ "Ellipsis3d",
+                                             software_name %in% c("mineos", "MINEOS") ~ "Mineos",
+                                             software_name == "flexwin" ~ "FLEXWIN",
                                              software_name == "pylith" ~ "PyLith",
                                              software_name == "seismic cpml" ~ "SEISMIC_CPML",
-                                             software_name %in% c("specfem2d", "specfem3d_globe", "specfem3d_cartesian") ~ "SPECFEM",
+                                             software_name %in% c("specfem2d", "specfem3d_globe", "specfem3d_cartesian", "Specfem3-D Globe") ~ "SPECFEM",
                                              software_name == "sw4" ~ "SW4",
                                              software_name == "selen " ~ "SELEN",
-                                             software_name == "aspect" ~ "ASPECT",
+                                             software_name == "Aspect" ~ "ASPECT",
                                              TRUE ~ software_name))
 # count of unique mentions in all docs
 df1 %>% count(software_name) %>% arrange(desc(n)) 
@@ -360,8 +361,13 @@ p
 
 Make Lorraine's graph.
 ```{r}
-pylith <- final %>% 
-  filter(software_name == "PyLith") %>% 
+sw <- unique(final$software_name)
+sw <- sw[!is.na(sw)]
+p_list <- vector("list", length = length(sw))
+
+for(i in 1:length(p_list)){
+  p_list[[i]] <- final %>% 
+  filter(software_name == sw[i]) %>% 
   ggplot(aes(factor(paper), token_position, color = token_position)) +
   geom_point(size = 2) +
   coord_flip() + 
@@ -371,26 +377,64 @@ pylith <- final %>%
         panel.grid.major.x = element_blank()) +
   guides(color = FALSE) +
   labs(x = "", y = "Position in text", 
-       title = "PyLith")
-  
-ggsave(pylith, filename = "pylith.pdf", device = cairo_pdf, width = 11, height = 8)
+       title = sw[i])
+}
+
+# Creating new PDF file
+pdf("software_mentions.pdf", width = 11 , height = 8)
+ 
+for(i in 1:length(p_list)){
+   print(p_list[[i]])
+}
+ 
+dev.off()
 ```
 
 Turn co-occurences into plot.
 ```{r}
+co <- df2 %>% select(-paper) %>% rename(n = n_co_mentions, x = co_mentioned_software)
 
+library(tidyverse)
+library(combinat)
+cor <- co %>% 
+    ## Parse entries in x into distinct elements
+    mutate(split = map(x, str_split, pattern = ', '), 
+           flat = flatten(split)) %>% 
+    ## Construct 2-element subsets of each set of elements
+    mutate(combn = map(flat, combn, 2, simplify = FALSE)) %>% 
+    unnest(combn) %>% 
+    ## Construct permutations of the 2-element subsets
+    mutate(perm = map(combn, permn)) %>% 
+    unnest(perm) %>% 
+    ## Parse the permutations into row and column indices
+    mutate(row = map_chr(perm, 1), 
+           col = map_chr(perm, 2)) %>% 
+    count(row, col) %>% 
+    ## Long to wide representation
+    spread(key = col, value = nn, fill = 0) %>% 
+    ## Coerce to matrix
+    column_to_rownames(var = 'row') %>% 
+    as.matrix()
 
+library(reshape2)
+cor[upper.tri(cor, diag=TRUE)] <- NA # remove upper triangle
+melt(cor) %>% ggplot(aes(Var1, Var2, fill = value)) + geom_raster()
 
+co_plot <- melt(cor) %>% 
+  filter(!is.na(value)) %>% 
+  ggplot(aes(Var1, Var2, fill = value)) + 
+  geom_tile(color = "white") + 
+  geom_text(aes(label = value), color = "grey50") +
+  scale_fill_viridis_c() +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  labs(fill = "Co-occurences", x = "", y = "")
 
+ggsave(co_plot, filename = "co_occurrence_plot.pdf", device = cairo_pdf, height = 5, width = 11)
 ```
 
 
 Make adjacency matrix of software packages, and distance matrix. Make into graph.
-```{r}
-
-```
-
-View the co-occurence network.
 ```{r}
 
 ```
