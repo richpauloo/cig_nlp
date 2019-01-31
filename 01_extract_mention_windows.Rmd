@@ -26,23 +26,24 @@ cig <- c("ASPECT", "Aspect",
 "AxiSEM", "axisem", "AXISEM",
 "Burnman", "burnman",
 "Calypso",
-"Citcom", "citcomcu", "citcomS", "citcoms", "CitcomS", "CITCOM-CU",
+"Citcom", "citcomcu", "citcomS", "citcoms", "CitcomS", "CITCOM-CU", "CITCOM", "CitComS",
 "ConMan", "conman",
 "Ellipsis3d", "ellipsis", "ellipsis3d", "Ellipsis",
 "FLEXWIN", "flexwin",
 " Gale ",    # avoid "Galerkin"
 " MAG ",     # avoid picking up "magnetic", "magnitude", etc..
 "Mineos", "mineos", "MINEOS",
-"PyLith", "pylith",
+"PyLith", "pylith", "Pylith",
 # "Rayleigh", # too many false positives. will need to do manually later
 "RELAX",
 "SEISMIC_CPML", "seismic cpml", 
 "SELEN", "selen ",
 "SNAC",
-"SPECFEM", "specfem2d", "specfem3d_globe", "specfem3d_cartesian", "Specfem3-D Globe",
+"SPECFEM", "specfem2d", "specfem3d_globe", "specfem3d_cartesian", "Specfem3-D Globe", "specter", "Specfem2d",
 "SW4", "sw4",
 "Virtual California",
-"Gmsh", "wpp", "GMT")
+"Gmsh", "wpp", 
+"GMT", "Generic Mapping Tool")
 
 #write_tsv(x = data.frame(term = cig), path = "C:/Users/rpauloo/Desktop/whitelist.tsv")
 ```
@@ -188,17 +189,18 @@ df1 <- do.call(rbind.data.frame, df)
 # recombine into main group names
 df1 <- mutate(df1, software_name = case_when(software_name %in% c("axisem", "AXISEM") ~ "AxiSEM",
                                              software_name == "burnman" ~ "Burnman",
-                                             software_name %in% c("citcomcu", "citcomS", "citcoms", "CitcomS", "CITCOM-CU") ~ "Citcom",
+                                             software_name %in% c("citcomcu", "citcomS", "citcoms", "CitcomS", "CITCOM-CU", "CITCOM", "CitComS") ~ "Citcom",
                                              software_name == "conman" ~ "ConMan",
                                              software_name %in% c("ellipsis", "ellipsis3d", "Ellipsis") ~ "Ellipsis3d",
                                              software_name %in% c("mineos", "MINEOS") ~ "Mineos",
                                              software_name == "flexwin" ~ "FLEXWIN",
-                                             software_name == "pylith" ~ "PyLith",
+                                             software_name %in% c("pylith", "Pylith") ~ "PyLith",
                                              software_name == "seismic cpml" ~ "SEISMIC_CPML",
-                                             software_name %in% c("specfem2d", "specfem3d_globe", "specfem3d_cartesian", "Specfem3-D Globe") ~ "SPECFEM",
+                                             software_name %in% c("specfem2d", "specfem3d_globe", "specfem3d_cartesian", "Specfem3-D Globe", "specter", "Specfem2d") ~ "SPECFEM",
                                              software_name == "sw4" ~ "SW4",
                                              software_name == "selen " ~ "SELEN",
                                              software_name == "Aspect" ~ "ASPECT",
+                                             software_name == "Generic Mapping Tool" ~ "GMT",
                                              TRUE ~ software_name))
 # count of unique mentions in all docs
 df1 %>% count(software_name) %>% arrange(desc(n)) 
