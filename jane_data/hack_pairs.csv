@@ -1,0 +1,1041 @@
+"Group.1","Group.2","Relationship_type","Count","co_hacks"
+"A. Glerum","C. Thieulot","hack_2014",1,5
+"A. Glerum","I. Rose","hack_2014",1,4
+"A. Glerum","J. Austermann","hack_2014",1,5
+"A. Glerum","J. Dannberg","hack_2014",1,5
+"A. Glerum","K. Arredondo","hack_2014",1,1
+"A. Glerum","M. Fraters","hack_2014",1,5
+"A. Glerum","N. Zhang","hack_2014",1,1
+"A. Glerum","R. Gassmöller","hack_2014",1,5
+"A. Glerum","R. Grove","hack_2014",1,3
+"A. Glerum","S. Stamps","hack_2014",1,2
+"A. Glerum","S. Zhang","hack_2014",1,1
+"A. Glerum","T. Heister","hack_2014",1,5
+"A. Glerum","W. Bangerth","hack_2014",1,5
+"C. Thieulot","I. Rose","hack_2014",1,4
+"C. Thieulot","J. Austermann","hack_2014",1,5
+"C. Thieulot","J. Dannberg","hack_2014",1,5
+"C. Thieulot","K. Arredondo","hack_2014",1,1
+"C. Thieulot","M. Fraters","hack_2014",1,5
+"C. Thieulot","N. Zhang","hack_2014",1,1
+"C. Thieulot","R. Gassmöller","hack_2014",1,5
+"C. Thieulot","R. Grove","hack_2014",1,3
+"C. Thieulot","S. Stamps","hack_2014",1,2
+"C. Thieulot","S. Zhang","hack_2014",1,1
+"C. Thieulot","T. Heister","hack_2014",1,5
+"C. Thieulot","W. Bangerth","hack_2014",1,5
+"I. Rose","J. Austermann","hack_2014",1,4
+"I. Rose","J. Dannberg","hack_2014",1,4
+"I. Rose","K. Arredondo","hack_2014",1,1
+"I. Rose","M. Fraters","hack_2014",1,4
+"I. Rose","N. Zhang","hack_2014",1,1
+"I. Rose","R. Gassmöller","hack_2014",1,4
+"I. Rose","R. Grove","hack_2014",1,3
+"I. Rose","S. Stamps","hack_2014",1,2
+"I. Rose","S. Zhang","hack_2014",1,1
+"I. Rose","T. Heister","hack_2014",1,4
+"I. Rose","W. Bangerth","hack_2014",1,4
+"J. Austermann","J. Dannberg","hack_2014",1,5
+"J. Austermann","K. Arredondo","hack_2014",1,1
+"J. Austermann","M. Fraters","hack_2014",1,5
+"J. Austermann","N. Zhang","hack_2014",1,1
+"J. Austermann","R. Gassmöller","hack_2014",1,5
+"J. Austermann","R. Grove","hack_2014",1,3
+"J. Austermann","S. Stamps","hack_2014",1,2
+"J. Austermann","S. Zhang","hack_2014",1,1
+"J. Austermann","T. Heister","hack_2014",1,5
+"J. Austermann","W. Bangerth","hack_2014",1,5
+"J. Dannberg","K. Arredondo","hack_2014",1,1
+"J. Dannberg","M. Fraters","hack_2014",1,5
+"J. Dannberg","N. Zhang","hack_2014",1,1
+"J. Dannberg","R. Gassmöller","hack_2014",1,5
+"J. Dannberg","R. Grove","hack_2014",1,3
+"J. Dannberg","S. Stamps","hack_2014",1,2
+"J. Dannberg","S. Zhang","hack_2014",1,1
+"J. Dannberg","T. Heister","hack_2014",1,5
+"J. Dannberg","W. Bangerth","hack_2014",1,5
+"K. Arredondo","M. Fraters","hack_2014",1,1
+"K. Arredondo","N. Zhang","hack_2014",1,1
+"K. Arredondo","R. Gassmöller","hack_2014",1,1
+"K. Arredondo","R. Grove","hack_2014",1,1
+"K. Arredondo","S. Stamps","hack_2014",1,1
+"K. Arredondo","S. Zhang","hack_2014",1,1
+"K. Arredondo","T. Heister","hack_2014",1,1
+"K. Arredondo","W. Bangerth","hack_2014",1,1
+"M. Fraters","N. Zhang","hack_2014",1,1
+"M. Fraters","R. Gassmöller","hack_2014",1,5
+"M. Fraters","R. Grove","hack_2014",1,3
+"M. Fraters","S. Stamps","hack_2014",1,2
+"M. Fraters","S. Zhang","hack_2014",1,1
+"M. Fraters","T. Heister","hack_2014",1,5
+"M. Fraters","W. Bangerth","hack_2014",1,5
+"N. Zhang","R. Gassmöller","hack_2014",1,1
+"N. Zhang","R. Grove","hack_2014",1,1
+"N. Zhang","S. Stamps","hack_2014",1,1
+"N. Zhang","S. Zhang","hack_2014",1,1
+"N. Zhang","T. Heister","hack_2014",1,1
+"N. Zhang","W. Bangerth","hack_2014",1,1
+"R. Gassmöller","R. Grove","hack_2014",1,3
+"R. Gassmöller","S. Stamps","hack_2014",1,2
+"R. Gassmöller","S. Zhang","hack_2014",1,1
+"R. Gassmöller","T. Heister","hack_2014",1,5
+"R. Gassmöller","W. Bangerth","hack_2014",1,5
+"R. Grove","S. Stamps","hack_2014",1,2
+"R. Grove","S. Zhang","hack_2014",1,1
+"R. Grove","T. Heister","hack_2014",1,3
+"R. Grove","W. Bangerth","hack_2014",1,3
+"S. Stamps","S. Zhang","hack_2014",1,1
+"S. Stamps","T. Heister","hack_2014",1,2
+"S. Stamps","W. Bangerth","hack_2014",1,2
+"S. Zhang","T. Heister","hack_2014",1,1
+"S. Zhang","W. Bangerth","hack_2014",1,1
+"T. Heister","W. Bangerth","hack_2014",1,5
+"A. Glerum","B. Myhill","hack_2015",1,3
+"A. Glerum","C. Branecky","hack_2015",1,1
+"A. Glerum","C. Thieulot","hack_2015",1,5
+"A. Glerum","E. G. Puckett","hack_2015",1,4
+"A. Glerum","E. Bredow","hack_2015",1,1
+"A. Glerum","I. Rose","hack_2015",1,4
+"A. Glerum","J. Austermann","hack_2015",1,5
+"A. Glerum","J. Perry-Houts","hack_2015",1,1
+"A. Glerum","J. Dannberg","hack_2015",1,5
+"A. Glerum","K. Moore","hack_2015",1,1
+"A. Glerum","L. Hwang","hack_2015",1,4
+"A. Glerum","L. H. Kellogg","hack_2015",1,2
+"A. Glerum","M. Rudolph","hack_2015",1,1
+"A. Glerum","M. Fraters","hack_2015",1,5
+"A. Glerum","R. Gassmöller","hack_2015",1,5
+"A. Glerum","R. Grove","hack_2015",1,3
+"A. Glerum","S. Stamps","hack_2015",1,2
+"A. Glerum","S. Tarlow","hack_2015",1,1
+"A. Glerum","S. Liu","hack_2015",1,3
+"A. Glerum","T. Heister","hack_2015",1,5
+"A. Glerum","W. Bangerth","hack_2015",1,5
+"A. Glerum","Y. He","hack_2015",1,3
+"B. Myhill","C. Branecky","hack_2015",1,1
+"B. Myhill","C. Thieulot","hack_2015",1,3
+"B. Myhill","E. G. Puckett","hack_2015",1,3
+"B. Myhill","E. Bredow","hack_2015",1,1
+"B. Myhill","I. Rose","hack_2015",1,2
+"B. Myhill","J. Austermann","hack_2015",1,3
+"B. Myhill","J. Perry-Houts","hack_2015",1,1
+"B. Myhill","J. Dannberg","hack_2015",1,3
+"B. Myhill","K. Moore","hack_2015",1,1
+"B. Myhill","L. Hwang","hack_2015",1,3
+"B. Myhill","L. H. Kellogg","hack_2015",1,1
+"B. Myhill","M. Rudolph","hack_2015",1,1
+"B. Myhill","M. Fraters","hack_2015",1,3
+"B. Myhill","R. Gassmöller","hack_2015",1,3
+"B. Myhill","R. Grove","hack_2015",1,2
+"B. Myhill","S. Stamps","hack_2015",1,1
+"B. Myhill","S. Tarlow","hack_2015",1,1
+"B. Myhill","S. Liu","hack_2015",1,2
+"B. Myhill","T. Heister","hack_2015",1,3
+"B. Myhill","W. Bangerth","hack_2015",1,3
+"B. Myhill","Y. He","hack_2015",1,2
+"C. Branecky","C. Thieulot","hack_2015",1,1
+"C. Branecky","E. G. Puckett","hack_2015",1,1
+"C. Branecky","E. Bredow","hack_2015",1,1
+"C. Branecky","I. Rose","hack_2015",1,1
+"C. Branecky","J. Austermann","hack_2015",1,1
+"C. Branecky","J. Perry-Houts","hack_2015",1,1
+"C. Branecky","J. Dannberg","hack_2015",1,1
+"C. Branecky","K. Moore","hack_2015",1,1
+"C. Branecky","L. Hwang","hack_2015",1,1
+"C. Branecky","L. H. Kellogg","hack_2015",1,1
+"C. Branecky","M. Rudolph","hack_2015",1,1
+"C. Branecky","M. Fraters","hack_2015",1,1
+"C. Branecky","R. Gassmöller","hack_2015",1,1
+"C. Branecky","R. Grove","hack_2015",1,1
+"C. Branecky","S. Stamps","hack_2015",1,1
+"C. Branecky","S. Tarlow","hack_2015",1,1
+"C. Branecky","S. Liu","hack_2015",1,1
+"C. Branecky","T. Heister","hack_2015",1,1
+"C. Branecky","W. Bangerth","hack_2015",1,1
+"C. Branecky","Y. He","hack_2015",1,1
+"C. Thieulot","E. G. Puckett","hack_2015",1,4
+"C. Thieulot","E. Bredow","hack_2015",1,1
+"C. Thieulot","I. Rose","hack_2015",1,4
+"C. Thieulot","J. Austermann","hack_2015",1,5
+"C. Thieulot","J. Perry-Houts","hack_2015",1,1
+"C. Thieulot","J. Dannberg","hack_2015",1,5
+"C. Thieulot","K. Moore","hack_2015",1,1
+"C. Thieulot","L. Hwang","hack_2015",1,4
+"C. Thieulot","L. H. Kellogg","hack_2015",1,2
+"C. Thieulot","M. Rudolph","hack_2015",1,1
+"C. Thieulot","M. Fraters","hack_2015",1,5
+"C. Thieulot","R. Gassmöller","hack_2015",1,5
+"C. Thieulot","R. Grove","hack_2015",1,3
+"C. Thieulot","S. Stamps","hack_2015",1,2
+"C. Thieulot","S. Tarlow","hack_2015",1,1
+"C. Thieulot","S. Liu","hack_2015",1,3
+"C. Thieulot","T. Heister","hack_2015",1,5
+"C. Thieulot","W. Bangerth","hack_2015",1,5
+"C. Thieulot","Y. He","hack_2015",1,3
+"E. G. Puckett","E. Bredow","hack_2015",1,1
+"E. G. Puckett","I. Rose","hack_2015",1,3
+"E. G. Puckett","J. Austermann","hack_2015",1,4
+"E. G. Puckett","J. Perry-Houts","hack_2015",1,1
+"E. G. Puckett","J. Dannberg","hack_2015",1,4
+"E. G. Puckett","K. Moore","hack_2015",1,1
+"E. G. Puckett","L. Hwang","hack_2015",1,4
+"E. G. Puckett","L. H. Kellogg","hack_2015",1,2
+"E. G. Puckett","M. Rudolph","hack_2015",1,1
+"E. G. Puckett","M. Fraters","hack_2015",1,4
+"E. G. Puckett","R. Gassmöller","hack_2015",1,4
+"E. G. Puckett","R. Grove","hack_2015",1,2
+"E. G. Puckett","S. Stamps","hack_2015",1,1
+"E. G. Puckett","S. Tarlow","hack_2015",1,1
+"E. G. Puckett","S. Liu","hack_2015",1,3
+"E. G. Puckett","T. Heister","hack_2015",1,4
+"E. G. Puckett","W. Bangerth","hack_2015",1,4
+"E. G. Puckett","Y. He","hack_2015",1,3
+"E. Bredow","I. Rose","hack_2015",1,1
+"E. Bredow","J. Austermann","hack_2015",1,1
+"E. Bredow","J. Perry-Houts","hack_2015",1,1
+"E. Bredow","J. Dannberg","hack_2015",1,1
+"E. Bredow","K. Moore","hack_2015",1,1
+"E. Bredow","L. Hwang","hack_2015",1,1
+"E. Bredow","L. H. Kellogg","hack_2015",1,1
+"E. Bredow","M. Rudolph","hack_2015",1,1
+"E. Bredow","M. Fraters","hack_2015",1,1
+"E. Bredow","R. Gassmöller","hack_2015",1,1
+"E. Bredow","R. Grove","hack_2015",1,1
+"E. Bredow","S. Stamps","hack_2015",1,1
+"E. Bredow","S. Tarlow","hack_2015",1,1
+"E. Bredow","S. Liu","hack_2015",1,1
+"E. Bredow","T. Heister","hack_2015",1,1
+"E. Bredow","W. Bangerth","hack_2015",1,1
+"E. Bredow","Y. He","hack_2015",1,1
+"I. Rose","J. Austermann","hack_2015",1,4
+"I. Rose","J. Perry-Houts","hack_2015",1,1
+"I. Rose","J. Dannberg","hack_2015",1,4
+"I. Rose","K. Moore","hack_2015",1,1
+"I. Rose","L. Hwang","hack_2015",1,3
+"I. Rose","L. H. Kellogg","hack_2015",1,2
+"I. Rose","M. Rudolph","hack_2015",1,1
+"I. Rose","M. Fraters","hack_2015",1,4
+"I. Rose","R. Gassmöller","hack_2015",1,4
+"I. Rose","R. Grove","hack_2015",1,3
+"I. Rose","S. Stamps","hack_2015",1,2
+"I. Rose","S. Tarlow","hack_2015",1,1
+"I. Rose","S. Liu","hack_2015",1,3
+"I. Rose","T. Heister","hack_2015",1,4
+"I. Rose","W. Bangerth","hack_2015",1,4
+"I. Rose","Y. He","hack_2015",1,3
+"J. Austermann","J. Perry-Houts","hack_2015",1,1
+"J. Austermann","J. Dannberg","hack_2015",1,5
+"J. Austermann","K. Moore","hack_2015",1,1
+"J. Austermann","L. Hwang","hack_2015",1,4
+"J. Austermann","L. H. Kellogg","hack_2015",1,2
+"J. Austermann","M. Rudolph","hack_2015",1,1
+"J. Austermann","M. Fraters","hack_2015",1,5
+"J. Austermann","R. Gassmöller","hack_2015",1,5
+"J. Austermann","R. Grove","hack_2015",1,3
+"J. Austermann","S. Stamps","hack_2015",1,2
+"J. Austermann","S. Tarlow","hack_2015",1,1
+"J. Austermann","S. Liu","hack_2015",1,3
+"J. Austermann","T. Heister","hack_2015",1,5
+"J. Austermann","W. Bangerth","hack_2015",1,5
+"J. Austermann","Y. He","hack_2015",1,3
+"J. Perry-Houts","J. Dannberg","hack_2015",1,1
+"J. Perry-Houts","K. Moore","hack_2015",1,1
+"J. Perry-Houts","L. Hwang","hack_2015",1,1
+"J. Perry-Houts","L. H. Kellogg","hack_2015",1,1
+"J. Perry-Houts","M. Rudolph","hack_2015",1,1
+"J. Perry-Houts","M. Fraters","hack_2015",1,1
+"J. Perry-Houts","R. Gassmöller","hack_2015",1,1
+"J. Perry-Houts","R. Grove","hack_2015",1,1
+"J. Perry-Houts","S. Stamps","hack_2015",1,1
+"J. Perry-Houts","S. Tarlow","hack_2015",1,1
+"J. Perry-Houts","S. Liu","hack_2015",1,1
+"J. Perry-Houts","T. Heister","hack_2015",1,1
+"J. Perry-Houts","W. Bangerth","hack_2015",1,1
+"J. Perry-Houts","Y. He","hack_2015",1,1
+"J. Dannberg","K. Moore","hack_2015",1,1
+"J. Dannberg","L. Hwang","hack_2015",1,4
+"J. Dannberg","L. H. Kellogg","hack_2015",1,2
+"J. Dannberg","M. Rudolph","hack_2015",1,1
+"J. Dannberg","M. Fraters","hack_2015",1,5
+"J. Dannberg","R. Gassmöller","hack_2015",1,5
+"J. Dannberg","R. Grove","hack_2015",1,3
+"J. Dannberg","S. Stamps","hack_2015",1,2
+"J. Dannberg","S. Tarlow","hack_2015",1,1
+"J. Dannberg","S. Liu","hack_2015",1,3
+"J. Dannberg","T. Heister","hack_2015",1,5
+"J. Dannberg","W. Bangerth","hack_2015",1,5
+"J. Dannberg","Y. He","hack_2015",1,3
+"K. Moore","L. Hwang","hack_2015",1,1
+"K. Moore","L. H. Kellogg","hack_2015",1,1
+"K. Moore","M. Rudolph","hack_2015",1,1
+"K. Moore","M. Fraters","hack_2015",1,1
+"K. Moore","R. Gassmöller","hack_2015",1,1
+"K. Moore","R. Grove","hack_2015",1,1
+"K. Moore","S. Stamps","hack_2015",1,1
+"K. Moore","S. Tarlow","hack_2015",1,1
+"K. Moore","S. Liu","hack_2015",1,1
+"K. Moore","T. Heister","hack_2015",1,1
+"K. Moore","W. Bangerth","hack_2015",1,1
+"K. Moore","Y. He","hack_2015",1,1
+"L. Hwang","L. H. Kellogg","hack_2015",1,2
+"L. Hwang","M. Rudolph","hack_2015",1,1
+"L. Hwang","M. Fraters","hack_2015",1,4
+"L. Hwang","R. Gassmöller","hack_2015",1,4
+"L. Hwang","R. Grove","hack_2015",1,2
+"L. Hwang","S. Stamps","hack_2015",1,1
+"L. Hwang","S. Tarlow","hack_2015",1,1
+"L. Hwang","S. Liu","hack_2015",1,3
+"L. Hwang","T. Heister","hack_2015",1,4
+"L. Hwang","W. Bangerth","hack_2015",1,4
+"L. Hwang","Y. He","hack_2015",1,3
+"L. H. Kellogg","M. Rudolph","hack_2015",1,1
+"L. H. Kellogg","M. Fraters","hack_2015",1,2
+"L. H. Kellogg","R. Gassmöller","hack_2015",1,2
+"L. H. Kellogg","R. Grove","hack_2015",1,1
+"L. H. Kellogg","S. Stamps","hack_2015",1,1
+"L. H. Kellogg","S. Tarlow","hack_2015",1,1
+"L. H. Kellogg","S. Liu","hack_2015",1,2
+"L. H. Kellogg","T. Heister","hack_2015",1,2
+"L. H. Kellogg","W. Bangerth","hack_2015",1,2
+"L. H. Kellogg","Y. He","hack_2015",1,2
+"M. Rudolph","M. Fraters","hack_2015",1,1
+"M. Rudolph","R. Gassmöller","hack_2015",1,1
+"M. Rudolph","R. Grove","hack_2015",1,1
+"M. Rudolph","S. Stamps","hack_2015",1,1
+"M. Rudolph","S. Tarlow","hack_2015",1,1
+"M. Rudolph","S. Liu","hack_2015",1,1
+"M. Rudolph","T. Heister","hack_2015",1,1
+"M. Rudolph","W. Bangerth","hack_2015",1,1
+"M. Rudolph","Y. He","hack_2015",1,1
+"M. Fraters","R. Gassmöller","hack_2015",1,5
+"M. Fraters","R. Grove","hack_2015",1,3
+"M. Fraters","S. Stamps","hack_2015",1,2
+"M. Fraters","S. Tarlow","hack_2015",1,1
+"M. Fraters","S. Liu","hack_2015",1,3
+"M. Fraters","T. Heister","hack_2015",1,5
+"M. Fraters","W. Bangerth","hack_2015",1,5
+"M. Fraters","Y. He","hack_2015",1,3
+"R. Gassmöller","R. Grove","hack_2015",1,3
+"R. Gassmöller","S. Stamps","hack_2015",1,2
+"R. Gassmöller","S. Tarlow","hack_2015",1,1
+"R. Gassmöller","S. Liu","hack_2015",1,3
+"R. Gassmöller","T. Heister","hack_2015",1,5
+"R. Gassmöller","W. Bangerth","hack_2015",1,5
+"R. Gassmöller","Y. He","hack_2015",1,3
+"R. Grove","S. Stamps","hack_2015",1,2
+"R. Grove","S. Tarlow","hack_2015",1,1
+"R. Grove","S. Liu","hack_2015",1,2
+"R. Grove","T. Heister","hack_2015",1,3
+"R. Grove","W. Bangerth","hack_2015",1,3
+"R. Grove","Y. He","hack_2015",1,2
+"S. Stamps","S. Tarlow","hack_2015",1,1
+"S. Stamps","S. Liu","hack_2015",1,1
+"S. Stamps","T. Heister","hack_2015",1,2
+"S. Stamps","W. Bangerth","hack_2015",1,2
+"S. Stamps","Y. He","hack_2015",1,1
+"S. Tarlow","S. Liu","hack_2015",1,1
+"S. Tarlow","T. Heister","hack_2015",1,1
+"S. Tarlow","W. Bangerth","hack_2015",1,1
+"S. Tarlow","Y. He","hack_2015",1,1
+"S. Liu","T. Heister","hack_2015",1,3
+"S. Liu","W. Bangerth","hack_2015",1,3
+"S. Liu","Y. He","hack_2015",1,3
+"T. Heister","W. Bangerth","hack_2015",1,5
+"T. Heister","Y. He","hack_2015",1,3
+"W. Bangerth","Y. He","hack_2015",1,3
+"A. Glerum","A. Tutu","hack_2016",1,1
+"A. Glerum","B. Smith","hack_2016",1,1
+"A. Glerum","C. Thieulot","hack_2016",1,5
+"A. Glerum","E. G. Puckett","hack_2016",1,4
+"A. Glerum","H. Lokavarapu","hack_2016",1,2
+"A. Glerum","I. Rose","hack_2016",1,4
+"A. Glerum","J. Austermann","hack_2016",1,5
+"A. Glerum","J. Naliboff","hack_2016",1,3
+"A. Glerum","J. M. Robey","hack_2016",1,1
+"A. Glerum","J. Dannberg","hack_2016",1,5
+"A. Glerum","L. Hwang","hack_2016",1,4
+"A. Glerum","L. H. Kellogg","hack_2016",1,2
+"A. Glerum","M. Fraters","hack_2016",1,5
+"A. Glerum","R. Gassmöller","hack_2016",1,5
+"A. Glerum","S. P. Cox","hack_2016",1,1
+"A. Glerum","S. Liu","hack_2016",1,3
+"A. Glerum","T. Rajaonarison","hack_2016",1,1
+"A. Glerum","T. Heister","hack_2016",1,5
+"A. Glerum","W. Bangerth","hack_2016",1,5
+"A. Glerum","Y. He","hack_2016",1,3
+"A. Tutu","B. Smith","hack_2016",1,1
+"A. Tutu","C. Thieulot","hack_2016",1,1
+"A. Tutu","E. G. Puckett","hack_2016",1,1
+"A. Tutu","H. Lokavarapu","hack_2016",1,1
+"A. Tutu","I. Rose","hack_2016",1,1
+"A. Tutu","J. Austermann","hack_2016",1,1
+"A. Tutu","J. Naliboff","hack_2016",1,1
+"A. Tutu","J. M. Robey","hack_2016",1,1
+"A. Tutu","J. Dannberg","hack_2016",1,1
+"A. Tutu","L. Hwang","hack_2016",1,1
+"A. Tutu","L. H. Kellogg","hack_2016",1,1
+"A. Tutu","M. Fraters","hack_2016",1,1
+"A. Tutu","R. Gassmöller","hack_2016",1,1
+"A. Tutu","S. P. Cox","hack_2016",1,1
+"A. Tutu","S. Liu","hack_2016",1,1
+"A. Tutu","T. Rajaonarison","hack_2016",1,1
+"A. Tutu","T. Heister","hack_2016",1,1
+"A. Tutu","W. Bangerth","hack_2016",1,1
+"A. Tutu","Y. He","hack_2016",1,1
+"B. Smith","C. Thieulot","hack_2016",1,1
+"B. Smith","E. G. Puckett","hack_2016",1,1
+"B. Smith","H. Lokavarapu","hack_2016",1,1
+"B. Smith","I. Rose","hack_2016",1,1
+"B. Smith","J. Austermann","hack_2016",1,1
+"B. Smith","J. Naliboff","hack_2016",1,1
+"B. Smith","J. M. Robey","hack_2016",1,1
+"B. Smith","J. Dannberg","hack_2016",1,1
+"B. Smith","L. Hwang","hack_2016",1,1
+"B. Smith","L. H. Kellogg","hack_2016",1,1
+"B. Smith","M. Fraters","hack_2016",1,1
+"B. Smith","R. Gassmöller","hack_2016",1,1
+"B. Smith","S. P. Cox","hack_2016",1,1
+"B. Smith","S. Liu","hack_2016",1,1
+"B. Smith","T. Rajaonarison","hack_2016",1,1
+"B. Smith","T. Heister","hack_2016",1,1
+"B. Smith","W. Bangerth","hack_2016",1,1
+"B. Smith","Y. He","hack_2016",1,1
+"C. Thieulot","E. G. Puckett","hack_2016",1,4
+"C. Thieulot","H. Lokavarapu","hack_2016",1,2
+"C. Thieulot","I. Rose","hack_2016",1,4
+"C. Thieulot","J. Austermann","hack_2016",1,5
+"C. Thieulot","J. Naliboff","hack_2016",1,3
+"C. Thieulot","J. M. Robey","hack_2016",1,1
+"C. Thieulot","J. Dannberg","hack_2016",1,5
+"C. Thieulot","L. Hwang","hack_2016",1,4
+"C. Thieulot","L. H. Kellogg","hack_2016",1,2
+"C. Thieulot","M. Fraters","hack_2016",1,5
+"C. Thieulot","R. Gassmöller","hack_2016",1,5
+"C. Thieulot","S. P. Cox","hack_2016",1,1
+"C. Thieulot","S. Liu","hack_2016",1,3
+"C. Thieulot","T. Rajaonarison","hack_2016",1,1
+"C. Thieulot","T. Heister","hack_2016",1,5
+"C. Thieulot","W. Bangerth","hack_2016",1,5
+"C. Thieulot","Y. He","hack_2016",1,3
+"E. G. Puckett","H. Lokavarapu","hack_2016",1,2
+"E. G. Puckett","I. Rose","hack_2016",1,3
+"E. G. Puckett","J. Austermann","hack_2016",1,4
+"E. G. Puckett","J. Naliboff","hack_2016",1,3
+"E. G. Puckett","J. M. Robey","hack_2016",1,1
+"E. G. Puckett","J. Dannberg","hack_2016",1,4
+"E. G. Puckett","L. Hwang","hack_2016",1,4
+"E. G. Puckett","L. H. Kellogg","hack_2016",1,2
+"E. G. Puckett","M. Fraters","hack_2016",1,4
+"E. G. Puckett","R. Gassmöller","hack_2016",1,4
+"E. G. Puckett","S. P. Cox","hack_2016",1,1
+"E. G. Puckett","S. Liu","hack_2016",1,3
+"E. G. Puckett","T. Rajaonarison","hack_2016",1,1
+"E. G. Puckett","T. Heister","hack_2016",1,4
+"E. G. Puckett","W. Bangerth","hack_2016",1,4
+"E. G. Puckett","Y. He","hack_2016",1,3
+"H. Lokavarapu","I. Rose","hack_2016",1,2
+"H. Lokavarapu","J. Austermann","hack_2016",1,2
+"H. Lokavarapu","J. Naliboff","hack_2016",1,2
+"H. Lokavarapu","J. M. Robey","hack_2016",1,1
+"H. Lokavarapu","J. Dannberg","hack_2016",1,2
+"H. Lokavarapu","L. Hwang","hack_2016",1,2
+"H. Lokavarapu","L. H. Kellogg","hack_2016",1,1
+"H. Lokavarapu","M. Fraters","hack_2016",1,2
+"H. Lokavarapu","R. Gassmöller","hack_2016",1,2
+"H. Lokavarapu","S. P. Cox","hack_2016",1,1
+"H. Lokavarapu","S. Liu","hack_2016",1,2
+"H. Lokavarapu","T. Rajaonarison","hack_2016",1,1
+"H. Lokavarapu","T. Heister","hack_2016",1,2
+"H. Lokavarapu","W. Bangerth","hack_2016",1,2
+"H. Lokavarapu","Y. He","hack_2016",1,2
+"I. Rose","J. Austermann","hack_2016",1,4
+"I. Rose","J. Naliboff","hack_2016",1,2
+"I. Rose","J. M. Robey","hack_2016",1,1
+"I. Rose","J. Dannberg","hack_2016",1,4
+"I. Rose","L. Hwang","hack_2016",1,3
+"I. Rose","L. H. Kellogg","hack_2016",1,2
+"I. Rose","M. Fraters","hack_2016",1,4
+"I. Rose","R. Gassmöller","hack_2016",1,4
+"I. Rose","S. P. Cox","hack_2016",1,1
+"I. Rose","S. Liu","hack_2016",1,3
+"I. Rose","T. Rajaonarison","hack_2016",1,1
+"I. Rose","T. Heister","hack_2016",1,4
+"I. Rose","W. Bangerth","hack_2016",1,4
+"I. Rose","Y. He","hack_2016",1,3
+"J. Austermann","J. Naliboff","hack_2016",1,3
+"J. Austermann","J. M. Robey","hack_2016",1,1
+"J. Austermann","J. Dannberg","hack_2016",1,5
+"J. Austermann","L. Hwang","hack_2016",1,4
+"J. Austermann","L. H. Kellogg","hack_2016",1,2
+"J. Austermann","M. Fraters","hack_2016",1,5
+"J. Austermann","R. Gassmöller","hack_2016",1,5
+"J. Austermann","S. P. Cox","hack_2016",1,1
+"J. Austermann","S. Liu","hack_2016",1,3
+"J. Austermann","T. Rajaonarison","hack_2016",1,1
+"J. Austermann","T. Heister","hack_2016",1,5
+"J. Austermann","W. Bangerth","hack_2016",1,5
+"J. Austermann","Y. He","hack_2016",1,3
+"J. Naliboff","J. M. Robey","hack_2016",1,1
+"J. Naliboff","J. Dannberg","hack_2016",1,3
+"J. Naliboff","L. Hwang","hack_2016",1,3
+"J. Naliboff","L. H. Kellogg","hack_2016",1,1
+"J. Naliboff","M. Fraters","hack_2016",1,3
+"J. Naliboff","R. Gassmöller","hack_2016",1,3
+"J. Naliboff","S. P. Cox","hack_2016",1,1
+"J. Naliboff","S. Liu","hack_2016",1,2
+"J. Naliboff","T. Rajaonarison","hack_2016",1,1
+"J. Naliboff","T. Heister","hack_2016",1,3
+"J. Naliboff","W. Bangerth","hack_2016",1,3
+"J. Naliboff","Y. He","hack_2016",1,2
+"J. M. Robey","J. Dannberg","hack_2016",1,1
+"J. M. Robey","L. Hwang","hack_2016",1,1
+"J. M. Robey","L. H. Kellogg","hack_2016",1,1
+"J. M. Robey","M. Fraters","hack_2016",1,1
+"J. M. Robey","R. Gassmöller","hack_2016",1,1
+"J. M. Robey","S. P. Cox","hack_2016",1,1
+"J. M. Robey","S. Liu","hack_2016",1,1
+"J. M. Robey","T. Rajaonarison","hack_2016",1,1
+"J. M. Robey","T. Heister","hack_2016",1,1
+"J. M. Robey","W. Bangerth","hack_2016",1,1
+"J. M. Robey","Y. He","hack_2016",1,1
+"J. Dannberg","L. Hwang","hack_2016",1,4
+"J. Dannberg","L. H. Kellogg","hack_2016",1,2
+"J. Dannberg","M. Fraters","hack_2016",1,5
+"J. Dannberg","R. Gassmöller","hack_2016",1,5
+"J. Dannberg","S. P. Cox","hack_2016",1,1
+"J. Dannberg","S. Liu","hack_2016",1,3
+"J. Dannberg","T. Rajaonarison","hack_2016",1,1
+"J. Dannberg","T. Heister","hack_2016",1,5
+"J. Dannberg","W. Bangerth","hack_2016",1,5
+"J. Dannberg","Y. He","hack_2016",1,3
+"L. Hwang","L. H. Kellogg","hack_2016",1,2
+"L. Hwang","M. Fraters","hack_2016",1,4
+"L. Hwang","R. Gassmöller","hack_2016",1,4
+"L. Hwang","S. P. Cox","hack_2016",1,1
+"L. Hwang","S. Liu","hack_2016",1,3
+"L. Hwang","T. Rajaonarison","hack_2016",1,1
+"L. Hwang","T. Heister","hack_2016",1,4
+"L. Hwang","W. Bangerth","hack_2016",1,4
+"L. Hwang","Y. He","hack_2016",1,3
+"L. H. Kellogg","M. Fraters","hack_2016",1,2
+"L. H. Kellogg","R. Gassmöller","hack_2016",1,2
+"L. H. Kellogg","S. P. Cox","hack_2016",1,1
+"L. H. Kellogg","S. Liu","hack_2016",1,2
+"L. H. Kellogg","T. Rajaonarison","hack_2016",1,1
+"L. H. Kellogg","T. Heister","hack_2016",1,2
+"L. H. Kellogg","W. Bangerth","hack_2016",1,2
+"L. H. Kellogg","Y. He","hack_2016",1,2
+"M. Fraters","R. Gassmöller","hack_2016",1,5
+"M. Fraters","S. P. Cox","hack_2016",1,1
+"M. Fraters","S. Liu","hack_2016",1,3
+"M. Fraters","T. Rajaonarison","hack_2016",1,1
+"M. Fraters","T. Heister","hack_2016",1,5
+"M. Fraters","W. Bangerth","hack_2016",1,5
+"M. Fraters","Y. He","hack_2016",1,3
+"R. Gassmöller","S. P. Cox","hack_2016",1,1
+"R. Gassmöller","S. Liu","hack_2016",1,3
+"R. Gassmöller","T. Rajaonarison","hack_2016",1,1
+"R. Gassmöller","T. Heister","hack_2016",1,5
+"R. Gassmöller","W. Bangerth","hack_2016",1,5
+"R. Gassmöller","Y. He","hack_2016",1,3
+"S. P. Cox","S. Liu","hack_2016",1,1
+"S. P. Cox","T. Rajaonarison","hack_2016",1,1
+"S. P. Cox","T. Heister","hack_2016",1,1
+"S. P. Cox","W. Bangerth","hack_2016",1,1
+"S. P. Cox","Y. He","hack_2016",1,1
+"S. Liu","T. Rajaonarison","hack_2016",1,1
+"S. Liu","T. Heister","hack_2016",1,3
+"S. Liu","W. Bangerth","hack_2016",1,3
+"S. Liu","Y. He","hack_2016",1,3
+"T. Rajaonarison","T. Heister","hack_2016",1,1
+"T. Rajaonarison","W. Bangerth","hack_2016",1,1
+"T. Rajaonarison","Y. He","hack_2016",1,1
+"T. Heister","W. Bangerth","hack_2016",1,5
+"T. Heister","Y. He","hack_2016",1,3
+"W. Bangerth","Y. He","hack_2016",1,3
+"A. Glerum","A. Saxena","hack_2017",1,2
+"A. Glerum","B. Myhill","hack_2017",1,3
+"A. Glerum","C. Thieulot","hack_2017",1,5
+"A. Glerum","E. G. Puckett","hack_2017",1,4
+"A. Glerum","H. Lokavarapu","hack_2017",1,2
+"A. Glerum","I. Rose","hack_2017",1,4
+"A. Glerum","J. Austermann","hack_2017",1,5
+"A. Glerum","J. Naliboff","hack_2017",1,3
+"A. Glerum","J. Schools","hack_2017",1,2
+"A. Glerum","J. Dannberg","hack_2017",1,5
+"A. Glerum","L. Hwang","hack_2017",1,4
+"A. Glerum","M. Weller","hack_2017",1,1
+"A. Glerum","M. Fraters","hack_2017",1,5
+"A. Glerum","P. Bremner","hack_2017",1,2
+"A. Glerum","R. Gassmöller","hack_2017",1,5
+"A. Glerum","R. Grove","hack_2017",1,3
+"A. Glerum","S. Liu","hack_2017",1,3
+"A. Glerum","T. Heister","hack_2017",1,5
+"A. Glerum","W. Bangerth","hack_2017",1,5
+"A. Glerum","Y. He","hack_2017",1,3
+"A. Saxena","B. Myhill","hack_2017",1,2
+"A. Saxena","C. Thieulot","hack_2017",1,2
+"A. Saxena","E. G. Puckett","hack_2017",1,2
+"A. Saxena","H. Lokavarapu","hack_2017",1,1
+"A. Saxena","I. Rose","hack_2017",1,1
+"A. Saxena","J. Austermann","hack_2017",1,2
+"A. Saxena","J. Naliboff","hack_2017",1,2
+"A. Saxena","J. Schools","hack_2017",1,2
+"A. Saxena","J. Dannberg","hack_2017",1,2
+"A. Saxena","L. Hwang","hack_2017",1,2
+"A. Saxena","M. Weller","hack_2017",1,1
+"A. Saxena","M. Fraters","hack_2017",1,2
+"A. Saxena","P. Bremner","hack_2017",1,2
+"A. Saxena","R. Gassmöller","hack_2017",1,2
+"A. Saxena","R. Grove","hack_2017",1,1
+"A. Saxena","S. Liu","hack_2017",1,1
+"A. Saxena","T. Heister","hack_2017",1,2
+"A. Saxena","W. Bangerth","hack_2017",1,2
+"A. Saxena","Y. He","hack_2017",1,1
+"B. Myhill","C. Thieulot","hack_2017",1,3
+"B. Myhill","E. G. Puckett","hack_2017",1,3
+"B. Myhill","H. Lokavarapu","hack_2017",1,1
+"B. Myhill","I. Rose","hack_2017",1,2
+"B. Myhill","J. Austermann","hack_2017",1,3
+"B. Myhill","J. Naliboff","hack_2017",1,2
+"B. Myhill","J. Schools","hack_2017",1,2
+"B. Myhill","J. Dannberg","hack_2017",1,3
+"B. Myhill","L. Hwang","hack_2017",1,3
+"B. Myhill","M. Weller","hack_2017",1,1
+"B. Myhill","M. Fraters","hack_2017",1,3
+"B. Myhill","P. Bremner","hack_2017",1,2
+"B. Myhill","R. Gassmöller","hack_2017",1,3
+"B. Myhill","R. Grove","hack_2017",1,2
+"B. Myhill","S. Liu","hack_2017",1,2
+"B. Myhill","T. Heister","hack_2017",1,3
+"B. Myhill","W. Bangerth","hack_2017",1,3
+"B. Myhill","Y. He","hack_2017",1,2
+"C. Thieulot","E. G. Puckett","hack_2017",1,4
+"C. Thieulot","H. Lokavarapu","hack_2017",1,2
+"C. Thieulot","I. Rose","hack_2017",1,4
+"C. Thieulot","J. Austermann","hack_2017",1,5
+"C. Thieulot","J. Naliboff","hack_2017",1,3
+"C. Thieulot","J. Schools","hack_2017",1,2
+"C. Thieulot","J. Dannberg","hack_2017",1,5
+"C. Thieulot","L. Hwang","hack_2017",1,4
+"C. Thieulot","M. Weller","hack_2017",1,1
+"C. Thieulot","M. Fraters","hack_2017",1,5
+"C. Thieulot","P. Bremner","hack_2017",1,2
+"C. Thieulot","R. Gassmöller","hack_2017",1,5
+"C. Thieulot","R. Grove","hack_2017",1,3
+"C. Thieulot","S. Liu","hack_2017",1,3
+"C. Thieulot","T. Heister","hack_2017",1,5
+"C. Thieulot","W. Bangerth","hack_2017",1,5
+"C. Thieulot","Y. He","hack_2017",1,3
+"E. G. Puckett","H. Lokavarapu","hack_2017",1,2
+"E. G. Puckett","I. Rose","hack_2017",1,3
+"E. G. Puckett","J. Austermann","hack_2017",1,4
+"E. G. Puckett","J. Naliboff","hack_2017",1,3
+"E. G. Puckett","J. Schools","hack_2017",1,2
+"E. G. Puckett","J. Dannberg","hack_2017",1,4
+"E. G. Puckett","L. Hwang","hack_2017",1,4
+"E. G. Puckett","M. Weller","hack_2017",1,1
+"E. G. Puckett","M. Fraters","hack_2017",1,4
+"E. G. Puckett","P. Bremner","hack_2017",1,2
+"E. G. Puckett","R. Gassmöller","hack_2017",1,4
+"E. G. Puckett","R. Grove","hack_2017",1,2
+"E. G. Puckett","S. Liu","hack_2017",1,3
+"E. G. Puckett","T. Heister","hack_2017",1,4
+"E. G. Puckett","W. Bangerth","hack_2017",1,4
+"E. G. Puckett","Y. He","hack_2017",1,3
+"H. Lokavarapu","I. Rose","hack_2017",1,2
+"H. Lokavarapu","J. Austermann","hack_2017",1,2
+"H. Lokavarapu","J. Naliboff","hack_2017",1,2
+"H. Lokavarapu","J. Schools","hack_2017",1,1
+"H. Lokavarapu","J. Dannberg","hack_2017",1,2
+"H. Lokavarapu","L. Hwang","hack_2017",1,2
+"H. Lokavarapu","M. Weller","hack_2017",1,1
+"H. Lokavarapu","M. Fraters","hack_2017",1,2
+"H. Lokavarapu","P. Bremner","hack_2017",1,1
+"H. Lokavarapu","R. Gassmöller","hack_2017",1,2
+"H. Lokavarapu","R. Grove","hack_2017",1,1
+"H. Lokavarapu","S. Liu","hack_2017",1,2
+"H. Lokavarapu","T. Heister","hack_2017",1,2
+"H. Lokavarapu","W. Bangerth","hack_2017",1,2
+"H. Lokavarapu","Y. He","hack_2017",1,2
+"I. Rose","J. Austermann","hack_2017",1,4
+"I. Rose","J. Naliboff","hack_2017",1,2
+"I. Rose","J. Schools","hack_2017",1,1
+"I. Rose","J. Dannberg","hack_2017",1,4
+"I. Rose","L. Hwang","hack_2017",1,3
+"I. Rose","M. Weller","hack_2017",1,1
+"I. Rose","M. Fraters","hack_2017",1,4
+"I. Rose","P. Bremner","hack_2017",1,1
+"I. Rose","R. Gassmöller","hack_2017",1,4
+"I. Rose","R. Grove","hack_2017",1,3
+"I. Rose","S. Liu","hack_2017",1,3
+"I. Rose","T. Heister","hack_2017",1,4
+"I. Rose","W. Bangerth","hack_2017",1,4
+"I. Rose","Y. He","hack_2017",1,3
+"J. Austermann","J. Naliboff","hack_2017",1,3
+"J. Austermann","J. Schools","hack_2017",1,2
+"J. Austermann","J. Dannberg","hack_2017",1,5
+"J. Austermann","L. Hwang","hack_2017",1,4
+"J. Austermann","M. Weller","hack_2017",1,1
+"J. Austermann","M. Fraters","hack_2017",1,5
+"J. Austermann","P. Bremner","hack_2017",1,2
+"J. Austermann","R. Gassmöller","hack_2017",1,5
+"J. Austermann","R. Grove","hack_2017",1,3
+"J. Austermann","S. Liu","hack_2017",1,3
+"J. Austermann","T. Heister","hack_2017",1,5
+"J. Austermann","W. Bangerth","hack_2017",1,5
+"J. Austermann","Y. He","hack_2017",1,3
+"J. Naliboff","J. Schools","hack_2017",1,2
+"J. Naliboff","J. Dannberg","hack_2017",1,3
+"J. Naliboff","L. Hwang","hack_2017",1,3
+"J. Naliboff","M. Weller","hack_2017",1,1
+"J. Naliboff","M. Fraters","hack_2017",1,3
+"J. Naliboff","P. Bremner","hack_2017",1,2
+"J. Naliboff","R. Gassmöller","hack_2017",1,3
+"J. Naliboff","R. Grove","hack_2017",1,1
+"J. Naliboff","S. Liu","hack_2017",1,2
+"J. Naliboff","T. Heister","hack_2017",1,3
+"J. Naliboff","W. Bangerth","hack_2017",1,3
+"J. Naliboff","Y. He","hack_2017",1,2
+"J. Schools","J. Dannberg","hack_2017",1,2
+"J. Schools","L. Hwang","hack_2017",1,2
+"J. Schools","M. Weller","hack_2017",1,1
+"J. Schools","M. Fraters","hack_2017",1,2
+"J. Schools","P. Bremner","hack_2017",1,2
+"J. Schools","R. Gassmöller","hack_2017",1,2
+"J. Schools","R. Grove","hack_2017",1,1
+"J. Schools","S. Liu","hack_2017",1,1
+"J. Schools","T. Heister","hack_2017",1,2
+"J. Schools","W. Bangerth","hack_2017",1,2
+"J. Schools","Y. He","hack_2017",1,1
+"J. Dannberg","L. Hwang","hack_2017",1,4
+"J. Dannberg","M. Weller","hack_2017",1,1
+"J. Dannberg","M. Fraters","hack_2017",1,5
+"J. Dannberg","P. Bremner","hack_2017",1,2
+"J. Dannberg","R. Gassmöller","hack_2017",1,5
+"J. Dannberg","R. Grove","hack_2017",1,3
+"J. Dannberg","S. Liu","hack_2017",1,3
+"J. Dannberg","T. Heister","hack_2017",1,5
+"J. Dannberg","W. Bangerth","hack_2017",1,5
+"J. Dannberg","Y. He","hack_2017",1,3
+"L. Hwang","M. Weller","hack_2017",1,1
+"L. Hwang","M. Fraters","hack_2017",1,4
+"L. Hwang","P. Bremner","hack_2017",1,2
+"L. Hwang","R. Gassmöller","hack_2017",1,4
+"L. Hwang","R. Grove","hack_2017",1,2
+"L. Hwang","S. Liu","hack_2017",1,3
+"L. Hwang","T. Heister","hack_2017",1,4
+"L. Hwang","W. Bangerth","hack_2017",1,4
+"L. Hwang","Y. He","hack_2017",1,3
+"M. Weller","M. Fraters","hack_2017",1,1
+"M. Weller","P. Bremner","hack_2017",1,1
+"M. Weller","R. Gassmöller","hack_2017",1,1
+"M. Weller","R. Grove","hack_2017",1,1
+"M. Weller","S. Liu","hack_2017",1,1
+"M. Weller","T. Heister","hack_2017",1,1
+"M. Weller","W. Bangerth","hack_2017",1,1
+"M. Weller","Y. He","hack_2017",1,1
+"M. Fraters","P. Bremner","hack_2017",1,2
+"M. Fraters","R. Gassmöller","hack_2017",1,5
+"M. Fraters","R. Grove","hack_2017",1,3
+"M. Fraters","S. Liu","hack_2017",1,3
+"M. Fraters","T. Heister","hack_2017",1,5
+"M. Fraters","W. Bangerth","hack_2017",1,5
+"M. Fraters","Y. He","hack_2017",1,3
+"P. Bremner","R. Gassmöller","hack_2017",1,2
+"P. Bremner","R. Grove","hack_2017",1,1
+"P. Bremner","S. Liu","hack_2017",1,1
+"P. Bremner","T. Heister","hack_2017",1,2
+"P. Bremner","W. Bangerth","hack_2017",1,2
+"P. Bremner","Y. He","hack_2017",1,1
+"R. Gassmöller","R. Grove","hack_2017",1,3
+"R. Gassmöller","S. Liu","hack_2017",1,3
+"R. Gassmöller","T. Heister","hack_2017",1,5
+"R. Gassmöller","W. Bangerth","hack_2017",1,5
+"R. Gassmöller","Y. He","hack_2017",1,3
+"R. Grove","S. Liu","hack_2017",1,2
+"R. Grove","T. Heister","hack_2017",1,3
+"R. Grove","W. Bangerth","hack_2017",1,3
+"R. Grove","Y. He","hack_2017",1,2
+"S. Liu","T. Heister","hack_2017",1,3
+"S. Liu","W. Bangerth","hack_2017",1,3
+"S. Liu","Y. He","hack_2017",1,3
+"T. Heister","W. Bangerth","hack_2017",1,5
+"T. Heister","Y. He","hack_2017",1,3
+"W. Bangerth","Y. He","hack_2017",1,3
+"A. Glerum","A. Saxena","hack_2018",1,2
+"A. Glerum","B. Niday","hack_2018",1,1
+"A. Glerum","B. Myhill","hack_2018",1,3
+"A. Glerum","C. Thieulot","hack_2018",1,5
+"A. Glerum","D. Peng","hack_2018",1,1
+"A. Glerum","E. G. Puckett","hack_2018",1,4
+"A. Glerum","E. Njinju","hack_2018",1,1
+"A. Glerum","H. Mark","hack_2018",1,1
+"A. Glerum","J. Austermann","hack_2018",1,5
+"A. Glerum","J. Naliboff","hack_2018",1,3
+"A. Glerum","J. Kay","hack_2018",1,1
+"A. Glerum","J. Schools","hack_2018",1,2
+"A. Glerum","J. Dannberg","hack_2018",1,5
+"A. Glerum","L. Hwang","hack_2018",1,4
+"A. Glerum","L. Jeanniot","hack_2018",1,1
+"A. Glerum","M. Thomas","hack_2018",1,1
+"A. Glerum","M. Fraters","hack_2018",1,5
+"A. Glerum","P. Bremner","hack_2018",1,2
+"A. Glerum","R. Gassmöller","hack_2018",1,5
+"A. Glerum","S. Coulson","hack_2018",1,1
+"A. Glerum","T. Heister","hack_2018",1,5
+"A. Glerum","W. Wang","hack_2018",1,1
+"A. Glerum","W. Bangerth","hack_2018",1,5
+"A. Saxena","B. Niday","hack_2018",1,1
+"A. Saxena","B. Myhill","hack_2018",1,2
+"A. Saxena","C. Thieulot","hack_2018",1,2
+"A. Saxena","D. Peng","hack_2018",1,1
+"A. Saxena","E. G. Puckett","hack_2018",1,2
+"A. Saxena","E. Njinju","hack_2018",1,1
+"A. Saxena","H. Mark","hack_2018",1,1
+"A. Saxena","J. Austermann","hack_2018",1,2
+"A. Saxena","J. Naliboff","hack_2018",1,2
+"A. Saxena","J. Kay","hack_2018",1,1
+"A. Saxena","J. Schools","hack_2018",1,2
+"A. Saxena","J. Dannberg","hack_2018",1,2
+"A. Saxena","L. Hwang","hack_2018",1,2
+"A. Saxena","L. Jeanniot","hack_2018",1,1
+"A. Saxena","M. Thomas","hack_2018",1,1
+"A. Saxena","M. Fraters","hack_2018",1,2
+"A. Saxena","P. Bremner","hack_2018",1,2
+"A. Saxena","R. Gassmöller","hack_2018",1,2
+"A. Saxena","S. Coulson","hack_2018",1,1
+"A. Saxena","T. Heister","hack_2018",1,2
+"A. Saxena","W. Wang","hack_2018",1,1
+"A. Saxena","W. Bangerth","hack_2018",1,2
+"B. Niday","B. Myhill","hack_2018",1,1
+"B. Niday","C. Thieulot","hack_2018",1,1
+"B. Niday","D. Peng","hack_2018",1,1
+"B. Niday","E. G. Puckett","hack_2018",1,1
+"B. Niday","E. Njinju","hack_2018",1,1
+"B. Niday","H. Mark","hack_2018",1,1
+"B. Niday","J. Austermann","hack_2018",1,1
+"B. Niday","J. Naliboff","hack_2018",1,1
+"B. Niday","J. Kay","hack_2018",1,1
+"B. Niday","J. Schools","hack_2018",1,1
+"B. Niday","J. Dannberg","hack_2018",1,1
+"B. Niday","L. Hwang","hack_2018",1,1
+"B. Niday","L. Jeanniot","hack_2018",1,1
+"B. Niday","M. Thomas","hack_2018",1,1
+"B. Niday","M. Fraters","hack_2018",1,1
+"B. Niday","P. Bremner","hack_2018",1,1
+"B. Niday","R. Gassmöller","hack_2018",1,1
+"B. Niday","S. Coulson","hack_2018",1,1
+"B. Niday","T. Heister","hack_2018",1,1
+"B. Niday","W. Wang","hack_2018",1,1
+"B. Niday","W. Bangerth","hack_2018",1,1
+"B. Myhill","C. Thieulot","hack_2018",1,3
+"B. Myhill","D. Peng","hack_2018",1,1
+"B. Myhill","E. G. Puckett","hack_2018",1,3
+"B. Myhill","E. Njinju","hack_2018",1,1
+"B. Myhill","H. Mark","hack_2018",1,1
+"B. Myhill","J. Austermann","hack_2018",1,3
+"B. Myhill","J. Naliboff","hack_2018",1,2
+"B. Myhill","J. Kay","hack_2018",1,1
+"B. Myhill","J. Schools","hack_2018",1,2
+"B. Myhill","J. Dannberg","hack_2018",1,3
+"B. Myhill","L. Hwang","hack_2018",1,3
+"B. Myhill","L. Jeanniot","hack_2018",1,1
+"B. Myhill","M. Thomas","hack_2018",1,1
+"B. Myhill","M. Fraters","hack_2018",1,3
+"B. Myhill","P. Bremner","hack_2018",1,2
+"B. Myhill","R. Gassmöller","hack_2018",1,3
+"B. Myhill","S. Coulson","hack_2018",1,1
+"B. Myhill","T. Heister","hack_2018",1,3
+"B. Myhill","W. Wang","hack_2018",1,1
+"B. Myhill","W. Bangerth","hack_2018",1,3
+"C. Thieulot","D. Peng","hack_2018",1,1
+"C. Thieulot","E. G. Puckett","hack_2018",1,4
+"C. Thieulot","E. Njinju","hack_2018",1,1
+"C. Thieulot","H. Mark","hack_2018",1,1
+"C. Thieulot","J. Austermann","hack_2018",1,5
+"C. Thieulot","J. Naliboff","hack_2018",1,3
+"C. Thieulot","J. Kay","hack_2018",1,1
+"C. Thieulot","J. Schools","hack_2018",1,2
+"C. Thieulot","J. Dannberg","hack_2018",1,5
+"C. Thieulot","L. Hwang","hack_2018",1,4
+"C. Thieulot","L. Jeanniot","hack_2018",1,1
+"C. Thieulot","M. Thomas","hack_2018",1,1
+"C. Thieulot","M. Fraters","hack_2018",1,5
+"C. Thieulot","P. Bremner","hack_2018",1,2
+"C. Thieulot","R. Gassmöller","hack_2018",1,5
+"C. Thieulot","S. Coulson","hack_2018",1,1
+"C. Thieulot","T. Heister","hack_2018",1,5
+"C. Thieulot","W. Wang","hack_2018",1,1
+"C. Thieulot","W. Bangerth","hack_2018",1,5
+"D. Peng","E. G. Puckett","hack_2018",1,1
+"D. Peng","E. Njinju","hack_2018",1,1
+"D. Peng","H. Mark","hack_2018",1,1
+"D. Peng","J. Austermann","hack_2018",1,1
+"D. Peng","J. Naliboff","hack_2018",1,1
+"D. Peng","J. Kay","hack_2018",1,1
+"D. Peng","J. Schools","hack_2018",1,1
+"D. Peng","J. Dannberg","hack_2018",1,1
+"D. Peng","L. Hwang","hack_2018",1,1
+"D. Peng","L. Jeanniot","hack_2018",1,1
+"D. Peng","M. Thomas","hack_2018",1,1
+"D. Peng","M. Fraters","hack_2018",1,1
+"D. Peng","P. Bremner","hack_2018",1,1
+"D. Peng","R. Gassmöller","hack_2018",1,1
+"D. Peng","S. Coulson","hack_2018",1,1
+"D. Peng","T. Heister","hack_2018",1,1
+"D. Peng","W. Wang","hack_2018",1,1
+"D. Peng","W. Bangerth","hack_2018",1,1
+"E. G. Puckett","E. Njinju","hack_2018",1,1
+"E. G. Puckett","H. Mark","hack_2018",1,1
+"E. G. Puckett","J. Austermann","hack_2018",1,4
+"E. G. Puckett","J. Naliboff","hack_2018",1,3
+"E. G. Puckett","J. Kay","hack_2018",1,1
+"E. G. Puckett","J. Schools","hack_2018",1,2
+"E. G. Puckett","J. Dannberg","hack_2018",1,4
+"E. G. Puckett","L. Hwang","hack_2018",1,4
+"E. G. Puckett","L. Jeanniot","hack_2018",1,1
+"E. G. Puckett","M. Thomas","hack_2018",1,1
+"E. G. Puckett","M. Fraters","hack_2018",1,4
+"E. G. Puckett","P. Bremner","hack_2018",1,2
+"E. G. Puckett","R. Gassmöller","hack_2018",1,4
+"E. G. Puckett","S. Coulson","hack_2018",1,1
+"E. G. Puckett","T. Heister","hack_2018",1,4
+"E. G. Puckett","W. Wang","hack_2018",1,1
+"E. G. Puckett","W. Bangerth","hack_2018",1,4
+"E. Njinju","H. Mark","hack_2018",1,1
+"E. Njinju","J. Austermann","hack_2018",1,1
+"E. Njinju","J. Naliboff","hack_2018",1,1
+"E. Njinju","J. Kay","hack_2018",1,1
+"E. Njinju","J. Schools","hack_2018",1,1
+"E. Njinju","J. Dannberg","hack_2018",1,1
+"E. Njinju","L. Hwang","hack_2018",1,1
+"E. Njinju","L. Jeanniot","hack_2018",1,1
+"E. Njinju","M. Thomas","hack_2018",1,1
+"E. Njinju","M. Fraters","hack_2018",1,1
+"E. Njinju","P. Bremner","hack_2018",1,1
+"E. Njinju","R. Gassmöller","hack_2018",1,1
+"E. Njinju","S. Coulson","hack_2018",1,1
+"E. Njinju","T. Heister","hack_2018",1,1
+"E. Njinju","W. Wang","hack_2018",1,1
+"E. Njinju","W. Bangerth","hack_2018",1,1
+"H. Mark","J. Austermann","hack_2018",1,1
+"H. Mark","J. Naliboff","hack_2018",1,1
+"H. Mark","J. Kay","hack_2018",1,1
+"H. Mark","J. Schools","hack_2018",1,1
+"H. Mark","J. Dannberg","hack_2018",1,1
+"H. Mark","L. Hwang","hack_2018",1,1
+"H. Mark","L. Jeanniot","hack_2018",1,1
+"H. Mark","M. Thomas","hack_2018",1,1
+"H. Mark","M. Fraters","hack_2018",1,1
+"H. Mark","P. Bremner","hack_2018",1,1
+"H. Mark","R. Gassmöller","hack_2018",1,1
+"H. Mark","S. Coulson","hack_2018",1,1
+"H. Mark","T. Heister","hack_2018",1,1
+"H. Mark","W. Wang","hack_2018",1,1
+"H. Mark","W. Bangerth","hack_2018",1,1
+"J. Austermann","J. Naliboff","hack_2018",1,3
+"J. Austermann","J. Kay","hack_2018",1,1
+"J. Austermann","J. Schools","hack_2018",1,2
+"J. Austermann","J. Dannberg","hack_2018",1,5
+"J. Austermann","L. Hwang","hack_2018",1,4
+"J. Austermann","L. Jeanniot","hack_2018",1,1
+"J. Austermann","M. Thomas","hack_2018",1,1
+"J. Austermann","M. Fraters","hack_2018",1,5
+"J. Austermann","P. Bremner","hack_2018",1,2
+"J. Austermann","R. Gassmöller","hack_2018",1,5
+"J. Austermann","S. Coulson","hack_2018",1,1
+"J. Austermann","T. Heister","hack_2018",1,5
+"J. Austermann","W. Wang","hack_2018",1,1
+"J. Austermann","W. Bangerth","hack_2018",1,5
+"J. Naliboff","J. Kay","hack_2018",1,1
+"J. Naliboff","J. Schools","hack_2018",1,2
+"J. Naliboff","J. Dannberg","hack_2018",1,3
+"J. Naliboff","L. Hwang","hack_2018",1,3
+"J. Naliboff","L. Jeanniot","hack_2018",1,1
+"J. Naliboff","M. Thomas","hack_2018",1,1
+"J. Naliboff","M. Fraters","hack_2018",1,3
+"J. Naliboff","P. Bremner","hack_2018",1,2
+"J. Naliboff","R. Gassmöller","hack_2018",1,3
+"J. Naliboff","S. Coulson","hack_2018",1,1
+"J. Naliboff","T. Heister","hack_2018",1,3
+"J. Naliboff","W. Wang","hack_2018",1,1
+"J. Naliboff","W. Bangerth","hack_2018",1,3
+"J. Kay","J. Schools","hack_2018",1,1
+"J. Kay","J. Dannberg","hack_2018",1,1
+"J. Kay","L. Hwang","hack_2018",1,1
+"J. Kay","L. Jeanniot","hack_2018",1,1
+"J. Kay","M. Thomas","hack_2018",1,1
+"J. Kay","M. Fraters","hack_2018",1,1
+"J. Kay","P. Bremner","hack_2018",1,1
+"J. Kay","R. Gassmöller","hack_2018",1,1
+"J. Kay","S. Coulson","hack_2018",1,1
+"J. Kay","T. Heister","hack_2018",1,1
+"J. Kay","W. Wang","hack_2018",1,1
+"J. Kay","W. Bangerth","hack_2018",1,1
+"J. Schools","J. Dannberg","hack_2018",1,2
+"J. Schools","L. Hwang","hack_2018",1,2
+"J. Schools","L. Jeanniot","hack_2018",1,1
+"J. Schools","M. Thomas","hack_2018",1,1
+"J. Schools","M. Fraters","hack_2018",1,2
+"J. Schools","P. Bremner","hack_2018",1,2
+"J. Schools","R. Gassmöller","hack_2018",1,2
+"J. Schools","S. Coulson","hack_2018",1,1
+"J. Schools","T. Heister","hack_2018",1,2
+"J. Schools","W. Wang","hack_2018",1,1
+"J. Schools","W. Bangerth","hack_2018",1,2
+"J. Dannberg","L. Hwang","hack_2018",1,4
+"J. Dannberg","L. Jeanniot","hack_2018",1,1
+"J. Dannberg","M. Thomas","hack_2018",1,1
+"J. Dannberg","M. Fraters","hack_2018",1,5
+"J. Dannberg","P. Bremner","hack_2018",1,2
+"J. Dannberg","R. Gassmöller","hack_2018",1,5
+"J. Dannberg","S. Coulson","hack_2018",1,1
+"J. Dannberg","T. Heister","hack_2018",1,5
+"J. Dannberg","W. Wang","hack_2018",1,1
+"J. Dannberg","W. Bangerth","hack_2018",1,5
+"L. Hwang","L. Jeanniot","hack_2018",1,1
+"L. Hwang","M. Thomas","hack_2018",1,1
+"L. Hwang","M. Fraters","hack_2018",1,4
+"L. Hwang","P. Bremner","hack_2018",1,2
+"L. Hwang","R. Gassmöller","hack_2018",1,4
+"L. Hwang","S. Coulson","hack_2018",1,1
+"L. Hwang","T. Heister","hack_2018",1,4
+"L. Hwang","W. Wang","hack_2018",1,1
+"L. Hwang","W. Bangerth","hack_2018",1,4
+"L. Jeanniot","M. Thomas","hack_2018",1,1
+"L. Jeanniot","M. Fraters","hack_2018",1,1
+"L. Jeanniot","P. Bremner","hack_2018",1,1
+"L. Jeanniot","R. Gassmöller","hack_2018",1,1
+"L. Jeanniot","S. Coulson","hack_2018",1,1
+"L. Jeanniot","T. Heister","hack_2018",1,1
+"L. Jeanniot","W. Wang","hack_2018",1,1
+"L. Jeanniot","W. Bangerth","hack_2018",1,1
+"M. Thomas","M. Fraters","hack_2018",1,1
+"M. Thomas","P. Bremner","hack_2018",1,1
+"M. Thomas","R. Gassmöller","hack_2018",1,1
+"M. Thomas","S. Coulson","hack_2018",1,1
+"M. Thomas","T. Heister","hack_2018",1,1
+"M. Thomas","W. Wang","hack_2018",1,1
+"M. Thomas","W. Bangerth","hack_2018",1,1
+"M. Fraters","P. Bremner","hack_2018",1,2
+"M. Fraters","R. Gassmöller","hack_2018",1,5
+"M. Fraters","S. Coulson","hack_2018",1,1
+"M. Fraters","T. Heister","hack_2018",1,5
+"M. Fraters","W. Wang","hack_2018",1,1
+"M. Fraters","W. Bangerth","hack_2018",1,5
+"P. Bremner","R. Gassmöller","hack_2018",1,2
+"P. Bremner","S. Coulson","hack_2018",1,1
+"P. Bremner","T. Heister","hack_2018",1,2
+"P. Bremner","W. Wang","hack_2018",1,1
+"P. Bremner","W. Bangerth","hack_2018",1,2
+"R. Gassmöller","S. Coulson","hack_2018",1,1
+"R. Gassmöller","T. Heister","hack_2018",1,5
+"R. Gassmöller","W. Wang","hack_2018",1,1
+"R. Gassmöller","W. Bangerth","hack_2018",1,5
+"S. Coulson","T. Heister","hack_2018",1,1
+"S. Coulson","W. Wang","hack_2018",1,1
+"S. Coulson","W. Bangerth","hack_2018",1,1
+"T. Heister","W. Wang","hack_2018",1,1
+"T. Heister","W. Bangerth","hack_2018",1,5
+"W. Wang","W. Bangerth","hack_2018",1,1
