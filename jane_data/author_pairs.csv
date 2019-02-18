@@ -1,0 +1,222 @@
+"Group.1","Group.2","co_authorships"
+"C. Hüttig","A. Glerum",1
+"C. R. Wilson","A. Glerum",1
+"C. Stein","A. Glerum",1
+"C. Thieulot","A. Glerum",1
+"D. R. Davies","A. Glerum",1
+"H. Samuel","A. Glerum",1
+"L. Noack","A. Glerum",1
+"N. Tosi","A. Glerum",1
+"P. Maierová","A. Glerum",1
+"S. C. Kramer","A. Glerum",1
+"D. Pollard","A. M. Forte",1
+"J. Austermann","A. M. Forte",1
+"J. X. Mitrovica","A. M. Forte",1
+"R. Moucha","A. M. Forte",1
+"J. Austermann","A. Rovere",1
+"J. X. Mitrovica","A. Rovere",1
+"P. Huybers","A. Rovere",1
+"A. Glerum","A. Rozel",1
+"C. Hüttig","A. Rozel",1
+"C. R. Wilson","A. Rozel",1
+"C. Stein","A. Rozel",1
+"C. Thieulot","A. Rozel",1
+"D. R. Davies","A. Rozel",1
+"H. Samuel","A. Rozel",1
+"L. Noack","A. Rozel",1
+"M. Fraters","A. Rozel",1
+"N. Tosi","A. Rozel",1
+"P. Maierová","A. Rozel",1
+"S. C. Kramer","A. Rozel",1
+"W. Spakman","A. Rozel",1
+"B. Steinberger","A. Schaeffer",1
+"E. Bredow","A. Schaeffer",1
+"S. Lebedev","A. Schaeffer",1
+"I. Rose","B. Buffett",2
+"E. Bredow","B. Steinberger",3
+"J. Dannberg","B. Steinberger",1
+"R. Gassmöller","B. Steinberger",1
+"A. Glerum","C. Blom",1
+"C. Thieulot","C. Blom",1
+"M. Fraters","C. Blom",1
+"C. Stein","C. Hüttig",1
+"L. Noack","C. Hüttig",1
+"N. Tosi","C. Hüttig",1
+"S. Zhang","C. O'Neill",1
+"C. Hüttig","C. R. Wilson",1
+"C. Stein","C. R. Wilson",1
+"D. R. Davies","C. R. Wilson",1
+"H. Samuel","C. R. Wilson",1
+"L. Noack","C. R. Wilson",1
+"N. Tosi","C. R. Wilson",1
+"P. Maierová","C. R. Wilson",1
+"N. Tosi","C. Stein",1
+"A. Glerum","C. Thieulot",1
+"C. Hüttig","C. Thieulot",1
+"C. R. Wilson","C. Thieulot",1
+"C. Stein","C. Thieulot",1
+"D. R. Davies","C. Thieulot",1
+"H. Samuel","C. Thieulot",1
+"L. Noack","C. Thieulot",1
+"N. Tosi","C. Thieulot",1
+"P. Maierová","C. Thieulot",1
+"S. C. Kramer","C. Thieulot",1
+"A. M. Forte","D. B. Rowley",1
+"D. Pollard","D. B. Rowley",1
+"J. Austermann","D. B. Rowley",1
+"J. X. Mitrovica","D. B. Rowley",1
+"R. M. DeConto","D. B. Rowley",1
+"R. Moucha","D. B. Rowley",1
+"E. G. Puckett","D. L. Turcotte",1
+"J. Austermann","D. Pollard",1
+"C. Hüttig","D. R. Davies",1
+"C. Stein","D. R. Davies",1
+"H. Samuel","D. R. Davies",1
+"L. Noack","D. R. Davies",1
+"N. Tosi","D. R. Davies",1
+"P. Maierová","D. R. Davies",1
+"B. Steinberger","E. Bredow",1
+"J. Dannberg","E. Bredow",1
+"R. Gassmöller","E. Bredow",1
+"Y. He","E. G. Puckett",1
+"D. L. Turcotte","H. Lokavarapu",1
+"E. G. Puckett","H. Lokavarapu",1
+"Y. He","H. Lokavarapu",1
+"C. Hüttig","H. Samuel",1
+"C. Stein","H. Samuel",1
+"L. Noack","H. Samuel",1
+"N. Tosi","H. Samuel",1
+"P. Maierová","H. Samuel",1
+"B. Steinberger","J. Dannberg",1
+"E. Bredow","J. Dannberg",1
+"R. Gassmöller","J. Dannberg",2
+"T. Heister","J. Dannberg",1
+"D. L. Turcotte","J. M. Robey",1
+"E. G. Puckett","J. M. Robey",1
+"H. Lokavarapu","J. M. Robey",1
+"Y. He","J. M. Robey",1
+"K. Takeyama","J. Makino",1
+"T. R. Saitoh","J. Makino",1
+"P. J. Heron","J. van Hunen",1
+"R. N. Pysklywec","J. van Hunen",1
+"R. Stephenson","J. van Hunen",1
+"D. Pollard","J. X. Mitrovica",1
+"J. Austermann","J. X. Mitrovica",2
+"D. L. Turcotte","L. H. Kellogg",1
+"E. G. Puckett","L. H. Kellogg",1
+"H. Lokavarapu","L. H. Kellogg",1
+"J. M. Robey","L. H. Kellogg",1
+"Y. He","L. H. Kellogg",1
+"C. Stein","L. Noack",1
+"N. Tosi","L. Noack",1
+"A. M. Forte","M. E. Raymo",1
+"D. B. Rowley","M. E. Raymo",1
+"D. Pollard","M. E. Raymo",1
+"J. Austermann","M. E. Raymo",1
+"J. X. Mitrovica","M. E. Raymo",1
+"R. M. DeConto","M. E. Raymo",1
+"R. Moucha","M. E. Raymo",1
+"A. Glerum","M. Fraters",2
+"C. Hüttig","M. Fraters",1
+"C. R. Wilson","M. Fraters",1
+"C. Stein","M. Fraters",1
+"C. Thieulot","M. Fraters",2
+"D. R. Davies","M. Fraters",1
+"H. Samuel","M. Fraters",1
+"L. Noack","M. Fraters",1
+"N. Tosi","M. Fraters",1
+"P. Maierová","M. Fraters",1
+"S. C. Kramer","M. Fraters",1
+"E. G. Puckett","M. I. Billen",1
+"Y. He","M. I. Billen",1
+"J. Austermann","P. Huybers",1
+"J. X. Mitrovica","P. Huybers",1
+"A. Glerum","P. J. Tackley",1
+"A. Rozel","P. J. Tackley",1
+"C. Hüttig","P. J. Tackley",1
+"C. R. Wilson","P. J. Tackley",1
+"C. Stein","P. J. Tackley",1
+"C. Thieulot","P. J. Tackley",1
+"D. R. Davies","P. J. Tackley",1
+"H. Samuel","P. J. Tackley",1
+"L. Noack","P. J. Tackley",1
+"M. Fraters","P. J. Tackley",1
+"N. Tosi","P. J. Tackley",1
+"P. Maierová","P. J. Tackley",1
+"S. C. Kramer","P. J. Tackley",1
+"W. Spakman","P. J. Tackley",1
+"C. Hüttig","P. Maierová",1
+"C. Stein","P. Maierová",1
+"L. Noack","P. Maierová",1
+"N. Tosi","P. Maierová",1
+"J. Dannberg","P. Moulik",1
+"R. Gassmöller","P. Moulik",1
+"U. Faul","P. Moulik",1
+"Z. Eilon","P. Moulik",1
+"B. Steinberger","R. Gassmöller",1
+"E. Bredow","R. Gassmöller",1
+"J. Dannberg","R. Gassmöller",3
+"T. Heister","R. Gassmöller",1
+"U. Faul","R. Gassmöller",1
+"Z. Eilon","R. Gassmöller",1
+"A. M. Forte","R. M. DeConto",1
+"D. Pollard","R. M. DeConto",1
+"J. Austermann","R. M. DeConto",1
+"J. X. Mitrovica","R. M. DeConto",1
+"R. Moucha","R. M. DeConto",1
+"D. Pollard","R. Moucha",1
+"J. Austermann","R. Moucha",1
+"J. X. Mitrovica","R. Moucha",1
+"J. Dannberg","R. Myhill",1
+"P. Moulik","R. Myhill",1
+"R. Gassmöller","R. Myhill",1
+"U. Faul","R. Myhill",1
+"Z. Eilon","R. Myhill",1
+"P. J. Heron","R. N. Pysklywec",1
+"P. J. Heron","R. Stephenson",1
+"R. N. Pysklywec","R. Stephenson",1
+"C. Hüttig","S. C. Kramer",1
+"C. R. Wilson","S. C. Kramer",1
+"C. Stein","S. C. Kramer",1
+"D. R. Davies","S. C. Kramer",1
+"H. Samuel","S. C. Kramer",1
+"L. Noack","S. C. Kramer",1
+"N. Tosi","S. C. Kramer",1
+"P. Maierová","S. C. Kramer",1
+"B. Steinberger","S. Lebedev",1
+"E. Bredow","S. Lebedev",1
+"C. O'Neill","S. Zhang",1
+"A. Schaeffer","T. H. Torsvik",1
+"B. Steinberger","T. H. Torsvik",2
+"E. Bredow","T. H. Torsvik",2
+"J. Dannberg","T. H. Torsvik",1
+"R. Gassmöller","T. H. Torsvik",1
+"S. Lebedev","T. H. Torsvik",1
+"B. Buffett","T. Heister",1
+"I. Rose","T. Heister",1
+"J. Dannberg","T. Heister",1
+"M. Kronbichler","T. Heister",1
+"K. Takeyama","T. R. Saitoh",1
+"J. Dannberg","U. Faul",1
+"Z. Eilon","U. Faul",1
+"J. Dannberg","W. Bangerth",1
+"M. Kronbichler","W. Bangerth",1
+"R. Gassmöller","W. Bangerth",1
+"T. Heister","W. Bangerth",2
+"A. Glerum","W. Spakman",2
+"C. Blom","W. Spakman",1
+"C. Hüttig","W. Spakman",1
+"C. R. Wilson","W. Spakman",1
+"C. Stein","W. Spakman",1
+"C. Thieulot","W. Spakman",2
+"D. R. Davies","W. Spakman",1
+"H. Samuel","W. Spakman",1
+"L. Noack","W. Spakman",1
+"M. Fraters","W. Spakman",2
+"N. Tosi","W. Spakman",1
+"P. Maierová","W. Spakman",1
+"S. C. Kramer","W. Spakman",1
+"D. L. Turcotte","Y. He",1
+"E. G. Puckett","Y. He",1
+"N. Zhang","Z-X Li",1
+"J. Dannberg","Z. Eilon",1
