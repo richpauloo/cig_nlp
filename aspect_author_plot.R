@@ -17,12 +17,18 @@ library(tidyr)
 library(scales)
 library(forcats)
 library(reshape2)
+library(visNetwork)
+library(RColorBrewer)
 
 setwd("~/Documents/DSI/cig_citation/")
 
 # 2. Aspect data  ----
 
 authors = read_xlsx("protoNetworkA_jc_edited.xlsx", sheet = 3); head(authors)
+
+# Late-add authors added below
+#J. Perry-Houts  (hack Participant 2015) & L. Karlstrom are co-authors
+#L. Schuurmans. Thesis (no co-authors)
 
 # -  Clean author names  ----
 aspect.bib = read.bib("bibtex_export only pubs.bib", encoding = "latin1") #had to add school placeholder 'test' for some articles so they'd load
@@ -40,8 +46,13 @@ aspect.authors.list = sapply(aspect.authors.list, function(x) {
 sort(table(unlist(aspect.authors.list)))
 #sapply(unlist(aspect.authors.list), iconv, to="ASCII//TRANSLIT")
 
-# Change Aspect authors to agree with hack list used later
+# Add new authors
 
+# Late-add authors
+#J. Perry-Houts  (hack Participant 2015) & L. Karlstrom are co-authors
+#L. Schuurmans. Thesis (no co-authors)
+aspect.authors.list$"Perry-Houts+Karlstrom2018" = c("J. Perry-Houts", "L. Karlstrom")
+aspect.authors.list$"Schuurmans2018" = "L. Schuurmans"
 
 # -  Convert to co-author network  ----
 author.pairs = lapply(aspect.authors.list, function(x) { if(length(x) > 1) {t(combn(x, 2))} else {NULL}})
@@ -58,10 +69,11 @@ plot(aspect.net)
 # Special authors
 V(aspect.net)$name_last = sapply(str_split(V(aspect.net)$name, " "), last)
 red = c("Bangerth", "Heister", "Gassmöller", "Dannberg") #Original Lead Developers
-brown = c("Glerum", "Fraters", "Austermann") #Added Principal Developers
+brown = c("Glerum", "Fraters", "Austermann", "Naliboff") #Added Principal Developers
 color.aspect = c("Other", "Original Lead Developers")[1 + rowSums(sapply(red, grepl, vertex_attr(aspect.net, "name")))]
 color.aspect[V(aspect.net)$name_last%in% brown] = "Added Principal Developers"
-
+red.rgb = "#990033"
+brown.rgb = "#ff5050"
 V(aspect.net)$Author_type =  color.aspect
 V(aspect.net)$Papers = table(unlist(aspect.authors.list))[V(aspect.net)$name]
 E(aspect.net)$co_authorships
@@ -70,23 +82,30 @@ author.plot = ggraph(aspect.net, layout = "kk") +
   geom_edge_link(aes(width = co_authorships), alpha = 1, color = "gray") +
   # for some reason edge width not working like it doesn in the plots below
   scale_edge_width(name = "Number of co-authorships", range=c(.2,2.8), breaks = c(1,2,3)) +
-  geom_node_point(aes(fill = Author_type, size = Papers), shape = 21, stroke = .5) + 
-  scale_fill_manual(values = c("#654321", "red", "white"),
+  geom_node_point(aes(fill = Author_type, size = Papers), shape = 21, stroke = .5, alpha = .5) + 
+  scale_fill_manual(values =  c(red.rgb, brown.rgb, "white"),
                     guide = guide_legend(title = "Author_type", order = 1)) + 
-  geom_node_text(aes(label = name), repel = TRUE, segment.alpha = .5, fontface = "bold") + 
   theme_bw() +
   theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
         axis.title.x = element_blank(), axis.title.y = element_blank(),
-        axis.ticks.x = element_blank(), axis.ticks.y = element_blank()) +
+        axis.ticks.x = element_blank(), axis.ticks.y = element_blank(),
+        panel.grid = element_blank()) +
   ggtitle("ASPECT Co-author Relationships")
 author.plot
 
+ggsave(plot = author.plot, "aspect_author_plot_no_labels.png", height = 10, width  = 10)
+
+# Add labels
+author.plot = author.plot + geom_node_text(aes(label = name), repel = TRUE, segment.alpha = .5, fontface = "bold")
 ggsave(plot = author.plot, "aspect_author_plot.png", height = 10, width  = 10)
 
 # 3. Hack data  ----
 
 hack = read_xlsx("protoNetworkA_jc_edited.xlsx", sheet = 4)[,1:7] #only care about hacks in first columns, not workships
 dim(hack)
+
+#Add one new hack participant (also added to authorlist)
+hack = rbind(hack, c("J. Perry-Houts", "Jonathan Perry-Houts, University of Oregon", NA, "X", NA, NA, NA))
 
 hack = hack %>% mutate(author = sapply(strsplit(Full_Name,","), first),
                        author_last = sapply(str_split(str_trim(author), " "), last),
@@ -137,29 +156,47 @@ color.hack[rowSums(sapply(brown, grepl, vertex_attr(hack.net, "name"))) == 1] = 
 V(hack.net)$Author_type = color.hack
 
 # Size nodes by hacks attended
-V(hack.net)$Hacks_attended = rowSums(hack[,3:7]=="X", na.rm = T)[rowSums(hack[,3:7]=="X", na.rm = T)>0]
+Hacks_attended =  rowSums(hack[,3:7]=="X", na.rm = T)[rowSums(hack[,3:7]=="X", na.rm = T)>0]
+names(Hacks_attended) = hack$name[rowSums(hack[,3:7]=="X", na.rm = T)>0]
+Hacks_attended = Hacks_attended[V(hack.net)$name]
+V(hack.net)$Hacks_attended = Hacks_attended
 
 plot(hack.net, edge.width = .3, edge.color = (hue_pal()(5))[as.numeric(as.factor(E(hack.net)$Relationship_type))], vertex.color = (hue_pal()(3))[as.numeric(as.factor(color.hack))], vertex.size = V(hack.net)$Hacks_attended)
 
 # -  Make nice hack plot ----
 
+set.seed(1) # so plot doesn't move when I re-plot since x and ylim are
 hack.plot = ggraph(hack.net, layout = 'nicely') + 
-  geom_edge_fan(aes(color = Relationship_type), width = .2) + #width = x
-  geom_node_point(aes(fill = Author_type, size = Hacks_attended), shape = 21, stroke = .5)  +
-  scale_fill_manual(values = c("#654321", "red", "gray"),
+  geom_edge_fan(aes(color = Relationship_type), width = .2, alpha = 1) + #width = x
+  scale_edge_color_brewer(palette = "Pastel1") +
+  #scale_edge_color_manual(values = c(rgb(85/255, 142/255, 213/255), 
+   #                             rgb(149/255, 55/255, 53/255), 
+    #                            rgb(119/255, 47/255, 60/255), 
+     #                           rgb(49/255, 133/255, 156/255), 
+      #                          rgb(228/255, 108/255, 10/255), 
+       #                         rgb(191/255, 153/255, 0/255)
+        #                        )) +
+  geom_node_point(aes(fill = Author_type, size = Hacks_attended, shape = Author_type), shape = 21, stroke = .5, alpha = .5)  +
+  scale_fill_manual(values = c(red.rgb, brown.rgb, "gray"),
                     guide = guide_legend(title = "Author_type", order = 1)) + 
   #scale_edge_width(range = c(.1,1.5)) + <- put in if we do geom_edge instead
   scale_size(range = c(4,9)) + 
-  geom_node_text(aes(label = name), repel = TRUE, segment.alpha = .5, fontface = "bold") + 
   theme_bw() +
+  xlim(0, 3.5) + 
+  ylim(-2, 2) + 
   theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
         axis.title.x = element_blank(), axis.title.y = element_blank(),
-        axis.ticks.x = element_blank(), axis.ticks.y = element_blank()) +
+        axis.ticks.x = element_blank(), axis.ticks.y = element_blank(),
+        panel.grid = element_blank()) +
   ggtitle("Co-hack Attendance Relationships")
 hack.plot
 
+ggsave(plot = hack.plot, "hack_plot_no_labels.png", height = 10, width  = 14)
+
+hack.plot = hack.plot + geom_node_text(aes(label = name), repel = TRUE, segment.alpha = .5, fontface = "bold")
 ggsave(plot = hack.plot, "hack_plot.png", height = 10, width  = 14)
 
+  
 # 4. Make combined net ----
 
 # Merged hacks into aggregate so it's not too busy
@@ -176,6 +213,16 @@ geo.net = graph_from_data_frame(author_hack.pairs,
 
 #    Make nice combined plot  ----
 
+# Stable layout from earlier plots
+
+layoutMatrix1 = 
+  rbind(cbind(name = hack.plot$data$name, hack.plot$data[,1:2]),
+        cbind(name = author.plot$data$name, author.plot$data[,1:2]))
+layoutMatrix1 = layoutMatrix1[!duplicated(layoutMatrix1$name),]
+# Check ordering
+layoutMatrix1[,1] == V(geo.net)$name
+layoutMatrix1 = data.frame(x = layoutMatrix1[,2], y = layoutMatrix1[,3])
+
 V(geo.net)$name_last = sapply(str_split(V(geo.net)$name, " "), last)
 # Special authors
 # see "red" and "brown" created above
@@ -187,22 +234,25 @@ V(geo.net)$Author_type =  color2
 V(geo.net)$Papers = table(unlist(aspect.authors.list))[V(geo.net)$name] 
 V(geo.net)$Papers = replace_na(V(geo.net)$Papers, replace = 0)
 
-geo.plot = ggraph(geo.net, layout = 'kk') + 
+geo.plot = ggraph(geo.net, layout = "manual", node.position = data.frame(layoutMatrix1)) + 
   geom_edge_fan(aes(color = Relationship_type, linetype = Relationship_type,
-                    width = Number_of_relationship_type), alpha = .7) +
+                    width = Number_of_relationship_type), alpha = .8) +
+  scale_edge_color_manual(values = c("gray", brewer.pal(5, "Pastel1")[2])) +
   scale_edge_width(range = c(.2,1)) +
-  geom_node_point(aes(fill = Author_type, size = Papers), shape = 21, stroke = .5)  + 
-  scale_fill_manual(values = c("#654321", "red", "white"),
+  geom_node_point(aes(fill = Author_type, size = Papers), shape = 21, stroke = .5, alpha = .5)  + 
+  scale_fill_manual(values = c(red.rgb, brown.rgb, "gray"),
                     guide = guide_legend(title = "Author_type", order = 1)) + 
-  geom_node_text(aes(label = name), repel = TRUE, segment.alpha = .5, fontface = "bold") + 
   theme_bw() +
   theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
         axis.title.x = element_blank(), axis.title.y = element_blank(),
-        axis.ticks.x = element_blank(), axis.ticks.y = element_blank()) + 
+        axis.ticks.x = element_blank(), axis.ticks.y = element_blank(),
+        panel.grid = element_blank()) + 
   ggtitle("Co-hack and ASPECT Co-author Relationships")
 
 geo.plot
+ggsave(plot = geo.plot, "author_and_hack_plot_no_labels.png", height = 10, width  = 14)
 
+geo.plot = geo.plot + geom_node_text(aes(label = name), repel = TRUE, segment.alpha = .5, fontface = "bold")
 ggsave(plot = geo.plot, "author_and_hack_plot.png", height = 10, width  = 14)
 
 # 5. Centrality measures ####
@@ -210,8 +260,15 @@ ggsave(plot = geo.plot, "author_and_hack_plot.png", height = 10, width  = 14)
 # Preliminary work, need to check how these igraph measures account for disconnected components, valued edges and mutli-edges
 
 #Change the net and title for each of the three plots generated
-net = geo.net; title1 = "Hack_and_Author_Network_Centrality_Measures"
 
+net.list = list(hack.net, aspect.net, geo.net)
+title.vec = c("Hack_Network_Centrality_Measures", "Author_Network_Centrality_Measures", "Hack_and_Author_Network_Centrality_Measures")
+
+for (i in 1:3) {
+
+  net = net.list[[i]]
+  title1 = title.vec[i]
+  
 centrality_measures = data.frame(
   name = V(net)$name,
   degree = rank(centralization.degree(net)$res),
@@ -232,3 +289,22 @@ ggplot(melt(centrality_measures, idvars = c('name', 'degree_rank'), value.name =
   
 ggsave(title1, device = "png")
   
+}
+# 6. Interactive (draft) ####
+
+net1 = geo.net
+V(net1)$color =  c(brown.rbg, red.rgb, "gray")[as.numeric(as.factor(V(net1)$Author_type))]
+V(net1)$color[V(net1)$name %in% V(hack.net)$name & V(net1)$color == "gray"] = "green" 
+V(net1)$label = V(net1)$name
+V(net1)$label.color = "black"
+V(net1)$size= 6
+V(net1)$label.cex = .3
+
+visIgraph(net1, idToLabel= FALSE, layoutMatrix = layoutMatrix1) %>%
+  visOptions(highlightNearest = list(enabled = TRUE, algorithm = "all", degree = list(from = 0, to = 0)),
+               nodesIdSelection = list(enabled = TRUE)) %>%
+  visInteraction(dragNodes = TRUE, 
+                 dragView = TRUE, 
+                 zoomView = TRUE)
+
+
