@@ -1,3 +1,4 @@
+##########################################################################
 # the purpose of this script is to take the output of 
 # `04_read_pdf_in_chunks.R` and: 
 # (1) identify which PDFs threw parsing errors on Read
@@ -5,37 +6,52 @@
 #     of each software mention. These will be input into the visualization
 #     functions written in `01_extract_mention_windows.Rds` based on
 #     incorrectly parsed PDFs via the `pdftools` package.
-
+##########################################################################
 # packages
-library(readr)
+library(XML)
 library(dplyr)
 
-x <- vector("list", length = 20)
+# tell R where to find the pdftohtml executable:
+options(PDFTOHTML = "/Users/richpauloo/Documents/GitHub/pdftohtml/src/pdftohtml")
 
-# develop an error handling appraoch to reading in XML files
-# because, for example, between 1:20, idices 10, 17 don't read in
-for(i in 1:20){
-  x[[i]] <- tryCatch(
-    {
-      print(paste(i, "Now reading:", fpxml[i]))
-      readPDFXML(fpxml[i])
-    },
-    error = function(cond){
-      message(paste(i, "Error reading:", fpxml[i]))
-      message(cond)
-      return(fpxml[i])
-    },
-    function(cond){
-      message(paste(i, "Warning reading:", fpxml[i]))
-      message(cond)
-      return(fpxml[i])
-    },
-    finally = {message(paste("Successfully read:", fpxml[i]))}
-  )
+# clone GH DSIProjects/ReadPDF/R for package functions, then
+# source all `.R` files into R 
+ff = list.files("/Users/richpauloo/Documents/Github/ReadPDF/R", 
+                pattern = "\\.R$", 
+                full = TRUE)
+invisible(lapply(ff, source))
+
+# read output of `getSectionText`: named lists
+fp <- list.files("/Users/richpauloo/Desktop/2019 Citation/Papers 2/data",
+                 pattern = "t", full = TRUE)
+d <- vector("list", length = length(fp))
+for(i in 1:length(d)){
+  d[[i]] <- readRDS(fp[i])
 }
+d <- do.call(c, d)
 
-# save failures
-fail <- unlist(x[sapply(x, is.character)])
+
+##########################################################################
+# Determine if errors came from `readPDFXML` or `getSectionText`
+##########################################################################
+
+# readPDFXML failures 
+fail_rpdf  <- list.files("/Users/richpauloo/Documents/Github/cig_nlp/readPDFXML_errors/pdf")
+
+# failures were observed during `getSectionText` when list length is 0 or 1, 
+# or the object size is prohibitively small to be a successful read
+# these two conditions are true for all failures
+sapply(d, function(x){ifelse(object.size(x) < 1000, TRUE, FALSE)}) ==  
+  sapply(d, function(x){length(x) %in% 0:1})
+
+# all pdf files
+af  <- list.files("/Users/richpauloo/Desktop/2019 Citation/Papers 2/all_papers")
+
+# getSectionText failures 
+fail_gst <- af[sapply(d, function(x){length(x) %in% 0:1})]
+
+# getSectionText failures that are NOT readPDFXML failures
+fail_gst_unique <- fail_gst[!fail_gst %in% fail_rpdf]
 
 
 
