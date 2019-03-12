@@ -90,10 +90,13 @@ for(i in 1:length(s)){
   s[[i]] <- as.data.frame(s[[i]]) %>% 
     tidyr::gather(section_name, text)
   s[[i]]$paper <- names(s)[i]
-  s[[i]] <- dplyr::select(s[[i]], paper, section_name, text)
 }
 
 df <- dplyr::bind_rows(s)
-
+df <- df %>% 
+  mutate(nchar = nchar(text),
+         text = substr(text, 1, 500)) %>% 
+  select(paper, section_name, nchar, text)
+  
 DT::datatable(df)
 ```

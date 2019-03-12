@@ -80,9 +80,49 @@ for(i in 1:length(s)){
 }
 
 df <- dplyr::bind_rows(s)
+df <- df %>% 
+  mutate(nchar = nchar(text),
+         text = substr(text, 1, 500),
+         section_name = tolower(section_name)) %>% 
+  select(paper, section_name, nchar, text)
 
-# save
-readr::write_csv(df, "/Users/richpauloo/Documents/Github/cig_nlp/rich_data/section_headers.csv")
+
+##########################################################################
+# Start cleaning
+##########################################################################
+
+# identify and label tables
+df <- mutate(df, section_name = ifelse(grepl("table", section_name), 
+                                       "table", 
+                                       section_name)) 
+
+# drop tables
+df <- filter(df, section_name != "table")
+
+# abstract/introduction
+s_intro <- df %>% 
+  group_by(paper) %>% 
+  summarise(x = first(section_name)) %>% 
+  pull(x) %>% 
+  unique()
+
+s_intro <- c("abstract","introduction","i.ntr.o.duction",
+             "introduction.","introduction.regarding.the.seismological.aspects",
+             "intr.oduction","motivation","introduction..","introduction.and.motivation",
+             "doi.10.1038.nature11932", "doi.10.1038.nature10749", 
+             "doi.10.1038.nature13728", "doi.", "doi.10.1038.nature12203")
+
+# results/discussion
+
+
+# references
+s_ref <- df %>% 
+  group_by(paper) %>% 
+  summarise(x = last(section_name)) %>% 
+  pull(x) %>% 
+  unique()
+
+
 
 
 
