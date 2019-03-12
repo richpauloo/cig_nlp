@@ -1,3 +1,17 @@
+---
+title: "CIG Section Headers"
+output: html_document
+---
+
+The data table below contains three columns:  
+
+1. paper name  
+2. section name  
+3. section text  
+
+There are multiple section names per paper, and the length of the section text varies greatly between sections. 
+
+```{r, warning = FALSE, message = FALSE, error = FALSE, echo=FALSE}
 ##########################################################################
 # the purpose of this script is to take the output of 
 # `04_read_pdf_in_chunks.R` and: 
@@ -57,7 +71,7 @@ names(s) <- success # label these list elements
 # some of the objects are very long lists, and break when you try to 
 # collapse their elements into a vector. I did some tests, and lists
 # with length > 75 cause this problem. This amounts to 7 elements
-sum(sapply(s, function(x){length(x) > 75}))
+#sum(sapply(s, function(x){length(x) > 75}))
 
 s <- s[sapply(s, function(x){length(x) <= 75})]
 
@@ -81,8 +95,5 @@ for(i in 1:length(s)){
 
 df <- dplyr::bind_rows(s)
 
-# save
-readr::write_csv(df, "/Users/richpauloo/Documents/Github/cig_nlp/rich_data/section_headers.csv")
-
-
-
+DT::datatable(df)
+```
