@@ -88,7 +88,7 @@ df <- df %>%
 
 
 ##########################################################################
-# Start cleaning
+# Find subset of papers from a big journal that `getSectionText` works on
 ##########################################################################
 
 # identify and label tables
@@ -99,28 +99,51 @@ df <- mutate(df, section_name = ifelse(grepl("table", section_name),
 # drop tables
 df <- filter(df, section_name != "table")
 
-# abstract/introduction
-s_intro <- df %>% 
-  group_by(paper) %>% 
-  summarise(x = first(section_name)) %>% 
-  pull(x) %>% 
-  unique()
 
-s_intro <- c("abstract","introduction","i.ntr.o.duction",
-             "introduction.","introduction.regarding.the.seismological.aspects",
-             "intr.oduction","motivation","introduction..","introduction.and.motivation",
-             "doi.10.1038.nature11932", "doi.10.1038.nature10749", 
-             "doi.10.1038.nature13728", "doi.", "doi.10.1038.nature12203")
+# join to journal names
+library(readr)
+pj_key <- read_csv("/Users/richpauloo/Documents/GitHub/cig_nlp/rich_data/paper_journal_key.csv")
+df <- left_join(df, pj_key, by = c("paper" = "file"))
 
-# results/discussion
+# Lorraine gave instructions on how to aggregate in bib_df_LJH.xlsx
+nature <- c("Nature Communications", "Nature Geoscience")
+geophy <- c("Journal of Geophysical Research: Solid Earth","Journal of Geophysical Research: Planets",
+            "Journal of Geophysical Research B", "Journal of Geophysical Research: Oceans",
+            "Journal of geophysical research.")
+df <- df %>% 
+  mutate(journal = case_when(journal %in% nature ~ "Nature",
+                             journal %in% geophy ~ "Journal of Geophysical Research",
+                             TRUE ~ journal))
+
+# most common journals to explore 
+data.frame(file = list.files("/Users/richpauloo/Desktop/2019 CItation/Papers/all_papers")) %>% 
+  left_join(pj_key, by = "file") %>% 
+  mutate(journal = case_when(journal %in% nature ~ "Nature",
+                             journal %in% geophy ~ "Journal of Geophysical Research",
+                             TRUE ~ journal)) %>% 
+  count(journal) %>% 
+  arrange(desc(n))
+
+# journal subsets: are there any that all parse well in ReadPDF?
+j1 <- filter(df, journal %in% "Geophysical Journal International")   # 54
+j2 <- filter(df, journal %in% "Journal of Geophysical Research")     # 34
+j3 <- filter(df, journal %in% "Earth and Planetary Science Letters") # 25
+j4 <- filter(df, journal %in% "Geochemistry Geophysics Geosystems")  # 20
+j5 <- filter(df, journal %in% "Geophysical Research Letters")        # 16
+j6 <- filter(df, journal %in% "Physics of the Earth and Planetary Interiors") # 13 
+
+# write
+write_csv(filter(j1, nchar >= 50), "/Users/richpauloo/Documents/GitHub/cig_nlp/rich_data/j1.csv")
+write_csv(filter(j2, nchar >= 50), "/Users/richpauloo/Documents/GitHub/cig_nlp/rich_data/j2.csv")
+write_csv(filter(j3, nchar >= 50), "/Users/richpauloo/Documents/GitHub/cig_nlp/rich_data/j3.csv")
 
 
-# references
-s_ref <- df %>% 
-  group_by(paper) %>% 
-  summarise(x = last(section_name)) %>% 
-  pull(x) %>% 
-  unique()
+##########################################################################
+# Result: j2 and j3 scrape well. Focus a subset analysis of section name
+# on these 2 journals
+##########################################################################
+
+
 
 
 

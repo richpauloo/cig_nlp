@@ -2,13 +2,15 @@ library(dplyr)
 library(RefManageR) # for formatting bibtex
 library(xlsx)
 library(colormap)
+library(ggplot2)
 
-fp <- "F:/Box Sync/2019 CItation/"
+# fp <- "F:/Box Sync/2019 CItation/" # work
+fp <- "/Users/richpauloo/Desktop/2019 Citation/"
 
 b1 <- ReadBib(paste0(fp, "2015 bibtex_export v2.bib")) %>% as.data.frame()
 b2 <- ReadBib(paste0(fp, "2016 bibtex_export v2.bib")) %>% as.data.frame()
 b3 <- ReadBib(paste0(fp, "2017 bibtex_export v2.bib")) %>% as.data.frame()
-b4 <- ReadBib(paste0(fp, "2018 bibtex_export v2.bib")) %>% as.data.frame()
+b4 <- ReadBib(paste0(fp, "2018 bibtex_export v3.bib")) %>% as.data.frame()
 
 b <- bind_rows(b1, b2, b3, b4)
 

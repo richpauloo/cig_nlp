@@ -50,11 +50,14 @@ cig <- c("ASPECT", "Aspect",
 
 
 ```{r}
-fp <- "C:/Users/rpauloo/Desktop/2019 CItation/Papers/" # PC
-# fp <- "/Users/richpauloo/Desktop/2019 CItation/Papers/" # Mac
+# fp <- "C:/Users/rpauloo/Desktop/2019 CItation/Papers/" # PC
+fp <- "/Users/richpauloo/Desktop/2019 CItation/Papers/" # Mac
 
 # paper names
 p <- list.files(paste0(fp, "all_papers")) 
+
+# make file-journal key
+# library(gtools); write_csv(data.frame(file = mixedsort(p)), path = "/Users/richpauloo/Documents/GitHub/cig_nlp/rich_data/paper_journal_key_2.csv")
 ```
 
 For one PDF, get vector of paper file names, read in the first one, tokenize sentences, and extract the mention window.
