@@ -143,9 +143,32 @@ write_csv(filter(j3, nchar >= 50), "/Users/richpauloo/Documents/GitHub/cig_nlp/r
 # on these 2 journals
 ##########################################################################
 
+# read manually entered section names j2: Journal of Geophysical Research
+j2 <- read_csv("/Users/richpauloo/Documents/Github/cig_nlp/rich_data/j2_clean.csv")
 
+# re-create the main data frame without truncated section text
+df <- dplyr::bind_rows(s)
 
+# subset all papers for papers in j2: Journal of Geophysical Research
+df2 <- df %>% filter(paper %in% unique(j2$paper))
 
+# make section names lower case to match the join
+df$section_name <- tolower(df$section_name)
 
+# join j2 the full section text
+j2 <- select(j2, paper, section_name, section_clean, journal)
+j2 <- left_join(j2, df, by = c("paper", "section_name"))
+
+# set factor levels for sections
+j2$section_clean <- factor(j2$section_clean, 
+                           levels = c("A", "I", "M", "RD", "C", "APX", "Z"))
+
+# combine groups within papers 
+j2 <- j2 %>% 
+  group_by(paper, section_clean, journal) %>% 
+  summarise(text = paste(text, collapse = " "))
+
+# export for script that find software mentions
+write_csv(j2, "/Users/richpauloo/Documents/GitHub/cig_nlp/rich_data/j2_ft.csv")
 
 
