@@ -4,13 +4,13 @@ library(xlsx)
 library(colormap)
 library(ggplot2)
 
-# fp <- "F:/Box Sync/2019 CItation/" # work
-fp <- "/Users/richpauloo/Desktop/2019 Citation/"
+fp <- "F:/Box Sync/2019 CItation/bib/" # work
+#fp <- "/Users/richpauloo/Desktop/2019 Citation/"
 
-b1 <- ReadBib(paste0(fp, "2015 bibtex_export v2.bib")) %>% as.data.frame()
-b2 <- ReadBib(paste0(fp, "2016 bibtex_export v2.bib")) %>% as.data.frame()
-b3 <- ReadBib(paste0(fp, "2017 bibtex_export v2.bib")) %>% as.data.frame()
-b4 <- ReadBib(paste0(fp, "2018 bibtex_export v3.bib")) %>% as.data.frame()
+b1 <- ReadBib(paste0(fp, "2015 bibtex_export v3.2.bib")) %>% as.data.frame()
+b2 <- ReadBib(paste0(fp, "2016 bibtex_export v2.2.bib")) %>% as.data.frame()
+b3 <- ReadBib(paste0(fp, "2017 bibtex_export v4.2.bib")) %>% as.data.frame()
+b4 <- ReadBib(paste0(fp, "2018 bibtex_export v4.2.bib")) %>% as.data.frame()
 
 b <- bind_rows(b1, b2, b3, b4)
 
@@ -38,12 +38,19 @@ b <- b %>% arrange(desc(n)) %>% select(bibtype:title, year:address, journal, n)
 # cutoff = 10 journals
 b <- b %>% mutate(journal = ifelse(n < 10, "ZZZ", journal))
 
+# total number of unique journals
+tu <- b %>% mutate(year = as.numeric(year)) %>% 
+  count(journal, year) %>% 
+  tidyr::spread(year, n)
+
+readr::write_csv(tu, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/total_uniqie_journals.csv")
+
 
 # papers published per year
 b %>% mutate(year = as.numeric(year)) %>% 
   filter(year >= 1990) %>% 
   count(year) %>% 
-  ggplot(aes(year, nn)) +
+  ggplot(aes(year, n)) +
   geom_line() +
   labs(x = "Year", y = "Count") +
   theme_minimal()
@@ -56,21 +63,22 @@ val <- colormap(colormap = colormaps$jet, nshades = length(nam)-1)
 
 # with other journals
 p1 <- b %>% mutate(year = as.numeric(year)) %>% 
-  filter(year >= 1990) %>% 
   count(journal, year) %>% 
-  ggplot(aes(year, nn, fill = journal)) +
+  ggplot(aes(year, n, fill = journal)) +
   geom_col() + 
   #scale_fill_viridis_d() +
   labs(x = "Year", y = "Count", fill = "Journal") +
   theme_minimal() +
   theme(legend.position = "bottom") +
-  scale_fill_manual(breaks = nam, labels = nam2, values = c(val, "grey50"))
+  scale_fill_manual(breaks = nam, labels = nam2, values = c(val, "grey50")) +
+  scale_x_continuous(breaks = as.numeric(sort(unique(b$year))),
+                     labels = sort(unique(b$year)))
 
 # without other journals
 p2 <- b %>% mutate(year = as.numeric(year)) %>% 
   filter(year >= 1990, journal != "ZZZ") %>% 
   count(journal, year) %>% 
-  ggplot(aes(year, nn, fill = journal)) +
+  ggplot(aes(year, n, fill = journal)) +
   geom_col() + 
   #scale_fill_viridis_d() +
   labs(x = "Year", y = "Count", fill = "Journal", caption = "'Other' journals (n = 257) not shown") +
@@ -82,7 +90,7 @@ p2 <- b %>% mutate(year = as.numeric(year)) %>%
 library(forcats)
 p3 <- count(b, journal) %>% 
   mutate(journal = ifelse(journal == "ZZZ", "Other", journal)) %>% 
-  ggplot(aes(x = fct_reorder(journal, nn), nn, fill = fct_reorder(journal, nn))) +
+  ggplot(aes(x = fct_reorder(journal, n), n, fill = fct_reorder(journal, n))) +
   geom_col() + 
   coord_flip() +
   scale_fill_viridis_d() +
@@ -93,7 +101,7 @@ p3 <- count(b, journal) %>%
 p4 <- count(b, journal) %>% 
   mutate(journal = ifelse(journal == "ZZZ", "Other", journal)) %>% 
   filter(journal != "Other") %>% 
-  ggplot(aes(x = fct_reorder(journal, nn), nn, fill = fct_reorder(journal, nn))) +
+  ggplot(aes(x = fct_reorder(journal, n), n, fill = fct_reorder(journal, n))) +
   geom_col() + 
   coord_flip() +
   scale_fill_viridis_d() +
