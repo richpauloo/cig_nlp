@@ -126,3 +126,46 @@ b %>% mutate(year = as.numeric(year)) %>%
   tidyr::spread(year, n) %>% 
   write.xlsx(., file = "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/annual_journal_count.xlsx")
 
+
+
+# repeat p1, but with optkeywords
+# papers per year per journal
+sort(unique(b$optkeywords))
+
+b <- b %>% 
+  mutate(optkeywords = case_when(optkeywords %in% c("CitcomS","CitComS","CitcomCU") ~ "Citicom",
+                                 optkeywords %in% c("inversion", "Plate reconstructions", "multiple", "Solar and Stellar Interiors","Solar and Stellar Interiors", "Sea-level change") ~ "Other",
+                                 optkeywords == "SEISMIC\\_CPML" ~ "SEISMIC CPML",
+                                 optkeywords %in% c("SPECFEM2D","SPECFEM3D","SPECFEM3D Cartesian","SPECFEM3D GEOTECH","SPECFEM3D GLOBE") ~ "SPECFEM",
+                                 is.na(optkeywords) ~ "Other",
+                                 TRUE ~ optkeywords))
+
+nam <- sort(unique(b$optkeywords))
+nam2 <- nam
+nam2[length(nam)] <- "Other"
+val <- colormap(colormap = colormaps$jet, nshades = length(nam)-1)
+
+
+p5 <- b %>% mutate(year = as.numeric(year)) %>% 
+  count(optkeywords, year) %>% 
+  ggplot(aes(year, n, fill = optkeywords)) +
+  geom_col() + 
+  #scale_fill_viridis_d() +
+  labs(x = "Year", y = "Count", fill = "Journal") +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  scale_fill_manual(breaks = nam, labels = nam2, values = c(val, "grey50")) +
+  scale_x_continuous(breaks = as.numeric(sort(unique(b$year))),
+                     labels = sort(unique(b$year))) +
+  guides(fill = guide_legend(nrow = 4))
+p5
+
+ggsave(p5, filename = "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/annual_software_count.pdf", device = cairo_pdf, width = 8, height= 6)
+
+# write the data in p1 to xlsx
+b %>% mutate(year = as.numeric(year)) %>% 
+  count(optkeywords, year) %>% 
+  tidyr::spread(year, n) %>% 
+  write.xlsx(., file = "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/annual_software_count.xlsx")
+
+
