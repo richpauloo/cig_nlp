@@ -43,7 +43,7 @@ tu <- b %>% mutate(year = as.numeric(year)) %>%
   count(journal, year) %>% 
   tidyr::spread(year, n)
 
-readr::write_csv(tu, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/total_uniqie_journals.csv")
+#readr::write_csv(tu, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/total_uniqie_journals.csv")
 
 
 # papers published per year
@@ -72,7 +72,9 @@ p1 <- b %>% mutate(year = as.numeric(year)) %>%
   theme(legend.position = "bottom") +
   scale_fill_manual(breaks = nam, labels = nam2, values = c(val, "grey50")) +
   scale_x_continuous(breaks = as.numeric(sort(unique(b$year))),
-                     labels = sort(unique(b$year)))
+                     labels = sort(unique(b$year))) +
+  guides(fill = guide_legend(nrow = 6))
+p1
 
 # without other journals
 p2 <- b %>% mutate(year = as.numeric(year)) %>% 
@@ -85,6 +87,7 @@ p2 <- b %>% mutate(year = as.numeric(year)) %>%
   theme_minimal() +
   theme(legend.position = "bottom") +
   scale_fill_manual(breaks = nam[-length(nam)], labels = nam2[-length(nam)], values = c(val))
+p2
 
 # aggreagting all, without other journals
 library(forcats)
@@ -97,6 +100,7 @@ p3 <- count(b, journal) %>%
   labs(x = "", y = "Count") +
   guides(fill = FALSE) +
   theme_minimal()
+p3
 
 p4 <- count(b, journal) %>% 
   mutate(journal = ifelse(journal == "ZZZ", "Other", journal)) %>% 
@@ -108,10 +112,17 @@ p4 <- count(b, journal) %>%
   labs(x = "", y = "Count", caption = "'Other' journals (n = 257) not shown") +
   guides(fill = FALSE) +
   theme_minimal() 
+p4
 
-
-ggsave(p1, filename = "annual_journal_count.pdf", device = cairo_pdf, width = 12, height= 12)
+ggsave(p1, filename = "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/annual_journal_count.pdf", device = cairo_pdf, width = 8, height= 6)
 ggsave(p2, filename = "annual_journal_count_no_other.pdf", device = cairo_pdf, width = 11, height= 7)
 ggsave(p3, filename = "all_journal_count.pdf", device = cairo_pdf, width = 11, height= 7)
 ggsave(p4, filename = "all_journal_count_no_other.pdf", device = cairo_pdf, width = 11, height= 7)
+
+
+# write the data in p1 to xlsx
+b %>% mutate(year = as.numeric(year)) %>% 
+  count(journal, year) %>% 
+  tidyr::spread(year, n) %>% 
+  write.xlsx(., file = "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/annual_journal_count.xlsx")
 
