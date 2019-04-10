@@ -35,6 +35,9 @@ b <- left_join(b, b_n, by = "journal")
 # arrange and reorganize columns for easy viewing
 b <- b %>% arrange(desc(n)) %>% select(bibtype:title, year:address, journal, n)
 
+# write to data frame for manual cleaning
+#write.xlsx(b, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/bib_df.xlsx", row.names = FALSE)
+
 # cutoff = 10 journals
 b <- b %>% mutate(journal = ifelse(n < 10, "ZZZ", journal))
 
