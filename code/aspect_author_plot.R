@@ -22,13 +22,14 @@ library(reshape2)
 library(visNetwork)
 library(RColorBrewer)
 library(grDevices)
+library(cowplot)
 
 setwd("~/Documents/DSI/cig_citation/")
 
 # ---------------------------- Original Data for Talk ---------------------------------------
 # 1. Aspect data  ----
 
-authors = read_xlsx("protoNetworkA_jc_edited.xlsx", sheet = 3); head(authors)
+authors = read_xlsx("protoNeptworkA_jc_edited.xlsx", sheet = 3); head(authors)
 
 # Late-add authors added below
 #J. Perry-Houts  (hack Participant 2015) & L. Karlstrom are co-authors
@@ -67,8 +68,11 @@ aspect.authors.list$"Perry-Houts+Karlstrom2018" = c("J. Perry-Houts", "L. Karlst
 aspect.authors.list$"Schuurmans2018" = "L. Schuurmans"
 # from: https://docs.google.com/document/d/1jCXNRsIAjVjS5Dz2PqwhZKlsodXaKSXbdz9jQArCHso/edit
 aspect.authors.list$"Bredow" = "E. Bredow"
-aspect.authors.list$"Corti+etal" = c("G. Corti, R. Cioni, Z. Franceschini, F. Sani, S. Scaillet, P. Molin, I. Isola, F. Mazzarini, S. Brune, D. Keir, A. Erbello, A. Muluneh, F. Illsley-Kemp, A. Glerum")
+aspect.authors.list$"Corti+etal" = c("G. Corti", "R. Cioni", "Z. Franceschini", "F. Sani", "S. Scaillet", "P. Molin", "I. Isola", "F. Mazzarini", "S. Brune",
+"D. Keir", "A. Erbello", "A. Muluneh", "F. Illsley-Kemp", "A. Glerum")
 aspect.authors.list$"Liu+King" = c("S. Liu", "S.D. King")
+aspect.authors.list$"Grove" = c("R.R. Grove")
+aspect.authors.list$"Perry-Houts" = c("J. Perry-Houts")
 
 # -  Convert to co-author network  ----
 author.pairs = lapply(aspect.authors.list, function(x) { if(length(x) > 1) {t(combn(x, 2))} else {NULL}})
@@ -97,23 +101,27 @@ E(aspect.net)$co_authorships
 author.plot = ggraph(aspect.net, layout = "kk") + 
   geom_edge_link(aes(width = co_authorships), alpha = 1, color = "gray") +
   # for some reason edge width not working like it doesn in the plots below
-  scale_edge_width(name = "Number of co-authorships", range=c(.2,2.8), breaks = c(1,2,3)) +
-  geom_node_point(aes(fill = Author_type, size = Papers), shape = 21, stroke = .5, alpha = .5) + 
+  scale_edge_width(name = "Number of co-authorships", range=c(.5,3), breaks = c(1,2,3)) +
+  geom_node_point(aes(fill = Author_type, size = Papers), shape = 21, stroke = .5, alpha = .8) + 
   scale_fill_manual(values =  c(red.rgb, brown.rgb, "white"),
-                    guide = guide_legend(title = "Author_type", order = 1)) + 
+                    guide = guide_legend(title = "Author type", override.aes = list(size = 5), order = 1)) + 
   theme_bw() +
   theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
         axis.title.x = element_blank(), axis.title.y = element_blank(),
         axis.ticks.x = element_blank(), axis.ticks.y = element_blank(),
-        panel.grid = element_blank()) +
+        panel.grid = element_blank(), 
+        legend.text = element_text(size = 14),
+        legend.title = element_text(size = 16),
+        title = element_text(size = 16)
+        ) +
   ggtitle("ASPECT Co-author Relationships")
 author.plot
 
-ggsave(plot = author.plot, "aspect_author_plot_no_labels.png", height = 10, width  = 10)
+ggsave(plot = author.plot, "aspect_author_plot_no_labels.png", height = 6, width  = 10)
 
 # Add labels
 author.plot = author.plot + geom_node_text(aes(label = name), repel = TRUE, segment.alpha = .5, fontface = "bold")
-ggsave(plot = author.plot, "aspect_author_plot.png", height = 10, width  = 10)
+ggsave(plot = author.plot, "aspect_author_plot.png", height = 6, width  = 10)
 
 # 2. Hack data  ----
 
@@ -183,8 +191,8 @@ plot(hack.net, edge.width = .3, edge.color = (hue_pal()(5))[as.numeric(as.factor
 
 set.seed(1) # so plot doesn't move when I re-plot since x and ylim are
 hack.plot = ggraph(hack.net, layout = 'nicely') + 
-  geom_edge_fan(aes(color = Relationship_type), width = .2, alpha = 1) + #width = x
-  scale_edge_color_brewer(palette = "Pastel1") +
+  geom_edge_fan(aes(color = Relationship_type), width = .5, alpha = 1) + #width = x
+  scale_edge_color_brewer(palette = "Pastel1", name =  "Relationship type") +
   #scale_edge_color_manual(values = c(rgb(85/255, 142/255, 213/255), 
    #                             rgb(149/255, 55/255, 53/255), 
     #                            rgb(119/255, 47/255, 60/255), 
@@ -194,23 +202,27 @@ hack.plot = ggraph(hack.net, layout = 'nicely') +
         #                        )) +
   geom_node_point(aes(fill = Author_type, size = Hacks_attended, shape = Author_type), shape = 21, stroke = .5, alpha = .5)  +
   scale_fill_manual(values = c(red.rgb, brown.rgb, "gray"),
-                    guide = guide_legend(title = "Author_type", order = 1)) + 
+                    guide = guide_legend(title = "Author type", override.aes = list(size = 5), order = 1)) + 
   #scale_edge_width(range = c(.1,1.5)) + <- put in if we do geom_edge instead
-  scale_size(range = c(4,9)) + 
+  scale_size(range = c(4,9), name = "Hack attended") + 
   theme_bw() +
   xlim(0, 3.5) + 
   ylim(-2, 2) + 
   theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
         axis.title.x = element_blank(), axis.title.y = element_blank(),
         axis.ticks.x = element_blank(), axis.ticks.y = element_blank(),
-        panel.grid = element_blank()) +
+        panel.grid = element_blank(),
+        legend.text = element_text(size = 14),
+        legend.title = element_text(size = 16),
+        title = element_text(size = 16)
+        ) +
   ggtitle("Co-hack Attendance Relationships")
 hack.plot
 
-ggsave(plot = hack.plot, "hack_plot_no_labels.png", height = 10, width  = 14)
+ggsave(plot = hack.plot, "hack_plot_no_labels.png", height = 8, width  = 12)
 
-hack.plot = hack.plot + geom_node_text(aes(label = name), repel = TRUE, segment.alpha = .5, fontface = "bold")
-ggsave(plot = hack.plot, "hack_plot.png", height = 10, width  = 14)
+hack.plot.label = hack.plot + geom_node_text(aes(label = name), repel = TRUE, segment.alpha = .5, fontface = "bold")
+ggsave(plot = hack.plot.label, "hack_plot.png", height = 8, width  = 12)
 
   
 # 3. Make combined net ----
@@ -252,24 +264,33 @@ V(geo.net)$Papers = replace_na(V(geo.net)$Papers, replace = 0)
 
 geo.plot = ggraph(geo.net, layout = "manual", node.position = data.frame(layoutMatrix1)) + 
   geom_edge_fan(aes(color = Relationship_type, linetype = Relationship_type,
-                    width = Number_of_relationship_type), alpha = .8) +
-  scale_edge_color_manual(values = c("gray", brewer.pal(5, "Pastel1")[2])) +
-  scale_edge_width(range = c(.2,1)) +
+                    width = Number_of_relationship_type), alpha = 1) +
+  scale_edge_color_manual(values = c("gray", brewer.pal(5, "Pastel1")[2]), name = "Relationship type") +
+  scale_edge_width(range = c(.5,2.5), name = "Number of relationship type") +
+  scale_edge_linetype(c("solid", "twodash"), name = "Relationship type") + 
   geom_node_point(aes(fill = Author_type, size = Papers), shape = 21, stroke = .5, alpha = .5)  + 
   scale_fill_manual(values = c(red.rgb, brown.rgb, "gray"),
-                    guide = guide_legend(title = "Author_type", order = 1)) + 
+                    guide = guide_legend(title = "Author type", override.aes = list(size = 5), order = 1)) + 
   theme_bw() +
   theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
         axis.title.x = element_blank(), axis.title.y = element_blank(),
         axis.ticks.x = element_blank(), axis.ticks.y = element_blank(),
-        panel.grid = element_blank()) + 
+        panel.grid = element_blank(),
+        legend.text = element_text(size = 14),
+        legend.title = element_text(size = 16),
+        title = element_text(size = 16)
+        ) + 
   ggtitle("Co-hack and ASPECT Co-author Relationships")
 
 geo.plot
-ggsave(plot = geo.plot, "author_and_hack_plot_no_labels.png", height = 10, width  = 14)
+ggsave(plot = geo.plot, "author_and_hack_plot_no_labels.png", height = 6, width = 12)
 
-geo.plot = geo.plot + geom_node_text(aes(label = name), repel = TRUE, segment.alpha = .5, fontface = "bold")
-ggsave(plot = geo.plot, "author_and_hack_plot.png", height = 10, width  = 14)
+geo.plot.label = geo.plot + geom_node_text(aes(label = name), repel = TRUE, segment.alpha = .5, fontface = "bold")
+ggsave(plot = geo.plot.label, "author_and_hack_plot.png", height = 6, width  = 12)
+
+# 3b. Make a joined hack and hack + author plot ----
+
+ggsave(plot_grid(hack.plot, geo.plot), filename = "hack_and_hackAuthor_plots.png", width = 18, height = 7)
 
 # 4. Centrality measures ####
 
@@ -375,11 +396,12 @@ write.csv(table(allauthors), "cig_allauthors.csv")
 
 # FIXED latest bibtek files based on "Instructions" column in cig_all_authors_JAC 2.csv (based on Lorraine's version of that file) except Li. P said "THROW THIS ONE OUT" why? I just changed it to Li, P.
 
-# Lorrain's list for the analysis (intentionally skipped 2016)
+# Lorrain's list for the analysis (added 2016 back in)
     # https://docs.google.com/document/d/1jCXNRsIAjVjS5Dz2PqwhZKlsodXaKSXbdz9jQArCHso/edit
     # "These should have the .bibs for the years 2010-2018."
 
 cig_2015 = bib_2_df(file = "data/2015 bibtex_export v4.2.bib") #Higher version numbers reflect my final cleaning
+cig_2016 = bib_2_df(file = "data/2016 bibtex_export v2.2.bib")
 cig_2017 = bib_2_df(file = "data/2017 bibtex_export v5.2.bib")
 cig_2018 = bib_2_df(file = "data/2018 bibtex_export v5.2.bib")
 
@@ -387,6 +409,7 @@ cig_2018 = bib_2_df(file = "data/2018 bibtex_export v5.2.bib")
 optkeywordvars = names(cig_2015[grepl("OPTKEYWORDS", x = names(cig_2015))])
 optkeywordvars[!optkeywordvars %in% names(cig_2017)]
 optkeywordvars[!optkeywordvars %in% names(cig_2018)]
+
 cig_2017 = cig_2017 %>% mutate("OPTKEYWORDS.2" = NA,
                                "OPTKEYWORDS.3" = NA,
                                "OPTKEYWORDS.4" = NA,
@@ -397,11 +420,11 @@ cig_2018 = cig_2018 %>% mutate("OPTKEYWORDS.2" = NA,
                                "OPTKEYWORDS.5" = NA)
 
 # Find common column names so we can rbind
-allnames = c(names(cig_2015), names(cig_2017), names(cig_2018))
-keepnames = names(table(allnames))[table(allnames)==3]
+allnames = c(names(cig_2015), names(cig_2016), names(cig_2017), names(cig_2018))
+keepnames = names(table(allnames))[table(allnames)==4]
 
 # use columns in all years
-cig_allyears = rbind(cig_2015[,keepnames], cig_2017[,keepnames], cig_2018[,keepnames])
+cig_allyears = rbind(cig_2015[,keepnames], cig_2016[,keepnames], cig_2017[,keepnames], cig_2018[,keepnames])
 cig_allyears  = cig_allyears[,!apply(cig_allyears, 2, function (x) sum(!is.na(x)))==0]
 write.csv(cig_allyears, "cig_allyears_v5.csv", row.names = F)
 
@@ -474,7 +497,6 @@ author.plot = ggraph(author.net, layout = "kk") +
         panel.grid = element_blank()) +
   ggtitle("Co-author Relationships 2010 - 2018")
 
-warnings() #unknown aes text is for the plotly below
 author.plot
 
 # interactive plot instead of labels ----
@@ -504,11 +526,9 @@ author.visNet$x$main = list(text = "Co-author Relationships 2010 - 2018", style 
 warnings()
 author.visNet
 
-#----------------------------- Keyword plots  ------------------------------------------------
+#---------------------------- Keyword plots  ------------------------------------------------
 
-# To do list instructions say "Create for all software packages." 
-# filter by a certain keyword
-
+# package list ----
 # i'll ignore case in searching for these
 packagelist = c(
 "ASPECT", #focus
@@ -529,9 +549,12 @@ packagelist = c(
 "Mineos",
 "SW4",
 "PyLith", #focus
-#"Virtual California", #Change to Virtual Quake?
+"Virtual Quake", #Change to Virtual Quake?
 "ConMan",
 "RELAX")
+
+PyLith_tutorial= read_xlsx("~/Documents/DSI/cig_citation/data/Tutorial atttendees.xlsx", sheet = "Authors only")
+names(PyLith_tutorial)
 
 # subset plot ----
 for (package in packagelist) {
@@ -591,6 +614,14 @@ for (package in packagelist) {
           V(package.net)$name %in% unique(unlist(split_names_sub2)) ] = "CitcomCU"
     V(package.net)$Author_type = tmp
   }
+  if (package == "PyLith") {
+    V(package.net)$name_last = gsub(x = sapply(str_split(V(package.net)$name, " "), first), ",", "")
+    red = c("Aagaard", "Knepley", "Williams") #develoepr
+    brown = PyLith_tutorial$Last
+    color.aspect = c("Other", "Developer")[1 + rowSums(sapply(red, grepl, vertex_attr(package.net, "name")))]
+    color.aspect[V(package.net)$name_last%in% brown & !V(package.net)$name_last%in% red] = "Participant"
+    V(package.net)$Author_type = color.aspect
+  }
   
   #fix package name for title in some cases
   if (package == "SEISMIC.*CPML") package = "SEISMIC_CPML" 
@@ -600,15 +631,17 @@ for (package in packagelist) {
   package.plot = ggraph(package.net, layout = "kk") + 
     geom_edge_link(aes(width = co_authorships), alpha = 1, color = "gray") +
     # for some reason edge width not working like it doesn in the plots below
-    scale_edge_width(name = "Number of co-authorships",
-                     range = c(.2, 2.8),
+    scale_edge_width(name = "Co-authorships",
+                     range = c(.5, 2.8),
                      breaks = 1:max(E(package.net)$co_authorships) 
                      ) +
     theme_bw() +
     theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
           axis.title.x = element_blank(), axis.title.y = element_blank(),
           axis.ticks.x = element_blank(), axis.ticks.y = element_blank(),
-          panel.grid = element_blank()) +
+          panel.grid = element_blank(),
+          legend.text = element_text(size = 12),
+          legend.title = element_text(size = 14)) +
     ggtitle(paste(package, "Co-author Relationships"))
   
   if (package == "ASPECT") {
@@ -616,21 +649,45 @@ for (package in packagelist) {
       geom_node_point(aes(fill = Author_type, size = Papers), color = "black", shape = 21,
                       stroke = .5, alpha = .5) + 
       scale_fill_manual(values =  c(red.rgb, brown.rgb, "white"),
-                      guide = guide_legend(title = "Author_type", order = 1))
-  } else if (package == "Citcom"){
+                      guide = guide_legend(title = "Author type", order = 1))
+  } else 
+  if (package == "PyLith") {
+      package.plot = package.plot + 
+        geom_node_point(aes(fill = Author_type, size = Papers), color = "black", shape = 21,
+                        stroke = .5, alpha = .5) + 
+        scale_fill_manual(values =  c("darkred", "white", "pink"),
+                          guide = guide_legend(title = "Author type", order = 1))
+  } else 
+  if (package == "Citcom"){
     package.plot = package.plot + 
       geom_node_point(aes(fill = Author_type, size = Papers), color = "black", shape = 21,
                       stroke = .5, alpha = .7) + 
-      scale_fill_manual(values =  c("darkred", "gray", "pink"),
-                        guide = guide_legend(title = "Author_type", order = 1))
+      scale_fill_manual(values =  c("darkred", "white", "pink"), 
+                        guide = guide_legend(title = "Author type", order = 1))
     
   } else {
     package.plot = package.plot + 
-      geom_node_point(aes(size = Papers), color = "black", fill, shape = 21,
+      geom_node_point(aes(size = Papers), color = "black", fill = "lightblue", shape = 21,
                     stroke = .5, alpha = .5)
   }
+  
+  #Adjust breaks for paper range
+  breaks1 = 1:max( V(package.net)$Papers)
+  if (max( V(package.net)$Papers) > 5) {
+    breaks1 = round(seq(1, max( V(package.net)$Papers), length.out = 5))
+  }
+  
+  package.plot = package.plot + scale_size(name = "Papers",
+             range = c(1,6), 
+             breaks = breaks1 )
+  
+ggsave(package.plot, filename = paste0("package_plots/", package, "_co_author_relationships", ".png"), width = 9)
 
-ggsave(package.plot, filename = paste0("package_plots/", package, "_co_author_relationships", ".png"))
+package.plot = package.plot + geom_node_text(aes(label = name), repel = TRUE, segment.alpha = .5, 
+                                             size = 2, fontface = "bold")
+
+ggsave(package.plot, filename = paste0("package_plots/LABELS_", package, "_co_author_relationships", ".png"), width = 9)
+
 
 }
 
