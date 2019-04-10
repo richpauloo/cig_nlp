@@ -50,8 +50,8 @@ cig <- c("ASPECT", "Aspect",
 
 
 ```{r}
-# fp <- "C:/Users/rpauloo/Desktop/2019 CItation/Papers/" # PC
-fp <- "/Users/richpauloo/Desktop/2019 CItation/Papers/" # Mac
+fp <- "F:/Box Sync/2019 CItation/Papers/" # PC
+#fp <- "/Users/richpauloo/Desktop/2019 CItation/Papers/" # Mac
 
 # paper names
 p <- list.files(paste0(fp, "all_papers")) 
@@ -103,10 +103,64 @@ read_pdfs <- function(p){
   paste(pdf_text(paste0(fp, "all_papers/", p)), collapse = " ")
 }
 
+read_pdfs_pages <- function(p){
+  length(pdf_text(paste0(fp, "all_papers/", p)))
+}
+
 # read all pdfs into a list: takes a while
-# raw <- lapply(p, read_pdfs)
-# readr::write_rds(raw, "raw.rds") # save the data
-raw <- read_rds("raw.rds")
+#raw <- lapply(p, read_pdfs)
+
+# read in tryCatch to handle errors
+# raw <- vector("list", length = length(p))
+# for(i in 1:length(p)){
+#     raw[[i]] <- tryCatch(
+#       {
+#         print(paste(i, "Now reading:", p[i]))
+#         paste(pdf_text(paste0(fp, "all_papers/", p[i])), collapse = " ")
+#       },
+#       error = function(cond){
+#         message(paste(i, "Error reading:", p[i]))
+#         message(cond)
+#         return(p[i])
+#       },
+#       function(cond){
+#         message(paste(i, "Warning reading:", p[i]))
+#         message(cond)
+#         return(p[i])
+#       },
+#       finally = {message(paste("Successfully read:", p[i]))}
+#   )
+# }
+
+# get npages for each document.
+# n_pages <- vector(length = length(p))
+# for(i in 1:length(p)){
+#     n_pages[[i]] <- tryCatch(
+#       {
+#         print(paste(i, "Now reading:", p[i]))
+#         length(pdf_text(paste0(fp, "all_papers/", p[i])))
+#       },
+#       error = function(cond){
+#         message(paste(i, "Error reading:", p[i]))
+#         message(cond)
+#         return(p[i])
+#       },
+#       function(cond){
+#         message(paste(i, "Warning reading:", p[i]))
+#         message(cond)
+#         return(p[i])
+#       },
+#       finally = {message(paste("Successfully read:", p[i]))}
+#   )
+# }
+
+# fix errors
+#n_pages[c(151,314,395)] <- c(11,34,47)
+
+#n_pages <- data.frame(p = p, n_pages = n_pages)
+#readr::write_rds(n_pages, "C:/Users/rpauloo/Documents/Github/cig_nlp/rich_data/n_pages.rds") # save the data
+#readr::write_rds(raw, "C:/Users/rpauloo/Documents/Github/cig_nlp/rich_data/raw2.rds") # save the data
+raw <- read_rds("C:/Users/rpauloo/Documents/Github/cig_nlp/rich_data/raw2.rds")
 
 # tokenize sentences
 rs <- tokenize_sentences(raw)
@@ -220,7 +274,9 @@ pull(filter(df1, is.na(software_name)), paper)
 
 Determine co-mentions.
 ```{r}
-n_co_mentions <- df1 %>% group_by(paper) %>% summarise(n_co_mentions = length(unique(software_name)))
+n_co_mentions <- df1 %>% 
+  group_by(paper) %>% 
+  summarise(n_co_mentions = length(unique(software_name)))
 
 # grab co-mentions per paper
 l <- split(df1, df1$paper)
@@ -284,6 +340,20 @@ final <- cbind.data.frame(df1, df3)
 
 # calculate (token_index / token_length) = mention position in paper
 final <- mutate(final, token_position = token_index / token_length)
+
+# calculate error
+n_pages <- readr::read_rds("C:/Users/rpauloo/Documents/Github/cig_nlp/rich_data/n_pages.rds")
+final   <- left_join(final, n_pages, by = c("paper" = "p"))
+final <- final %>% 
+    mutate(n_pages = as.numeric(as.character(n_pages)), 
+           tokens_per_page = token_length/n_pages, 
+           token_error = tokens_per_page/2, 
+           error_low = token_index - token_error, 
+           error_high = token_index + token_error, 
+           error_low = ifelse(error_low <= 0, 0, error_low), 
+           error_high = ifelse(error_high >= token_length, token_length, error_high),
+           error_low_p = error_low/token_length,
+           error_high_p = error_high/token_length)
 ```
 
 
@@ -338,28 +408,28 @@ cols <- colormap(colormap = colormaps$viridis, nshades = length(med_vec))
 cols <- structure(cols, names = med_vec)
 
 library(glue)
-p <- final %>% 
-  # filter(!is.na(software_name) & !software_name %in% c("SW4","SNAC"," MAG ", "Rayleigh") ) %>%
+p1 <- final %>% 
+  filter(!is.na(software_name) & !software_name %in% c("SW4","SNAC"," MAG ", "Rayleigh", "SEISMIC_CPML") ) %>%
   filter(!is.na(software_name) & !software_name %in% c("Rayleigh") ) %>%
   ggplot(aes(x=reorder(software_name,token_position, FUN = median), token_position, fill = software_name)) + 
   geom_boxplot(alpha = 0.5) + 
-  geom_jitter(width = 0.2, alpha = 0.1) + 
+  #geom_jitter(width = 0.2, alpha = 0.1) + 
   coord_flip() + 
   theme_minimal(base_size = 15) + 
   guides(fill = FALSE) +
   scale_fill_manual(values = cols, 
                     breaks = med_vec,
                     name = "Well Type") +
-  labs(title = "CIG software mentions (2010-2015)", 
+  labs(title = "CIG software mentions (2010-2018)", 
        subtitle = glue("Total mentions (n = {total_mentions}); Unique mentions (n = {unique_mentions})"),
        x = "", y = "Location of Mention in Document", 
-       # caption = "SW4, SNAC, MAG, Rayleigh removed")
-       caption = "Rayleigh removed")
-p
+       caption = "SEISMIC_CPML, SW4, SNAC, MAG, Rayleigh removed")
+
+p1
 
 # save
 #ggsave(p, filename = "cig_total_and_unique_mentions_all.pdf", device = cairo_pdf, width = 11, height = 8)
-# ggsave(p, filename = "cig_total_and_unique_mentions_trunc.pdf", device = cairo_pdf, width = 11, height = 8)
+ggsave(p1, filename = "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/cig_total_and_unique_mentions_trunc.pdf", device = cairo_pdf, width = 11, height = 8)
 
 #getwd()
 ```
@@ -372,21 +442,21 @@ p_list <- vector("list", length = length(sw))
 
 for(i in 1:length(p_list)){
   p_list[[i]] <- final %>% 
-  filter(software_name == sw[i]) %>% 
-  ggplot(aes(factor(paper), token_position, color = token_position)) +
-  geom_point(size = 2) +
-  coord_flip() + 
-  scale_color_viridis_c() +
-  theme(panel.background = element_rect(fill = "white"),
-        panel.grid.major.y = element_line(color = "grey50"),
-        panel.grid.major.x = element_blank()) +
-  guides(color = FALSE) +
-  labs(x = "", y = "Position in text", 
-       title = sw[i])
+    filter(software_name == sw[i]) %>% 
+    ggplot(aes(x = factor(paper))) +
+    geom_point(aes(y = token_position), color = "black", size = 2) +
+    geom_segment(aes(y = error_low_p, yend = error_high_p, xend = factor(paper)), color = "red") +
+    coord_flip() + 
+    theme(panel.background = element_rect(fill = "white"),
+          panel.grid.major.y = element_line(color = "grey90"),
+          panel.grid.major.x = element_blank()) +
+    guides(color = FALSE) +
+    labs(x = "", y = "Position in text", 
+         title = sw[i])
 }
 
 # Creating new PDF file
-pdf("software_mentions.pdf", width = 11 , height = 8)
+pdf("C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/software_mentions.pdf", width = 11 , height = 8)
  
 for(i in 1:length(p_list)){
    print(p_list[[i]])
@@ -416,7 +486,7 @@ cor <- co %>%
            col = map_chr(perm, 2)) %>% 
     count(row, col) %>% 
     ## Long to wide representation
-    spread(key = col, value = nn, fill = 0) %>% 
+    spread(key = col, value = n, fill = 0) %>% 
     ## Coerce to matrix
     column_to_rownames(var = 'row') %>% 
     as.matrix()
@@ -426,16 +496,19 @@ cor[upper.tri(cor, diag=TRUE)] <- NA # remove upper triangle
 melt(cor) %>% ggplot(aes(Var1, Var2, fill = value)) + geom_raster()
 
 co_plot <- melt(cor) %>% 
-  filter(!is.na(value)) %>% 
-  ggplot(aes(Var1, Var2, fill = value)) + 
-  geom_tile(color = "white") + 
-  geom_text(aes(label = value), color = "grey50") +
-  scale_fill_viridis_c() +
-  theme_minimal() +
-  theme(legend.position = "bottom") +
-  labs(fill = "Co-occurences", x = "", y = "")
+    filter(!is.na(value)) %>% 
+    ggplot(aes(Var1, Var2, fill = factor(value))) + 
+    geom_tile(color = "white") + 
+    geom_text(aes(label = value), color = "white") +
+    scale_fill_manual(values = c("grey50", 
+                                 colormap(colormaps$viridis, 
+                                          nshades = 21))) +
+    theme_minimal(base_size = 12) +
+    theme(legend.position = "bottom") + 
+    guides(fill = guide_legend(nrow = 1)) +
+    labs(fill = "Co-occurences", x = "", y = "")
 
-ggsave(co_plot, filename = "co_occurrence_plot.pdf", device = cairo_pdf, height = 5, width = 11)
+ggsave(co_plot, filename = "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/co_occurrence_plot.pdf", device = cairo_pdf, height = 5, width = 15)
 ```
 
 
