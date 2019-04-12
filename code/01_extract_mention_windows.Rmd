@@ -515,7 +515,7 @@ for(i in 1:length(p_list)){
 }
 
 # write final for plotly script
-write_rds(final, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/final.rds")
+#write_rds(final, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/final.rds")
 
 # Creating new PDF file
 pdf("C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/nchar_software_mentions.pdf", width = 10 , height = 16)
@@ -646,7 +646,7 @@ cor[upper.tri(cor, diag=TRUE)] <- NA # remove upper triangle
 melt(cor) %>% ggplot(aes(Var1, Var2, fill = value)) + geom_raster()
 
 co_plot <- melt(cor) %>% 
-    filter(!is.na(value)) %>% 
+  filter(!is.na(value)) %>% 
     mutate(value=ifelse(Var1=="RELAX"&Var2=="ASPECT", 0, value),
            value = ifelse(Var1=="RELAX"&Var2=="Burnman", 0, value),
            Var1 = as.character(Var1), Var2 = as.character(Var2),
@@ -658,7 +658,7 @@ co_plot <- melt(cor) %>%
     scale_fill_manual(values = c("grey50", 
                                  colormap(colormaps$viridis, 
                                           nshades = 22))) +
-    theme_minimal(base_size = 20) +
+    theme_minimal() +
     theme(legend.position = "bottom") + 
     guides(fill = guide_legend(nrow = 2, byrow = TRUE)) +
     labs(fill = "Co-occurences", x = "", y = "") +
