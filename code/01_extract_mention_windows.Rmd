@@ -22,7 +22,7 @@ library(colormap)
 
 Vector of package names.
 ```{r}
-cig <- c("ASPECT ", "Aspect ",
+cig <- c("ASPECT", "Aspect ",
 "AxiSEM", "axisem", "AXISEM",
 "Burnman", "burnman",
 "Calypso",
@@ -45,14 +45,14 @@ cig <- c("ASPECT ", "Aspect ",
 "Gmsh", 
 "GMT ", "Generic Mapping Tool", "GenericMappingTool",
 # new additions as of 2019-04-10
-"Obspy", "ObsPy",
+"Obspy", "ObsPy", "OBSPY", "ObsPyLoad",
 "Instaseis", "instaseis",
 "GPlates", "Gplate", "GPlate",
 "gmsh", 
 "MATLAB",
 " SAC ",
 "Zenodo",
-" CIG ", "(CIG)", "CIG-II")
+" CIG ", "(CIG)", "CIG-II", "Computational Infrastructure for Geodynamics")
 
 #write_tsv(x = data.frame(term = cig), path = "C:/Users/rpauloo/Desktop/whitelist.tsv")
 ```
@@ -220,8 +220,16 @@ match_words <- function(y){
 }
 
 # match references
-temp    <- lapply(rs, str_which, "[Acknowledgments | ACKNOWLEDGMENTS]")
+temp    <- lapply(rs, str_which, "Acknowledgments|ACKNOWLEDGMENTS|Acknowledgements|ACKNOWLEDGEMENTS|References|REFERENCES|Bibliography")
+
 ref_pos <- sapply(temp, function(x){last(x)})
+max_pos <- sapply(rs, length)
+z       <- mean(ref_pos/max_pos, na.rm=T)
+avg_pos <- round(max_pos * mean(z/max_pos, na.rm=T), 0)
+for(i in 1:length(ref_pos)){
+  ref_pos[[i]] <- ifelse(is.na(ref_pos[[i]]), avg_pos[i], ref_pos[[i]])
+}
+ref_pos[ref_pos <= 15] <- max_pos[ref_pos <= 15]
 ```
 
 Extract mention windows, and record: software name match, paper title. Store in a data frame.
@@ -277,13 +285,13 @@ df1 <- mutate(df1, software_name = case_when(software_name %in% c("axisem", "AXI
                                              software_name %in% c("specfem2d", "specfem3d_globe", "specfem3d_cartesian", "Specfem3-D Globe", "specter", "Specfem2d") ~ "SPECFEM",
                                              software_name == "sw4" ~ "SW4",
                                              software_name == "selen " ~ "SELEN",
-                                             software_name %in% c("Aspect ", "ASPECT ") ~ "ASPECT",
+                                             software_name %in% c("Aspect ") ~ "ASPECT",
                                              software_name %in% c("GMT ","Generic Mapping Tool", "GenericMappingTool") ~ "GMT",
-                                             software_name == "Obspy" ~ "ObsPy",
+                                             software_name %in% c("Obspy", "OBSPY", "ObsPyLoad") ~ "ObsPy",
                                              software_name == "instaseis" ~"Instaseis",
                                              software_name %in% c("GPlates", "Gplate") ~ "GPlate",
                                              software_name %in% c("Gmsh","gmsh") ~ "GMSH",
-                                             software_name %in% c(" CIG ","(CIG)", "CIG-II") ~ "CIG",
+                                             software_name %in% c(" CIG ","(CIG)", "CIG-II", "Computational Infrastructure for Geodynamics") ~ "CIG",
                                              TRUE ~ software_name))
 # count of unique mentions in all docs
 df1 %>% count(software_name) %>% arrange(desc(n)) 
@@ -466,7 +474,7 @@ final <- final %>%
            nchar_error_high = ifelse(nchar_error_high >= nchar, nchar, nchar_error_high),
            nchar_error_low_p = nchar_error_low/nchar,
            nchar_error_high_p = nchar_error_high/nchar,
-           ref_nchar = ref_nchar - nchar_error*2,
+           ref_nchar = ref_nchar - nchar_error,
            is_ref = ifelse(ref_nchar <= token_nchar, TRUE, FALSE))
 
 # add median token position
@@ -482,14 +490,17 @@ med_token_pos_df <- distinct(final, software_name, nchar_med_token_pos) %>%
 
 p_list <- vector("list", length = length(sw))
 
+# format HTML tooltip with Knuth-Plass paragraph wrapping algorithm
+final <- mutate(final, text = str_wrap(value, width = 50))
+
 for(i in 1:length(p_list)){
   p_list[[i]] <- final %>% 
     filter(software_name == sw[i]) %>% 
-    ggplot(aes(x = forcats::fct_reorder(factor(alias), nchar_token_position))) +
+    ggplot(aes(x = forcats::fct_reorder(factor(alias), nchar_token_position), text = paper, label = text)) +
     geom_segment(aes(y = nchar_error_low_p, 
                      yend = nchar_error_high_p, 
                      xend = forcats::fct_reorder(factor(alias), nchar_token_position)), color = "red") +
-    geom_point(aes(y = nchar_token_position, color = is_ref), size = 2) +
+    geom_point(aes(y = nchar_token_position, color = is_ref), size = 2, alpha = 0.5) +
     geom_hline(yintercept = med_token_pos_df[i, 2], linetype = "dashed") +
     coord_flip(ylim = c(0,1)) + 
     theme(panel.background = element_rect(fill = "white"),
@@ -500,11 +511,14 @@ for(i in 1:length(p_list)){
     labs(x = "", y = "Position in text", 
          color = "Acknowledgement or Reference",
          title = sw[i],
-         subtitle = paste0("Median token position = ", round(med_token_pos_df[i, 2],2))) 
+         subtitle = paste0("Median mention position = ", round(med_token_pos_df[i, 2],2))) 
 }
 
+# write final for plotly script
+write_rds(final, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/final.rds")
+
 # Creating new PDF file
-pdf("C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/nchar_software_mentions.pdf", width = 11 , height = 11)
+pdf("C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/nchar_software_mentions.pdf", width = 10 , height = 16)
  
 for(i in 1:length(p_list)){
    print(p_list[[i]])
