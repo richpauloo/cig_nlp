@@ -1,8 +1,10 @@
 library(shinydashboard)
 library(plotly)
 library(ggplot2)
+library(markdown)
+library(forcats)
 
-p_list <- readRDS("p_list.rds")
+p_list <- readRDS("data/p_list.rds")
 
 sw     <- c("PyLith", "Virtual California", "CIG", "SPECFEM", "Citcom", 
             "AxiSEM", "GMT", "ASPECT", "MATLAB", "SELEN", "Ellipsis3d", "SW4", 
