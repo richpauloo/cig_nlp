@@ -283,7 +283,7 @@ df1 <- mutate(df1, software_name = case_when(software_name %in% c("axisem", "AXI
                                              software_name == "instaseis" ~"Instaseis",
                                              software_name %in% c("GPlates", "Gplate") ~ "GPlate",
                                              software_name %in% c("Gmsh","gmsh") ~ "GMSH",
-                                             software_name %in% c("(CIG)", "CIG-II") ~ "CIG",
+                                             software_name %in% c(" CIG ","(CIG)", "CIG-II") ~ "CIG",
                                              TRUE ~ software_name))
 # count of unique mentions in all docs
 df1 %>% count(software_name) %>% arrange(desc(n)) 
@@ -318,10 +318,10 @@ df2 <- left_join(n_co_mentions, l, by = "paper") %>% filter(n_co_mentions >= 2)
 Write data.
 ```{r}
 library(xlsx)
-write.xlsx(df1, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/results/mention_windows.xlsx", row.names = FALSE)
+write.xlsx(df1, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/mention_windows.xlsx", row.names = FALSE)
 write.xlsx(data.frame(paper = pull(filter(df1, is.na(software_name)), paper)), 
-          "C:/Users/rpauloo/Documents/GitHub/cig_nlp/results/missing_software.xlsx", row.names = FALSE)
-write.xlsx(as.data.frame(df2), "C:/Users/rpauloo/Documents/GitHub/cig_nlp/results/co_mention_summary.xlsx", row.names = FALSE)
+          "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/missing_software.xlsx", row.names = FALSE)
+write.xlsx(as.data.frame(df2), "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/co_mention_summary.xlsx", row.names = FALSE)
 ```
 
 
