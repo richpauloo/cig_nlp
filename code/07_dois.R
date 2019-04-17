@@ -6,10 +6,7 @@ library(readr)
 library(stringr)
 library(pdftools)
 
-fp <- "F:/Box Sync/2019 CItation/Papers/" # PC
-
-# paper names
-p <- list.files(paste0(fp, "all_papers")) 
+p <- read_rds("C:/Users/rpauloo/Documents/Github/cig_nlp/rich_data/all_papers.rds")
 
 raw <- read_rds("C:/Users/rpauloo/Documents/Github/cig_nlp/rich_data/raw2.rds")
 
