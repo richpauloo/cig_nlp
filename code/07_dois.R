@@ -4,6 +4,7 @@
 
 library(readr)
 library(stringr)
+library(pdftools)
 
 fp <- "F:/Box Sync/2019 CItation/Papers/" # PC
 
