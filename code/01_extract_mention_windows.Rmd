@@ -22,7 +22,7 @@ library(colormap)
 
 Vector of package names.
 ```{r}
-cig <- c("ASPECT", "Aspect",
+cig <- c("ASPECT", "Aspect ",
 "AxiSEM", "axisem", "AXISEM",
 "Burnman", "burnman",
 "Calypso",
@@ -42,8 +42,17 @@ cig <- c("ASPECT", "Aspect",
 "SPECFEM", "specfem2d", "specfem3d_globe", "specfem3d_cartesian", "Specfem3-D Globe", "specter", "Specfem2d",
 "SW4", "sw4",
 "Virtual California",
-"Gmsh", "wpp", 
-"GMT", "Generic Mapping Tool")
+"Gmsh", 
+"GMT ", "Generic Mapping Tool", "GenericMappingTool",
+# new additions as of 2019-04-10
+"Obspy", "ObsPy", "OBSPY", "ObsPyLoad",
+"Instaseis", "instaseis",
+"GPlates", "Gplate", "GPlate",
+"gmsh", 
+"MATLAB",
+" SAC ",
+"Zenodo",
+" CIG ", "(CIG)", "CIG-II", "Computational Infrastructure for Geodynamics")
 
 #write_tsv(x = data.frame(term = cig), path = "C:/Users/rpauloo/Desktop/whitelist.tsv")
 ```
@@ -55,6 +64,14 @@ fp <- "F:/Box Sync/2019 CItation/Papers/" # PC
 
 # paper names
 p <- list.files(paste0(fp, "all_papers")) 
+
+# extract numeric index
+n_index <- str_split(p, " ") %>% 
+  sapply(., function(x){x[[1]]}) %>% 
+  str_sub(., 1, 4) %>% 
+  str_extract_all(., "[:digit:]") %>% 
+  sapply(., function(x){paste(x, collapse = "")}) %>% 
+  as.numeric()
 
 # make file-journal key
 # library(gtools); write_csv(data.frame(file = mixedsort(p)), path = "/Users/richpauloo/Documents/GitHub/cig_nlp/rich_data/paper_journal_key_2.csv")
@@ -104,13 +121,13 @@ read_pdfs <- function(p){
 }
 
 read_pdfs_pages <- function(p){
-  length(pdf_text(paste0(fp, "all_papers/", p)))
+  pdf_info(paste0(fp, "all_papers/", p))$pages
 }
 
 # read all pdfs into a list: takes a while
 #raw <- lapply(p, read_pdfs)
 
-# read in tryCatch to handle errors
+#read in tryCatch to handle errors
 # raw <- vector("list", length = length(p))
 # for(i in 1:length(p)){
 #     raw[[i]] <- tryCatch(
@@ -132,13 +149,13 @@ read_pdfs_pages <- function(p){
 #   )
 # }
 
-# get npages for each document.
+# # get npages for each document.
 # n_pages <- vector(length = length(p))
 # for(i in 1:length(p)){
 #     n_pages[[i]] <- tryCatch(
 #       {
 #         print(paste(i, "Now reading:", p[i]))
-#         length(pdf_text(paste0(fp, "all_papers/", p[i])))
+#         pdf_info(paste0(fp, "all_papers/", p[i]))$pages
 #       },
 #       error = function(cond){
 #         message(paste(i, "Error reading:", p[i]))
@@ -155,7 +172,7 @@ read_pdfs_pages <- function(p){
 # }
 
 # fix errors
-#n_pages[c(151,314,395)] <- c(11,34,47)
+#n_pages[c(152,314,395)] <- c(11,34,47)
 
 #n_pages <- data.frame(p = p, n_pages = n_pages)
 #readr::write_rds(n_pages, "C:/Users/rpauloo/Documents/Github/cig_nlp/rich_data/n_pages.rds") # save the data
@@ -201,6 +218,18 @@ match_words <- function(y){
   }
   return(hold) # original working
 }
+
+# match references
+temp    <- lapply(rs, str_which, "Acknowledgments|ACKNOWLEDGMENTS|Acknowledgements|ACKNOWLEDGEMENTS|References|REFERENCES|Bibliography")
+
+ref_pos <- sapply(temp, function(x){last(x)})
+max_pos <- sapply(rs, length)
+z       <- mean(ref_pos/max_pos, na.rm=T)
+avg_pos <- round(max_pos * mean(z/max_pos, na.rm=T), 0)
+for(i in 1:length(ref_pos)){
+  ref_pos[[i]] <- ifelse(is.na(ref_pos[[i]]), avg_pos[i], ref_pos[[i]])
+}
+ref_pos[ref_pos <= 15] <- max_pos[ref_pos <= 15]
 ```
 
 Extract mention windows, and record: software name match, paper title. Store in a data frame.
@@ -256,8 +285,13 @@ df1 <- mutate(df1, software_name = case_when(software_name %in% c("axisem", "AXI
                                              software_name %in% c("specfem2d", "specfem3d_globe", "specfem3d_cartesian", "Specfem3-D Globe", "specter", "Specfem2d") ~ "SPECFEM",
                                              software_name == "sw4" ~ "SW4",
                                              software_name == "selen " ~ "SELEN",
-                                             software_name == "Aspect" ~ "ASPECT",
-                                             software_name == "Generic Mapping Tool" ~ "GMT",
+                                             software_name %in% c("Aspect ") ~ "ASPECT",
+                                             software_name %in% c("GMT ","Generic Mapping Tool", "GenericMappingTool") ~ "GMT",
+                                             software_name %in% c("Obspy", "OBSPY", "ObsPyLoad") ~ "ObsPy",
+                                             software_name == "instaseis" ~"Instaseis",
+                                             software_name %in% c("GPlates", "Gplate") ~ "GPlate",
+                                             software_name %in% c("Gmsh","gmsh") ~ "GMSH",
+                                             software_name %in% c(" CIG ","(CIG)", "CIG-II", "Computational Infrastructure for Geodynamics") ~ "CIG",
                                              TRUE ~ software_name))
 # count of unique mentions in all docs
 df1 %>% count(software_name) %>% arrange(desc(n)) 
@@ -292,10 +326,10 @@ df2 <- left_join(n_co_mentions, l, by = "paper") %>% filter(n_co_mentions >= 2)
 Write data.
 ```{r}
 library(xlsx)
-write.xlsx(df1, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/results/mention_windows.xlsx", row.names = FALSE)
+write.xlsx(df1, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/mention_windows.xlsx", row.names = FALSE)
 write.xlsx(data.frame(paper = pull(filter(df1, is.na(software_name)), paper)), 
-          "C:/Users/rpauloo/Documents/GitHub/cig_nlp/results/missing_software.xlsx", row.names = FALSE)
-write.xlsx(as.data.frame(df2), "C:/Users/rpauloo/Documents/GitHub/cig_nlp/results/co_mention_summary.xlsx", row.names = FALSE)
+          "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/missing_software.xlsx", row.names = FALSE)
+write.xlsx(as.data.frame(df2), "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/co_mention_summary.xlsx", row.names = FALSE)
 ```
 
 
@@ -354,6 +388,15 @@ final <- final %>%
            error_high = ifelse(error_high >= token_length, token_length, error_high),
            error_low_p = error_low/token_length,
            error_high_p = error_high/token_length)
+
+# add journal alias
+n_index_df <- data.frame(alias = n_index, p = p)
+final <- left_join(final, n_index_df, by = c("paper" = "p"))
+
+# add median token position
+med_token_pos <- group_by(final, software_name) %>% 
+  summarise(med_token_pos = median(token_position, na.rm=T))
+final <- left_join(final, med_token_pos, by = "software_name")
 ```
 
 
@@ -386,6 +429,144 @@ unique_mentions <- final %>%
 ```
 
 
+Replace token position with nchar position
+```{r}
+nchar_df <- data.frame(p = p, 
+                       nchar = sapply(rs, function(x){sum(nchar(x))}),
+                       ref_pos = ref_pos)
+final <- left_join(final, nchar_df, by = c("paper" = "p"))
+
+temp  <- split(final, final$paper)
+temp2 <- vector("list", length = length(rs))
+temp3 <- vector("list", length = length(rs))
+
+for(i in 1:length(rs)){
+  chars <- nchar(rs[[i]])
+  ve    <- vector(length = length(temp[[i]]$token_index))
+  ve2   <- vector(length = length(temp[[i]]$token_index))
+  if(!is.na(temp[[i]]$software_name)){
+    for(j in 1:length(temp[[i]]$token_index)){
+      ve[[j]]  <- sum(chars[1:temp[[i]]$token_index[j]], na.rm = TRUE)
+      ve2[[j]] <- sum(chars[1:temp[[i]]$ref_pos[j]], na.rm = TRUE)
+    }
+    temp2[[i]] <- ve
+    temp3[[i]] <- ve2
+  }
+  if(is.na(temp[[i]]$software_name)){
+    temp2[[i]] <- NA
+    temp3[[i]] <- NA
+  }
+}
+
+# add error and ref pos
+final$token_nchar <- do.call(c, temp2)
+final$ref_nchar   <- do.call(c, temp3)
+final <- mutate(final, 
+                nchar_token_position = token_nchar/nchar,
+                nchar_ref_position = ref_nchar/nchar)
+
+final <- final %>% 
+    mutate(nchar_per_page = nchar/n_pages, 
+           nchar_error = nchar_per_page/2, 
+           nchar_error_low = token_nchar - nchar_error, 
+           nchar_error_high = token_nchar + nchar_error, 
+           nchar_error_low = ifelse(nchar_error_low <= 0, 0, nchar_error_low), 
+           nchar_error_high = ifelse(nchar_error_high >= nchar, nchar, nchar_error_high),
+           nchar_error_low_p = nchar_error_low/nchar,
+           nchar_error_high_p = nchar_error_high/nchar,
+           ref_nchar = ref_nchar - nchar_error,
+           is_ref = ifelse(ref_nchar <= token_nchar, TRUE, FALSE))
+
+# add median token position
+nchar_med_token_pos <- group_by(final, software_name) %>% 
+  summarise(nchar_med_token_pos = median(nchar_token_position, na.rm=T))
+final <- left_join(final, nchar_med_token_pos, by = "software_name")
+
+# plot
+sw <- unique(final$software_name)
+sw <- sw[!is.na(sw)]
+med_token_pos_df <- distinct(final, software_name, nchar_med_token_pos) %>%
+  filter(!is.na(nchar_med_token_pos))
+
+p_list <- vector("list", length = length(sw))
+
+# format HTML tooltip with Knuth-Plass paragraph wrapping algorithm
+final <- mutate(final, text = str_wrap(value, width = 50))
+
+for(i in 1:length(p_list)){
+  p_list[[i]] <- final %>% 
+    filter(software_name == sw[i]) %>% 
+    ggplot(aes(x = forcats::fct_reorder(factor(alias), nchar_token_position), text = paper, label = text)) +
+    geom_segment(aes(y = nchar_error_low_p, 
+                     yend = nchar_error_high_p, 
+                     xend = forcats::fct_reorder(factor(alias), nchar_token_position)), color = "red") +
+    geom_point(aes(y = nchar_token_position, color = is_ref), size = 2, alpha = 0.5) +
+    geom_hline(yintercept = med_token_pos_df[i, 2], linetype = "dashed") +
+    coord_flip(ylim = c(0,1)) + 
+    theme(panel.background = element_rect(fill = "white"),
+          panel.grid.major.y = element_line(color = "grey90"),
+          panel.grid.major.x = element_blank()) + 
+    scale_color_manual(breaks = c(TRUE,FALSE), 
+                       values = c("black","purple")) +
+    labs(x = "", y = "Position in text", 
+         color = "Acknowledgement or Reference",
+         title = sw[i],
+         subtitle = paste0("Median mention position = ", round(med_token_pos_df[i, 2],2))) 
+}
+
+# write final for plotly script
+#write_rds(final, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/final.rds")
+
+# Creating new PDF file
+pdf("C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/nchar_software_mentions.pdf", width = 10 , height = 16)
+ 
+for(i in 1:length(p_list)){
+   print(p_list[[i]])
+}
+ 
+dev.off()
+
+```
+
+
+
+<!-- Make Lorraine's graph. Order y axis paper aliases by median token_position. -->
+<!-- ```{r} -->
+<!-- sw <- unique(final$software_name) -->
+<!-- sw <- sw[!is.na(sw)] -->
+<!-- p_list <- vector("list", length = length(sw)) -->
+<!-- med_token_pos_df <- distinct(final, software_name, med_token_pos) %>% -->
+<!--   filter(!is.na(med_token_pos)) -->
+
+<!-- for(i in 1:length(p_list)){ -->
+<!--   p_list[[i]] <- final %>% -->
+<!--     filter(software_name == sw[i]) %>% -->
+<!--     ggplot(aes(x = forcats::fct_reorder(factor(alias), token_position))) + -->
+<!--     geom_segment(aes(y = error_low_p, -->
+<!--                      yend = error_high_p, -->
+<!--                      xend = forcats::fct_reorder(factor(alias), token_position)), color = "red") + -->
+<!--     geom_point(aes(y = token_position), color = "black", size = 2) + -->
+<!--     geom_hline(yintercept = med_token_pos_df[i, 2], linetype = "dashed") + -->
+<!--     coord_flip(ylim = c(0,1)) + -->
+<!--     theme(panel.background = element_rect(fill = "white"), -->
+<!--           panel.grid.major.y = element_line(color = "grey90"), -->
+<!--           panel.grid.major.x = element_blank()) + -->
+<!--     guides(color = FALSE) + -->
+<!--     labs(x = "", y = "Position in text", -->
+<!--          title = sw[i], -->
+<!--          subtitle = paste0("Median token position = ", round(med_token_pos_df[i, 2],2))) -->
+<!-- } -->
+
+<!-- # Creating new PDF file -->
+<!-- pdf("C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/software_mentions.pdf", width = 11 , height = 11) -->
+
+<!-- for(i in 1:length(p_list)){ -->
+<!--    print(p_list[[i]]) -->
+<!-- } -->
+
+<!-- dev.off() -->
+<!-- ``` -->
+
 
 Visualize distribution of position occurence.
 ```{r}
@@ -400,7 +581,7 @@ med_vec <- final %>%
   # filter(!is.na(software_name) & !software_name %in% c("SW4","SNAC"," MAG ", "Rayleigh") ) %>%
   filter(!is.na(software_name) & !software_name %in% c("Rayleigh") ) %>%
   group_by(software_name) %>% 
-  summarise(med = median(token_position)) %>% 
+  summarise(med = median(nchar_token_position)) %>% 
   arrange(-med) %>% pull(software_name)
 
 # define color pallette
@@ -411,15 +592,14 @@ library(glue)
 p1 <- final %>% 
   filter(!is.na(software_name) & !software_name %in% c("SW4","SNAC"," MAG ", "Rayleigh", "SEISMIC_CPML") ) %>%
   filter(!is.na(software_name) & !software_name %in% c("Rayleigh") ) %>%
-  ggplot(aes(x=reorder(software_name,token_position, FUN = median), token_position, fill = software_name)) + 
+  ggplot(aes(x=reorder(software_name,nchar_token_position, FUN = median), nchar_token_position, fill = software_name)) + 
   geom_boxplot(alpha = 0.5) + 
   #geom_jitter(width = 0.2, alpha = 0.1) + 
   coord_flip() + 
   theme_minimal(base_size = 15) + 
   guides(fill = FALSE) +
-  scale_fill_manual(values = cols, 
-                    breaks = med_vec,
-                    name = "Well Type") +
+  scale_fill_manual(values = cols,
+                    breaks = med_vec) +
   labs(title = "CIG software mentions (2010-2018)", 
        subtitle = glue("Total mentions (n = {total_mentions}); Unique mentions (n = {unique_mentions})"),
        x = "", y = "Location of Mention in Document", 
@@ -429,41 +609,11 @@ p1
 
 # save
 #ggsave(p, filename = "cig_total_and_unique_mentions_all.pdf", device = cairo_pdf, width = 11, height = 8)
-ggsave(p1, filename = "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/cig_total_and_unique_mentions_trunc.pdf", device = cairo_pdf, width = 11, height = 8)
+ggsave(p1, filename = "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/nchar_cig_total_and_unique_mentions_trunc.pdf", device = cairo_pdf, width = 11, height = 8)
 
 #getwd()
 ```
 
-Make Lorraine's graph.
-```{r}
-sw <- unique(final$software_name)
-sw <- sw[!is.na(sw)]
-p_list <- vector("list", length = length(sw))
-
-for(i in 1:length(p_list)){
-  p_list[[i]] <- final %>% 
-    filter(software_name == sw[i]) %>% 
-    ggplot(aes(x = factor(paper))) +
-    geom_point(aes(y = token_position), color = "black", size = 2) +
-    geom_segment(aes(y = error_low_p, yend = error_high_p, xend = factor(paper)), color = "red") +
-    coord_flip() + 
-    theme(panel.background = element_rect(fill = "white"),
-          panel.grid.major.y = element_line(color = "grey90"),
-          panel.grid.major.x = element_blank()) +
-    guides(color = FALSE) +
-    labs(x = "", y = "Position in text", 
-         title = sw[i])
-}
-
-# Creating new PDF file
-pdf("C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/software_mentions.pdf", width = 11 , height = 8)
- 
-for(i in 1:length(p_list)){
-   print(p_list[[i]])
-}
- 
-dev.off()
-```
 
 Turn co-occurences into plot.
 ```{r}
@@ -496,19 +646,26 @@ cor[upper.tri(cor, diag=TRUE)] <- NA # remove upper triangle
 melt(cor) %>% ggplot(aes(Var1, Var2, fill = value)) + geom_raster()
 
 co_plot <- melt(cor) %>% 
-    filter(!is.na(value)) %>% 
+  filter(!is.na(value)) %>% 
+    mutate(value=ifelse(Var1=="RELAX"&Var2=="ASPECT", 0, value),
+           value = ifelse(Var1=="RELAX"&Var2=="Burnman", 0, value),
+           Var1 = as.character(Var1), Var2 = as.character(Var2),
+           Var1 = ifelse(Var1 == "Virtual California", "Virtual CA", Var1),
+           Var2 = ifelse(Var2 == "Virtual California", "Virtual CA", Var2)) %>% 
     ggplot(aes(Var1, Var2, fill = factor(value))) + 
     geom_tile(color = "white") + 
     geom_text(aes(label = value), color = "white") +
     scale_fill_manual(values = c("grey50", 
                                  colormap(colormaps$viridis, 
-                                          nshades = 21))) +
-    theme_minimal(base_size = 12) +
+                                          nshades = 22))) +
+    theme_minimal() +
     theme(legend.position = "bottom") + 
-    guides(fill = guide_legend(nrow = 1)) +
-    labs(fill = "Co-occurences", x = "", y = "")
+    guides(fill = guide_legend(nrow = 2, byrow = TRUE)) +
+    labs(fill = "Co-occurences", x = "", y = "") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+co_plot
 
-ggsave(co_plot, filename = "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/co_occurrence_plot.pdf", device = cairo_pdf, height = 5, width = 15)
+ggsave(co_plot, filename = "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/co_occurrence_plot.pdf", device = cairo_pdf, height = 9, width = 16)
 ```
 
 

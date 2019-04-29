@@ -1,0 +1,54 @@
+---
+title: "PyLith"
+output: html_document
+---
+
+Create the plots for the shiny app.
+
+```{r, warning=FALSE, error=FALSE, echo=FALSE}
+library(readr)
+library(ggplot2)
+library(plotly)
+library(forcats)
+library(magrittr)
+
+d <- read_rds("C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/final.rds")
+d$is_ref <- ifelse(d$is_ref==TRUE, "Acknoweldgement/Reference", "Other")
+
+
+sw <- unique(d$software_name)
+sw <- sw[!is.na(sw)]
+med_token_pos_df <- distinct(d, software_name, nchar_med_token_pos) %>%
+  filter(!is.na(nchar_med_token_pos))
+
+p_list <- vector("list", length=length(unique(d$software_name)))
+
+for(i in 1:length(p_list)){
+  p_list[[i]] <- d %>% 
+    filter(software_name == sw[i]) %>% 
+    ggplot(aes(x = forcats::fct_reorder(factor(alias), nchar_token_position), text = paper, label = text)) +
+    geom_segment(aes(y = nchar_error_low_p, 
+                     yend = nchar_error_high_p, 
+                     xend = forcats::fct_reorder(factor(alias), nchar_token_position)), color = "red") +
+    geom_point(aes(y = nchar_token_position, color = is_ref), size = 2, alpha = 0.5) +
+    #geom_hline(yintercept = med_token_pos_df[i, 2], linetype = "dashed") +
+    coord_flip(ylim = c(0,1)) + 
+    theme(panel.background = element_rect(fill = "white"),
+          panel.grid.major.y = element_line(color = "grey90"),
+          panel.grid.major.x = element_blank()) + 
+    scale_color_manual(breaks = c("Acknoweldgement/Reference", "Other"), 
+                       values = c("purple", "black")) +
+    labs(x = "", y = "Position in text", 
+         color = "Acknowledgement or Reference",
+         title = sw[i],
+         subtitle = paste0("Median mention position = ", round(med_token_pos_df[i, 2],2))) 
+}
+
+write_rds(p_list, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/p_list.rds")
+```
+
+```{r, out.width='100%'}
+ggplotly(p_list[[1]], tooltip = c("text","label")) %>% 
+  layout(legend = list(x = 0.1, y = 130, orientation = 'h'))
+```
+

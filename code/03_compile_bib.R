@@ -7,15 +7,16 @@ library(ggplot2)
 fp <- "F:/Box Sync/2019 CItation/bib/" # work
 #fp <- "/Users/richpauloo/Desktop/2019 Citation/"
 
-b1 <- ReadBib(paste0(fp, "2015 bibtex_export v3.2.bib")) %>% as.data.frame()
+b0 <- ReadBib(paste0(fp, "2015pre bibtex_export v2.bib")) %>% as.data.frame() # pre-2015
+b1 <- ReadBib(paste0(fp, "2015 bibtex_export v4.2.bib")) %>% as.data.frame()
 b2 <- ReadBib(paste0(fp, "2016 bibtex_export v2.2.bib")) %>% as.data.frame()
 b3 <- ReadBib(paste0(fp, "2017 bibtex_export v4.2.bib")) %>% as.data.frame()
 b4 <- ReadBib(paste0(fp, "2018 bibtex_export v4.2.bib")) %>% as.data.frame()
 
-b <- bind_rows(b1, b2, b3, b4)
+b <- bind_rows(b0, b1, b2, b3, b4)
 
 # write to data frame for manual cleaning
-#write.xlsx(b, "bib_df.xlsx", row.names = FALSE)
+#write.xlsx(b, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/bib_df.xlsx", row.names = FALSE)
 
 # Lorraine gave instructions on how to aggregate in bib_df_LJH.xlsx
 nature <- c("Nature Communications", "Nature Geoscience")
@@ -35,8 +36,20 @@ b <- left_join(b, b_n, by = "journal")
 # arrange and reorganize columns for easy viewing
 b <- b %>% arrange(desc(n)) %>% select(bibtype:title, year:address, journal, n)
 
+# get rid of extra years
+b <- distinct(b, title, .keep_all = TRUE) %>% 
+  mutate(year = as.numeric(year))
+
+# pre and post 2010
+pre_2010  <- filter(b, year < 2010)
+post_2009 <- filter(b, year >= 2010)
+
+# write for lorraine
+write.xlsx(pre_2010, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/bib_df_pre_2010.xlsx", row.names = FALSE)
+write.xlsx(post_2009, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/bib_df_post_2009.xlsx", row.names = FALSE)
+
 # write to data frame for manual cleaning
-#write.xlsx(b, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/bib_df.xlsx", row.names = FALSE)
+write.xlsx(b, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/bib_df.xlsx", row.names = FALSE)
 
 # cutoff = 10 journals
 b <- b %>% mutate(journal = ifelse(n < 10, "ZZZ", journal))
