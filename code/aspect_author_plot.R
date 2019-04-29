@@ -70,9 +70,11 @@ aspect.authors.list$"Schuurmans2018" = "L. Schuurmans"
 aspect.authors.list$"Bredow" = "E. Bredow"
 aspect.authors.list$"Corti+etal" = c("G. Corti", "R. Cioni", "Z. Franceschini", "F. Sani", "S. Scaillet", "P. Molin", "I. Isola", "F. Mazzarini", "S. Brune",
 "D. Keir", "A. Erbello", "A. Muluneh", "F. Illsley-Kemp", "A. Glerum")
-aspect.authors.list$"Liu+King" = c("S. Liu", "S.D. King")
-aspect.authors.list$"Grove" = c("R.R. Grove")
+aspect.authors.list$"Liu+King" = c("S. Liu", "S. D. King")
+aspect.authors.list$"Grove" = c("R. R. Grove")
 aspect.authors.list$"Perry-Houts" = c("J. Perry-Houts")
+aspect.authors.list$"ONeill+Marchi+Zhang+Bottke2017" = c("C. O'Neill", "S. Marchi", "S. Zhang", "W. Bottke")
+aspect.authors.list$"Gassmoeller+Lokavarapu+etal2018" = c("R. Gassmöller", "H. Lokavarapu",  "E. Heien", "E. G. Puckett", "W. Bangerth")
 
 # -  Convert to co-author network  ----
 author.pairs = lapply(aspect.authors.list, function(x) { if(length(x) > 1) {t(combn(x, 2))} else {NULL}})
@@ -90,9 +92,9 @@ plot(aspect.net)
 V(aspect.net)$name_last = sapply(str_split(V(aspect.net)$name, " "), last)
 red = c("Bangerth", "Heister", "Gassmöller", "Dannberg") #Original Lead Developers
 brown = c("Glerum", "Fraters", "Austermann", "Naliboff") #Added Principal Developers
-color.aspect = c("Other", "Original Lead Developers")[1 + rowSums(sapply(red, grepl, vertex_attr(aspect.net, "name")))]
-color.aspect[V(aspect.net)$name_last%in% brown] = "Added Principal Developers"
-red.rgb = "#990033"
+color.aspect = c("Other", "Principal Developer")[1 + rowSums(sapply(red, grepl, vertex_attr(aspect.net, "name")))]
+color.aspect[V(aspect.net)$name_last%in% brown] = "Principal Developer"
+#red.rgb = "#990033"
 brown.rgb = "#ff5050"
 V(aspect.net)$Author_type =  color.aspect
 V(aspect.net)$Papers = table(unlist(aspect.authors.list))[V(aspect.net)$name]
@@ -103,7 +105,7 @@ author.plot = ggraph(aspect.net, layout = "kk") +
   # for some reason edge width not working like it doesn in the plots below
   scale_edge_width(name = "Number of co-authorships", range=c(.5,3), breaks = c(1,2,3)) +
   geom_node_point(aes(fill = Author_type, size = Papers), shape = 21, stroke = .5, alpha = .8) + 
-  scale_fill_manual(values =  c(red.rgb, brown.rgb, "white"),
+  scale_fill_manual(values =  c("white", brown.rgb),
                     guide = guide_legend(title = "Author type", override.aes = list(size = 5), order = 1)) + 
   theme_bw() +
   theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
@@ -175,8 +177,8 @@ write.csv(hack.pairs, "hack_pairs.csv", row.names = F)
 hack.net = graph_from_data_frame(hack.pairs, directed = F)
 
 # Color authors by type
-color.hack = c("Other", "Original Lead Developers")[1 + rowSums(sapply(red, grepl, V(hack.net)$name))]
-color.hack[rowSums(sapply(brown, grepl, vertex_attr(hack.net, "name"))) == 1] = "Added Principal Developers"
+color.hack = c("Other", "Principal Developer")[1 + rowSums(sapply(red, grepl, V(hack.net)$name))]
+color.hack[rowSums(sapply(brown, grepl, vertex_attr(hack.net, "name"))) == 1] = "Principal Developer"
 V(hack.net)$Author_type = color.hack
 
 # Size nodes by hacks attended
@@ -201,7 +203,7 @@ hack.plot = ggraph(hack.net, layout = 'nicely') +
        #                         rgb(191/255, 153/255, 0/255)
         #                        )) +
   geom_node_point(aes(fill = Author_type, size = Hacks_attended, shape = Author_type), shape = 21, stroke = .5, alpha = .5)  +
-  scale_fill_manual(values = c(red.rgb, brown.rgb, "gray"),
+  scale_fill_manual(values = c("gray", brown.rgb),
                     guide = guide_legend(title = "Author type", override.aes = list(size = 5), order = 1)) + 
   #scale_edge_width(range = c(.1,1.5)) + <- put in if we do geom_edge instead
   scale_size(range = c(4,9), name = "Hack attended") + 
@@ -254,9 +256,9 @@ layoutMatrix1 = data.frame(x = layoutMatrix1[,2], y = layoutMatrix1[,3])
 V(geo.net)$name_last = sapply(str_split(V(geo.net)$name, " "), last)
 # Special authors
 # see "red" and "brown" created above
-color2 = c("Other", "Original Lead Developers")[1 + rowSums(sapply(red, grepl, V(geo.net)$name))]
-color2[rowSums(sapply(brown, grepl, vertex_attr(geo.net, "name"))) == 1] = "Added Principal Developers"
-color2[V(geo.net)$name_last  %in% brown] = "Added Principal Developers"
+color2 = c("Other", "Principal Developer")[1 + rowSums(sapply(red, grepl, V(geo.net)$name))]
+color2[rowSums(sapply(brown, grepl, vertex_attr(geo.net, "name"))) == 1] = "Principal Developer"
+color2[V(geo.net)$name_last  %in% brown] = "Principal Developer"
 
 V(geo.net)$Author_type =  color2
 V(geo.net)$Papers = table(unlist(aspect.authors.list))[V(geo.net)$name] 
@@ -269,7 +271,7 @@ geo.plot = ggraph(geo.net, layout = "manual", node.position = data.frame(layoutM
   scale_edge_width(range = c(.5,2.5), name = "Number of relationship type") +
   scale_edge_linetype(c("solid", "twodash"), name = "Relationship type") + 
   geom_node_point(aes(fill = Author_type, size = Papers), shape = 21, stroke = .5, alpha = .5)  + 
-  scale_fill_manual(values = c(red.rgb, brown.rgb, "gray"),
+  scale_fill_manual(values = c("gray", brown.rgb),
                     guide = guide_legend(title = "Author type", override.aes = list(size = 5), order = 1)) + 
   theme_bw() +
   theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
@@ -327,22 +329,22 @@ ggplot(melt(centrality_measures, idvars = c('name', 'degree_rank'), value.name =
 ggsave(title1, device = "png")
   
 }
-# 5. Interactive (draft) ####
+# 5. Interactive (draft - commented out) ####
 
-net1 = geo.net
-V(net1)$color =  c(brown.rgb, red.rgb, "gray")[as.numeric(as.factor(V(net1)$Author_type))]
-V(net1)$color[V(net1)$name %in% V(hack.net)$name & V(net1)$color == "gray"] = "green" 
-V(net1)$label = V(net1)$name
-V(net1)$label.color = "black"
-V(net1)$size= 6
-V(net1)$label.cex = .3
-
-visIgraph(net1, layout = "layout.norm", idToLabel= FALSE, layoutMatrix = as.matrix(layoutMatrix1)) %>%
-  visOptions(highlightNearest = list(enabled = TRUE, algorithm = "all", degree = list(from = 0, to = 0)),
-               nodesIdSelection = list(enabled = TRUE)) %>%
-  visInteraction(dragNodes = TRUE, 
-                 dragView = TRUE, 
-                 zoomView = TRUE)
+# net1 = geo.net
+# V(net1)$color =  c(brown.rgb, "gray")[as.numeric(as.factor(V(net1)$Author_type))]
+# V(net1)$color[V(net1)$name %in% V(hack.net)$name & V(net1)$color == "gray"] = "green" 
+# V(net1)$label = V(net1)$name
+# V(net1)$label.color = "black"
+# V(net1)$size= 6
+# V(net1)$label.cex = .3
+# 
+# visIgraph(net1, layout = "layout.norm", idToLabel= FALSE, layoutMatrix = as.matrix(layoutMatrix1)) %>%
+#   visOptions(highlightNearest = list(enabled = TRUE, algorithm = "all", degree = list(from = 0, to = 0)),
+#                nodesIdSelection = list(enabled = TRUE)) %>%
+#   visInteraction(dragNodes = TRUE, 
+#                  dragView = TRUE, 
+#                  zoomView = TRUE)
 
 
 
@@ -423,8 +425,16 @@ cig_2018 = cig_2018 %>% mutate("OPTKEYWORDS.2" = NA,
 allnames = c(names(cig_2015), names(cig_2016), names(cig_2017), names(cig_2018))
 keepnames = names(table(allnames))[table(allnames)==4]
 
+more_PyLith = sapply(list.files("~/Documents/DSI/cig_citation/data/More PyLith - bibtek/", full.names = TRUE), bib_2_df)
+more_PyLith = lapply(more_PyLith, function(x) {
+  x[keepnames[!keepnames %in% names(x)]] = NA
+  x = data.frame(x) %>% dplyr::select(keepnames) # bibtek (4) has 2 entries
+})
+more_PyLith = do.call("rbind", more_PyLith)
+
 # use columns in all years
-cig_allyears = rbind(cig_2015[,keepnames], cig_2016[,keepnames], cig_2017[,keepnames], cig_2018[,keepnames])
+cig_allyears = rbind(cig_2015[,keepnames], cig_2016[,keepnames], cig_2017[,keepnames], cig_2018[,keepnames],
+                     more_PyLith)
 cig_allyears  = cig_allyears[,!apply(cig_allyears, 2, function (x) sum(!is.na(x)))==0]
 write.csv(cig_allyears, "cig_allyears_v5.csv", row.names = F)
 
@@ -475,9 +485,9 @@ plot(author.net)
 V(author.net)$name_last = gsub(x = sapply(str_split(V(author.net)$name, " "), first), ",", "")
 red = c("Bangerth", "Heister", "Gassm.*ller", "Dannberg") #Original Lead Developers
 brown = c("Glerum", "Fraters", "Austermann", "Naliboff") #Added Principal Developers
-color.aspect = c("Other", "Original Lead Developers")[1 + rowSums(sapply(red, grepl, vertex_attr(author.net, "name")))]
-color.aspect[V(author.net)$name_last%in% brown] = "Added Principal Developers"
-red.rgb = "#990033"
+color.aspect = c("Other", "Principal Developer")[1 + rowSums(sapply(red, grepl, vertex_attr(author.net, "name")))]
+color.aspect[V(author.net)$name_last%in% brown] = "Principal Developer"
+#red.rgb = "#990033"
 brown.rgb = "#ff5050"
 V(author.net)$Author_type =  color.aspect
 V(author.net)$Papers = table(unlist(split_names2))[V(author.net)$name]
@@ -488,7 +498,7 @@ author.plot = ggraph(author.net, layout = "kk") +
   # for some reason edge width not working like it doesn in the plots below
   scale_edge_width(name = "Number of co-authorships") + #, range=c(.2,2.8), breaks = c(1,2,3)) +
   geom_node_point(aes(fill = Author_type, size = Papers, text = name), shape = 21, stroke = .5, alpha = .5) + 
-  scale_fill_manual(values =  c(red.rgb, brown.rgb, "white"), 
+  scale_fill_manual(values =  c("white", brown.rgb), 
                     guide = guide_legend(title = "Author_type", order = 1)) + 
   theme_bw() +
   theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
@@ -505,7 +515,7 @@ author.plot
 # plotly::ggplotly(author.plot) # can't do edges yet
 
 #for visNetwork
-V(author.net)$color = c(red.rgb, brown.rgb, rgb(0,0,0,.3))[as.factor(V(author.net)$Author_type)]
+V(author.net)$color = c(brown.rgb, rgb(0,0,0,.3))[as.factor(V(author.net)$Author_type)]
 V(author.net)$title = V(author.net)$name
 layoutMatrix1 = author.plot$data[,1:2]
 
@@ -593,17 +603,43 @@ for (package in packagelist) {
                                      vertices = as.vector(unique(unlist(split_names_sub))))
   V(package.net)$Papers = table(unlist(split_names_sub))[V(package.net)$name]
   E(package.net)$co_authorships
+
   
   # if ASPECT, special authors/colors 
   if (package == "ASPECT") {
     V(package.net)$name_last = gsub(x = sapply(str_split(V(package.net)$name, " "), first), ",", "")
     red = c("Bangerth", "Heister", "Gassm.*ller", "Dannberg") #Original Lead Developers, gassmoller has weird     characters
     brown = c("Glerum", "Fraters", "Austermann", "Naliboff") #Added Principal Developers
-    color.aspect = c("Other", "Original Lead Developers")[1 + rowSums(sapply(red, grepl, vertex_attr(package.net, "name")))]
-    color.aspect[V(package.net)$name_last%in% brown] = "Added Principal Developers"
-    red.rgb = "#990033"
+    color.aspect = c("Other", "Principal Developer")[1 + rowSums(sapply(red, grepl, vertex_attr(package.net, "name")))]
+    color.aspect[V(package.net)$name_last%in% brown] = "Principal Developer"
+    #red.rgb = "#990033"
     brown.rgb = "#ff5050"
     V(package.net)$Author_type =  color.aspect
+    # centrality measures
+    pytlith_centrality = data.frame(
+      degree_centrality = strength(package.net, weights = E(package.net)$co_authorships, mode = "all"), #same as in
+      unweighted_betweenness_centrality = betweenness(package.net, directed = F)
+      # weights = E(package.net)$co_authorships <- weights are distances to igraph,  for simplicity don't use them
+      # graph as is isn't weighted, >is.weighted(package.net) #FALSE
+    )
+    write.csv(pytlith_centrality, "~/Documents/DSI/cig_citation/pylith_centrality.csv", row.names = TRUE)
+  }
+  if (package == "PyLith") {
+    V(package.net)$name_last = gsub(x = sapply(str_split(V(package.net)$name, " "), first), ",", "")
+    red = c("Aagaard", "Knepley", "Williams") #develoepr
+    brown = PyLith_tutorial$Last
+    color.aspect = c("Other", "Developer")[1 + rowSums(sapply(red, grepl, vertex_attr(package.net, "name")))]
+    color.aspect[V(package.net)$name_last%in% brown & !V(package.net)$name_last%in% red] = "Participant"
+    V(package.net)$Author_type = color.aspect
+    
+    # centrality measures
+    aspect_centrality = data.frame(
+      degree_centrality = strength(package.net, weights = E(package.net)$co_authorships, mode = "all"), #same as in
+      unweighted_betweenness_centrality = betweenness(package.net, directed = F)
+    ) 
+      
+    write.csv(aspect_centrality, "~/Documents/DSI/cig_citation/aspect_centrality.csv", row.names = TRUE)
+    
   }
   # if Citcom, special authors/colors
   if (package == "Citcom") {
@@ -614,27 +650,25 @@ for (package in packagelist) {
           V(package.net)$name %in% unique(unlist(split_names_sub2)) ] = "CitcomCU"
     V(package.net)$Author_type = tmp
   }
-  if (package == "PyLith") {
-    V(package.net)$name_last = gsub(x = sapply(str_split(V(package.net)$name, " "), first), ",", "")
-    red = c("Aagaard", "Knepley", "Williams") #develoepr
-    brown = PyLith_tutorial$Last
-    color.aspect = c("Other", "Developer")[1 + rowSums(sapply(red, grepl, vertex_attr(package.net, "name")))]
-    color.aspect[V(package.net)$name_last%in% brown & !V(package.net)$name_last%in% red] = "Participant"
-    V(package.net)$Author_type = color.aspect
-  }
-  
+
   #fix package name for title in some cases
   if (package == "SEISMIC.*CPML") package = "SEISMIC_CPML" 
   if (package == "Virtual.*California") package = "Virtual California"
   
   # plot
+  #if too many breaks, reduce to odds
+  if ( max(E(package.net)$co_authorships) > 6 ){
+    breaks1 = seq(1, max(E(package.net)$co_authorships), by = 2)
+  } else {
+    breaks1 = 1:max(E(package.net)$co_authorships)
+  }
   package.plot = ggraph(package.net, layout = "kk") + 
     geom_edge_link(aes(width = co_authorships), alpha = 1, color = "gray") +
     # for some reason edge width not working like it doesn in the plots below
     scale_edge_width(name = "Co-authorships",
                      range = c(.5, 2.8),
-                     breaks = 1:max(E(package.net)$co_authorships) 
-                     ) +
+                     breaks = breaks1,
+                     guide = guide_legend(order = 2)) +
     theme_bw() +
     theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
           axis.title.x = element_blank(), axis.title.y = element_blank(),
@@ -648,7 +682,7 @@ for (package in packagelist) {
     package.plot = package.plot + 
       geom_node_point(aes(fill = Author_type, size = Papers), color = "black", shape = 21,
                       stroke = .5, alpha = .5) + 
-      scale_fill_manual(values =  c(red.rgb, brown.rgb, "white"),
+      scale_fill_manual(values =  c("white", brown.rgb),
                       guide = guide_legend(title = "Author type", order = 1))
   } else 
   if (package == "PyLith") {
@@ -686,7 +720,7 @@ ggsave(package.plot, filename = paste0("package_plots/", package, "_co_author_re
 package.plot = package.plot + geom_node_text(aes(label = name), repel = TRUE, segment.alpha = .5, 
                                              size = 2, fontface = "bold")
 
-ggsave(package.plot, filename = paste0("package_plots/LABELS_", package, "_co_author_relationships", ".png"), width = 9)
+ggsave(package.plot, filename = paste0("package_plots/labelled/LABELS_", package, "_co_author_relationships", ".png"), width = 9)
 
 
 }
