@@ -511,7 +511,8 @@ for(i in 1:length(p_list)){
     labs(x = "", y = "Position in text", 
          color = "Acknowledgement or Reference",
          title = sw[i],
-         subtitle = paste0("Median mention position = ", round(med_token_pos_df[i, 2],2))) 
+         subtitle = paste0("Median mention position = ", round(med_token_pos_df[i, 2],2))) +
+    theme(legend.position = "bottom")
 }
 
 # write final for plotly script
@@ -600,10 +601,10 @@ p1 <- final %>%
   guides(fill = FALSE) +
   scale_fill_manual(values = cols,
                     breaks = med_vec) +
-  labs(title = "CIG software mentions (2010-2018)", 
-       subtitle = glue("Total mentions (n = {total_mentions}); Unique mentions (n = {unique_mentions})"),
-       x = "", y = "Location of Mention in Document", 
-       caption = "SEISMIC_CPML, SW4, SNAC, MAG, Rayleigh removed")
+  labs(#title = "CIG software mentions (2010-2018)", 
+       #subtitle = glue("Total mentions (n = {total_mentions}); Unique mentions (n = {unique_mentions})"),
+       x = "", y = "Location of Mention in Document")#, 
+       #caption = "SEISMIC_CPML, SW4, SNAC, MAG, Rayleigh removed")
 
 p1
 

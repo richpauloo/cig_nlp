@@ -1,0 +1,12 @@
+name: cig_nlp
+title: cig_nlp
+username:
+account: richpauloo
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 861419
+bundleId: 2007052
+url: https://richpauloo.shinyapps.io/cig_nlp/
+when: 1555104141.68387
+asMultiple: FALSE
+asStatic: FALSE
