@@ -530,6 +530,48 @@ dev.off()
 ```
 
 
+Nchar position distribution and multimodal summary stats.
+```{r}
+# https://www.r-bloggers.com/fitting-mixture-distributions-with-the-r-package-mixtools/
+# https://en.wikipedia.org/wiki/Multimodal_distribution : Moments of Mixtures - 6 parameters
+z <- final %>% 
+  filter(!is.na(software_name) & !software_name %in% c("SW4","SNAC"," MAG ", "Rayleigh", "SEISMIC_CPML") ) %>%
+  filter(!is.na(software_name) & !software_name %in% c("Rayleigh") ) %>% 
+  pull(nchar_token_position) 
+
+z %>% 
+  data.frame(x = .) %>% 
+  ggplot(aes(x)) + 
+  geom_histogram() + 
+  labs(title    = "Bimodal distribution of token position (nchar)", 
+       subtitle = "Methods and Acknowledgements/References")
+
+library(mixtools)
+xMix = normalmixEM(z)
+plot(xMix,which=2)
+lines(density(z), lty=2, lwd=2)
+
+
+sdnorm = function(x, mean=0, sd=1, lambda=1){lambda*dnorm(x, mean=mean, sd=sd)}
+
+ggplot(data.frame(x=z)) + 
+  geom_histogram(aes(x=x,y=..density..),fill="grey90",color="black") +
+  stat_function(fun=sdnorm,
+                args=list(mean=xMix$mu[2],
+                          sd=xMix$sigma[2],
+                          lambda=xMix$lambda[2]),
+                color="#FF000080",geom="line", size =2) +
+  stat_function(fun=sdnorm,
+                args=list(mean=xMix$mu[1],
+                          sd=xMix$sigma[1],
+                          lambda=xMix$lambda[1]),
+                color="#00FF0080",geom="line", size = 2) +
+  labs(x = "Mention position in document",
+       y = "Density") +
+  theme_minimal(base_size = 16)
+
+xMix$lambda; xMix$mu; xMix$sigma
+```
 
 <!-- Make Lorraine's graph. Order y axis paper aliases by median token_position. -->
 <!-- ```{r} -->
