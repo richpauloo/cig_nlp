@@ -503,30 +503,41 @@ for(i in 1:length(p_list)){
     geom_point(aes(y = nchar_token_position, color = is_ref), size = 2, alpha = 0.5) +
     geom_hline(yintercept = med_token_pos_df[i, 2], linetype = "dashed") +
     coord_flip(ylim = c(0,1)) + 
-    theme(panel.background = element_rect(fill = "white"),
-          panel.grid.major.y = element_line(color = "grey90"),
-          panel.grid.major.x = element_blank()) + 
+        theme(panel.background = element_rect(fill = "white"),
+              panel.grid.major.y = element_line(color = "grey90"),
+              panel.grid.major.x = element_blank(), 
+              legend.position = "bottom", 
+              axis.text.x = element_text(size = 30), 
+              axis.title.x = element_text(size = 30), 
+              plot.title = element_text(size = 40), 
+              plot.subtitle = element_text(size = 30), 
+              legend.title = element_text(size = 30), 
+              legend.text = element_text(size = 30)) + 
     scale_color_manual(breaks = c(TRUE,FALSE), 
                        values = c("black","purple")) +
     labs(x = "", y = "Position in text", 
          color = "Acknowledgement or Reference",
          title = sw[i],
-         subtitle = paste0("Median mention position = ", round(med_token_pos_df[i, 2],2))) +
-    theme(legend.position = "bottom")
+         subtitle = paste0("Median mention position = ", round(med_token_pos_df[i, 2],2))) 
 }
 
 # write final for plotly script
 #write_rds(final, "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_data/final.rds")
 
 # Creating new PDF file
-pdf("C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/nchar_software_mentions.pdf", width = 10 , height = 16)
- 
-for(i in 1:length(p_list)){
-   print(p_list[[i]])
-}
- 
-dev.off()
+# pdf("C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/nchar_software_mentions.pdf", width = 10 , height = 16)
+#  
+# for(i in 1:length(p_list)){
+#    print(p_list[[i]])
+# }
+#  
+# dev.off()
 
+# Figure 4. Further edited in AI.
+pcig <- p_list[[3]] + theme(axis.text.y = element_blank(), axis.ticks.y=element_blank())
+pgmt <- p_list[[7]] + theme(axis.text.y = element_blank(), axis.ticks.y=element_blank())
+ggsave(pcig, filename = "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/lp_cig.pdf", width = 10 , height = 16, device = cairo_pdf)
+ggsave(pgmt, filename = "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/lp_gmt.pdf", width = 10 , height = 16, device = cairo_pdf)
 ```
 
 
@@ -554,7 +565,7 @@ lines(density(z), lty=2, lwd=2)
 
 sdnorm = function(x, mean=0, sd=1, lambda=1){lambda*dnorm(x, mean=mean, sd=sd)}
 
-ggplot(data.frame(x=z)) + 
+multi_modal <- ggplot(data.frame(x=z)) + 
   geom_histogram(aes(x=x,y=..density..),fill="grey90",color="black") +
   stat_function(fun=sdnorm,
                 args=list(mean=xMix$mu[2],
@@ -569,6 +580,8 @@ ggplot(data.frame(x=z)) +
   labs(x = "Mention position in document",
        y = "Density") +
   theme_minimal(base_size = 16)
+
+ggsave(multi_modal, filename = "C:/Users/rpauloo/Documents/GitHub/cig_nlp/rich_plots/multi_modal.pdf", device = cairo_pdf)
 
 xMix$lambda; xMix$mu; xMix$sigma
 ```
